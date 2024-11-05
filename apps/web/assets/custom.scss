@@ -1,0 +1,15 @@
+$primary_pink: #ff009b;
+
+.text-pink {
+    color: $primary_pink;
+}
+
+.bg-pink {
+    background: $primary_pink;
+}
+
+.nav-transition {
+    &--3 {
+        transition: 0.3s;
+    }
+}
