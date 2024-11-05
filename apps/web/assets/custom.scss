@@ -13,3 +13,14 @@ $primary_pink: #ff009b;
         transition: 0.3s;
     }
 }
+
+button {
+    transition: .3s;
+}
+
+.neon-hover {
+    &:hover {
+        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important
+        ;
+    }
+}
