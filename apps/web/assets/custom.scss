@@ -1,0 +1,378 @@
+$color-button-hover: #0032a0;
+$primary_pink: #ff009b;
+$color_2_footer_nav_headline: #555555;
+$dark_grey: #1E1E1E;
+$border-grey: #363636;
+$color-2-grey-100: rgb(30, 30, 30);
+$small_screen: 400px;
+$medium_screen: 900px;
+
+p, span {
+    color: inherit;
+}
+
+.text-pink {
+    color: $primary_pink;
+}
+
+.bg-pink {
+    background: $primary_pink !important;
+}
+
+.nav-transition {
+    &--3 {
+        transition: 0.3s;
+    }
+}
+
+nav > div > button:active > svg {
+    fill: white !important;
+}
+
+
+button {
+    transition: .3s;
+}
+
+.neon-hover {
+    &:hover {
+        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+    }
+}
+
+.footer {
+    &-navigation {
+        &--headline {
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: 400;
+            color: $color_2_footer_nav_headline;
+        }
+    }
+}
+
+.sms {
+    &-body {
+        background: black;
+    }
+    &-border {
+        &--pink {
+            border-color: $primary_pink;
+        }
+        &--grey{ 
+            border-color: $border-grey;
+        }
+    }
+    &-headline {
+        &-2 {
+            font-weight: normal;
+            color: #ff009b;
+            letter-spacing: 0.5px;
+            @media screen and (max-width: $small_screen) {
+                font-size: 50px;
+                height: auto;
+            }
+            font-size: 60px;
+            line-height: 66px;
+            text-shadow: 0 0 5px rgba(255, 0, 155, 0.8), 0 0 15px rgba(255, 0, 155, 0.8), 0 0 20px rgba(255, 0, 155, 0.8);
+        }
+    }
+    &-boxshadow {
+        &--pink {
+            box-shadow: 0px 0px 20px 0px rgba(255, 0, 155, 0.8);
+        }
+    }
+    &-hover_bg {
+        &--pink {
+            &:hover {
+                background-color: $primary_pink;
+            }
+        }
+    }
+    &-pb {
+        &--5 {
+            padding-bottom: 7rem;
+        }
+    }
+    &-pt {
+        &--4 {
+            padding-top: 5rem;
+        }
+    }
+    &-mb {
+        &--5 {
+            margin-bottom: 7rem;
+        }
+    }
+    &-copytext {
+        font-weight: 400;
+        line-height: 22px;
+        font-size: 16px;
+    }
+    &-hover--bgpink {
+        background: $primary_pink !important;
+    }
+
+    &-button {
+        &--primary {
+            display: inline-block;
+            color: #FFFFFF;
+            background-color: $primary_pink;
+            font-weight: 400;
+            padding: 5px 15px 6px 15px;
+            text-align: center;
+            text-transform: uppercase;
+            border-radius: 42px;
+            position: relative;
+            transition: 0.3s 0s;
+            &:hover {
+                color: $color-button-hover;
+                background-color: $primary_pink;
+                box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+            }
+            svg {
+                vertical-align: bottom;
+            }
+        }
+        &--wishlist {
+            --tw-ring-color: none;
+            &:hover {
+                background-color: $primary_pink;
+                --tw-ring-color: white;
+                & path {
+                    color: white;
+                }
+            }
+            &:active {
+                background-color: white;
+                color: $primary_pink;
+                --tw-ring-color: $primary_pink;
+            }
+        }
+    }
+    &-hero--image {
+        @media screen and (min-width: $medium_screen) {
+            height: 100vh;
+        }
+        //transform: rotate(15deg);
+    }
+    &-mediacard {
+        &--img> div > img{
+            width: calc(50vw + 40%);
+            max-width: 1200px;
+            height: 45px;
+            position: absolute;
+            left: -35%;
+        }
+        &--wrapper {
+            position: relative;
+        }
+    } 
+    &-swiper {
+        padding-bottom: 100px !important;
+        @media screen and (max-width: $small_screen) {
+            max-height: 850px;
+        }
+    }
+    &-newsletter {
+        &--wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        &--content {
+            padding: 2rem 2rem 7rem 2rem;
+        }
+    }
+    &-seperator {
+        z-index: 10;
+        background-color: $dark_grey;
+        transform: rotate(-2deg);
+        position: absolute;
+        bottom: 100px;
+        height: 45px;
+        width: 105%;
+        left: -5px;
+        &--pink {
+            background-color: $primary_pink;
+            bottom: 50px;
+            @media screen and (max-width: $small_screen) {
+                bottom: 10px;
+            }
+        }
+    }
+    &-category_sidebar {
+        &--wrapper {
+            
+        }
+        &--option {
+            &:disabled {
+                color: lightgrey;
+            }
+            color: black;
+        }
+        &--filter {
+            & label {
+                &:active {
+                    background-color: $primary_pink;
+                }
+            }
+        }
+    }
+    &-account {
+        &--sidebar {
+            .router-link-active {
+                background-color: $primary_pink;
+                font-weight: bold;
+            }
+            ul, li, a {
+                color: white !important;
+            }
+            a {
+                &:hover,&:active {
+                    background-color: $color-2-grey-100;
+                }
+            }
+        }
+    }
+    &-productcard {
+        &--rating {
+            & svg { 
+                color: $primary_pink;
+            }
+        }
+    }
+    &-purchasecard {
+        &--whishlist_button {
+            & svg {
+                vertical-align: bottom;
+            }
+        }
+        &--price {
+            & > span {
+                color: white;
+            }
+        }
+    }
+    &-productattributes {
+        &--wrapper {
+            & select {
+                color: white;
+            }
+            & option {
+                color: black;
+            }
+        }
+    } 
+    &-product {
+        &--accordion {
+            h2, p {
+                margin-bottom: 1rem;
+            }
+            h2 {
+                font-size: 1.3125rem;
+            }
+            ul {
+                list-style: unset;
+                list-style-position: inside;
+            }
+            color: white;
+        }
+    }
+    &-badges {
+        &--wrapper {
+            & > li {
+                background-color: transparent !important;
+                color: #2BD063 !important;
+                font-size: .8rem;
+            }
+        }
+    }
+    &-recommend {
+        &--wrapper {
+            & > div:first-of-type {
+                > button {
+                    color: white !important;
+                    background-color: $primary_pink;
+                    --tw-ring-color: none !important;
+                    &:hover {
+                        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+                    }
+                    &:first-of-type {
+                        left: -66px;
+                    }
+                    &:last-of-type {
+                        right: -66px;
+                    }
+                }
+            }
+        }
+    }
+    &-productslider {
+        &--wrapper {
+
+        }
+        &--item {
+            color: white;
+        }
+    }
+    &-overlay {
+        &--wrapper {
+            header > button {
+                background-color: $primary_pink !important;
+                &:hover {
+                    color: white;
+                }
+            }
+            form > { 
+                button {
+                    background-color: $primary_pink;
+                    &:hover {
+                        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+                    }
+                }
+            }
+        }
+    }
+    &-account_dropdown {
+        &--button {
+            &-active {
+                background-color: $primary_pink;
+                & svg {
+                    fill: white;
+                }
+            }
+            // &:not(:active) {
+            //     > svg {
+            //         fill: $primary_pink;
+            //     }
+            // }
+            &:hover {
+                > svg {
+                    fill: white;
+                }
+            }
+        }
+        &--ul {
+            & > li {
+                & a, button {
+                    &:hover {
+                        background-color: $primary_pink;
+                    }
+                }
+            }
+        }
+        &--item.router-link-exact-active {
+            background-color: $primary_pink;
+            color: white;
+            font-weight: bold;
+        }
+    }
+
+}
+.active\:sms-pagination--active {
+    color: white !important;
+    background-color: $primary_pink;
+}
+
+
+

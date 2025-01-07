@@ -1,4 +1,6 @@
 @import '_variables';
+@import 'custom';
+@import '_fonts';
 
 :root {
   --colors-2-primary-50: #{$color-2-primary-50};
@@ -12,6 +14,11 @@
   --colors-2-primary-800: #{$color-2-primary-800};
   --colors-2-primary-900: #{$color-2-primary-900};
 
+
+  --colors-neutral-100: #{$color-2-neutral-100};
+  --colors-neutral-600: #{$color-2-neutral-600};
+  --colors-neutral-900: #{$color-2-neutral-900};
+
   --colors-2-secondary-50: #{$color-2-secondary-50};
   --colors-2-secondary-100: #{$color-2-secondary-100};
   --colors-2-secondary-200: #{$color-2-secondary-200};
@@ -22,6 +29,9 @@
   --colors-2-secondary-700: #{$color-2-secondary-700};
   --colors-2-secondary-800: #{$color-2-secondary-800};
   --colors-2-secondary-900: #{$color-2-secondary-900};
+
+  --colors-2-grey-50: #{$color-2-grey-50};
+
 }
 
 .scrollbar-hidden {
@@ -64,54 +74,57 @@ apple-pay-button {
 }
 
 .swiper-button-prev {
-  color: rgb(var(--colors-2-primary-500)) !important;
+  //color: rgb(var(--colors-2-primary-500)) !important;
+  color: rgb(var(--colors-neutral-600)) !important;
 }
 
 .swiper-button-next {
-  color: rgb(var(--colors-2-primary-500)) !important;
+  //color: rgb(var(--colors-2-primary-500)) !important;
+  color: rgb(var(--colors-neutral-600)) !important;
 }
 
-#google-pay-button {
-  div {
-    button {
-      width: 100% !important;
-      display: block;
+.font-rubik {
+  font-family: 'Rubik';
+}
+
+.font-opensans {
+  font-family: 'Open Sans';
+}
+
+.font-rubik_outline {
+  font-family: 'Rubik Outline';
+  text-transform: uppercase;
+}
+
+.sms-bg {
+  &--grey {
+    background-color: rgb(var(--colors-2-grey-50)) !important;
+  }
+}
+
+.sms-button {
+  &--nav {
+    &:hover { 
+      background-color: transparent !important;
+      color: rgb(var(--colors-2-primary-700)) !important;
+      & svg {
+        color: rgb(var(--colors-2-primary-700)) !important;
+        transition: .3s;
+      }
+    }
+    &:active {
+      background-color: unset !important;
     }
   }
 }
 
-.no-preflight {
-  * {
-    all: revert;
-  }
-
-  h1 {
-    display: block;
-    font-size: 2em;
-    font-weight: bold;
-    margin: 0.67em 0;
-    padding: 0;
-    line-height: 1.2;
-    color: inherit;
-    text-align: left;
-    white-space: normal;
-  }
-
-  img,
-  video {
-    height: auto;
-    max-width: 100%;
-  }
-
-  audio,
-  canvas,
-  embed,
-  iframe,
-  img,
-  object,
-  svg,
-  video {
-    display: block;
-    vertical-align: middle;
+.sms-subnav {
+  &--link {
+    &:hover {
+      color: rgb(var(--colors-2-primary-700)) !important;
+    }
+    &:active {
+      background-color: unset !important;
+    }
   }
 }
