@@ -1,12 +1,12 @@
 <template>
-  <MegaMenu :categories="categoryTree">
+  <MegaMenu :categories="categoryTree" class="sms-megamenu--wrapper">
     <template v-if="viewport.isGreaterOrEquals('md')">
       <UiSearch class="hidden md:block flex-1" />
       <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
         <template v-if="localeCodes.length > 1">
           <UiButton
             v-if="!isLanguageSelectOpen"
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
+            class="group neon-hover nav-transition--3 relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
             :aria-label="t('languageSelector')"
             variant="tertiary"
             square
@@ -20,7 +20,7 @@
           </UiButton>
           <UiButton
             v-else
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
+            class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
             :aria-label="t('languageSelector')"
             variant="tertiary"
             square
@@ -32,7 +32,7 @@
           </UiButton>
         </template>
         <UiButton
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
           :to="localePath(paths.wishlist)"
           :aria-label="t('numberInWishlist', { count: wishlistItemIds.length })"
@@ -45,6 +45,7 @@
             <SfBadge
               :content="wishlistItemIds.length"
               class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+              :class="badgeClassWhishlist"
               data-testid="wishlist-badge"
               placement="top-right"
               :max="99"
@@ -52,7 +53,7 @@
           </template>
         </UiButton>
         <UiButton
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
           :to="localePath(paths.cart)"
           :aria-label="t('numberInCart', { count: cartItemsCount })"
@@ -63,7 +64,7 @@
             <SfIconShoppingCart />
             <SfBadge
               :content="cartItemsCount"
-              class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+              class="neon-hover outline outline-primary-500 bg-pink !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
               data-testid="cart-badge"
               placement="top-right"
               :max="99"
@@ -74,7 +75,7 @@
           <template #trigger>
             <UiButton
               variant="tertiary"
-              class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
+              class="neon-hover relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
               :class="{ 'bg-primary-700': isAccountDropdownOpen }"
               @click="accountDropdownToggle()"
               data-testid="account-dropdown-button"
@@ -85,10 +86,10 @@
               {{ user.user?.firstName }}
             </UiButton>
           </template>
-          <ul class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
+          <ul class="sms-account_dropdown--ul neon-hover rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
             <li v-for="({ label, link }, labelIndex) in accountDropdown" :key="`label-${labelIndex}`">
               <template v-if="label === t('account.logout')">
-                <UiDivider class="my-2" />
+                <UiDivider class="my-2 sms-account_dropdown--divider" />
                 <SfListItem tag="button" class="text-left" data-testid="account-dropdown-logout-item" @click="logOut()">
                   {{ label }}
                 </SfListItem>
@@ -108,7 +109,7 @@
         <UiButton
           v-else
           @click="navigateToLogin"
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="group neon-hover relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           variant="tertiary"
           :aria-label="t('auth.login.openLoginForm')"
           square
@@ -217,6 +218,7 @@ const isLogin = ref(true);
 const { data: cart } = useCart();
 const { wishlistItemIds } = useWishlist();
 const cartItemsCount = ref(0);
+const wishlistCount = ref(0);
 
 const NuxtLink = resolveComponent('NuxtLink');
 const { t, localeCodes } = useI18n();
@@ -236,6 +238,7 @@ const { isEditing, disableActions } = useEditor();
 
 onNuxtReady(() => {
   cartItemsCount.value = cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0;
+  wishlistCount.value = 0;
 });
 
 watch(
@@ -257,6 +260,16 @@ const logOut = async () => {
   await logout();
   navigateTo(localePath(paths.home));
 };
+
+const badgeClassCart = computed(() => ({
+  'bg-white': cartItemsCount.value > 0,
+  'bg-pink ': cartItemsCount.value === 0,
+}));
+
+const badgeClassWhishlist = computed(() => ({
+  'bg-white': wishlistCount.value > 0,
+  'bg-pink': wishlistCount.value === 0,
+}));
 
 const accountDropdown = computed(() => [
   {

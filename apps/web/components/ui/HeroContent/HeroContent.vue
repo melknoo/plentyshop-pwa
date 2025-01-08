@@ -6,7 +6,7 @@
         :width="currentImageSize.width"
         :height="currentImageSize.height"
         :alt="heroItemProps.alt"
-        class="h-full m-auto md:h-full md:object-contain"
+        class="sms-hero--image h-full m-auto md:h-full md:object-contain"
       />
     </div>
 
