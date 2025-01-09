@@ -19,7 +19,7 @@
         {{ heroItemProps.tagline }}
       </p>
       <h1
-        class="typography-display-3 md:typography-display-1 md:leading-[67.5px] font-bold text-xs text-center md:text-left mt-2 mb-4"
+        class="typography-display-3 sms-headline-2 font-rubik_outline md:typography-display-1 md:leading-[67.5px] font-bold text-xs text-center md:text-left mt-2 mb-4"
         :style="{ color: heroItemProps.headingColor }"
         data-testid="headline"
       >
@@ -33,7 +33,7 @@
         {{ heroItemProps.description }}
       </p>
       <div class="flex flex-col md:flex-row gap-4 mt-6">
-        <UiButton :tag="NuxtLink" :to="localePath(props.heroItemProps.link ?? '')" size="lg">{{
+        <UiButton :tag="NuxtLink" :to="localePath(props.heroItemProps.link ?? '')" class="sms-button--primary" size="lg">{{
           heroItemProps.callToAction
         }}</UiButton>
       </div>

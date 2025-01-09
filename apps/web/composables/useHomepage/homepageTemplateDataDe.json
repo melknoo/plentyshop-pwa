@@ -14,10 +14,10 @@
             "tagline": "Kristalklare Klänge Genießen",
             "taglineColor": "#000000",
             "heading": "Sound auf höchstem Niveau",
-            "headingColor": "#000000",
+            "headingColor": "#ff009b",
             "description": "Unsere hochmodernen Kopfhörer: Entwickelt für das ultimative Hörerlebnis genügen sie auch den höchsten Ansprüchen. Entdecken Sie die perfekte Mischung aus Stil, Komfort und Klangqualität, die Ihren Musikgenuss auf ein völlig neues Niveau hebt.",
             "alt": "Capybara-Kopfhörer",
-            "descriptionColor": "#000000",
+            "descriptionColor": "#fff",
             "callToAction": "Capybara entdecken",
             "link": "/gear/headphones-capybara_157"
           },
@@ -31,10 +31,10 @@
             "tagline": "Die Zukunft der Luftbildfotografie",
             "taglineColor": "#000000",
             "heading": "Drone Omega",
-            "headingColor": "#000000",
+            "headingColor": "#ff009b",
             "description": "Omega ist eine leichte Drohne, die für atemberaubende Luftaufnahmen entwickelt wurde. Mit einer hochauflösenden Kamera auf einem 3-Achsen-Gimbal und einer Flugzeit von bis zu 45 Minuten sorgt sie für stabile, flüssige Videos. GPS-unterstützter Schwebeflug, Hindernisvermeidung und einfache Transportfähigkeit machen die Drone zum perfekten Begleiter für Ihre Aufnahmen.",
             "alt": "Omega-Drone",
-            "descriptionColor": "#000000",
+            "descriptionColor": "#fff",
             "callToAction": "Omega entdecken",
             "link": "/gear/drone-omega_154"
           }
