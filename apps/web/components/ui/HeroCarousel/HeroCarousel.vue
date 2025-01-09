@@ -7,7 +7,7 @@
       :loop="true"
       pagination
       @slide-change="onSlideChange"
-      class="!z-0"
+      class="!z-0 sms-swiper"
     >
       <SwiperSlide v-for="(heroItem, index) in hero" :key="index" class="md:px-7 lg:px-15">
         <UiHeroContent :hero-item-props="heroItem" />

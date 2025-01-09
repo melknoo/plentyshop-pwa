@@ -2,7 +2,7 @@
   <div ref="reviewArea" class="relative col-span-5 h-fit" :class="{ 'pointer-events-none opacity-50': loadingReviews }">
     <SfLoaderCircular v-if="loadingReviews" class="absolute top-[130px] right-0 left-0 m-auto z-[999]" size="2xl" />
 
-    <div data-testid="reviews-accordion" class="text-white" id="customerReviewsAccordion">
+    <div data-testid="reviews-accordion" id="customerReviewsAccordion">
       <UiAccordionItem
         v-model="reviewsOpen"
         summary-class="md:rounded-md w-full hover:bg-neutral-100 py-2 pl-4 pr-3 flex justify-between items-center select-none"
@@ -66,7 +66,7 @@ const paginatedProductReviews = computed(() => reviewGetters.getReviewItems(prod
 const pagination = computed(() => reviewGetters.getReviewPagination(productReviews.value));
 const currentPage = computed(() => reviewGetters.getCurrentReviewsPage(productReviews.value));
 
-const maxVisiblePages = computed(() => (viewport.isGreaterOrEquals('lg') ? 10 : 1));
+const maxVisiblePages = computed(() => (viewport.isGreaterOrEquals('lg') ? 5 : 2));
 
 watch(
   () => reviewsOpen.value,

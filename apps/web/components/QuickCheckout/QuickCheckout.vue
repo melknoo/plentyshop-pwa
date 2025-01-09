@@ -4,7 +4,7 @@
     v-if="isOpen"
     v-model="isOpen"
     tag="section"
-    class="h-full md:h-fit m-0 p-0 lg:w-[1000px] overflow-y-auto !bg-black !text-white"
+    class="h-full md:h-fit m-0 p-0 lg:w-[1000px] overflow-y-auto"
     aria-label="quick-checkout-modal"
   >
     <header>
@@ -14,7 +14,6 @@
       <div class="absolute right-2 top-2 flex items-center">
         <span v-if="hasTimer" class="mr-2 text-gray-400">{{ timer }}s</span>
         <UiButton
-          class="bg-pink text-white"
           :aria-label="$t('closeDialog')"
           data-testid="quick-checkout-close"
           square
@@ -29,21 +28,22 @@
     <div class="lg:grid lg:grid-cols-2 lg:gap-4">
       <div class="lg:border-r-2 flex flex-col items-center p-8">
         <NuxtImg
-          :src="addModernImageExtension(productGetters.getPreviewImage(product))"
+          :src="addModernImageExtension(productGetters.getMiddleImage(product))"
           :alt="t('imageOfSth', { name: productGetters.getName(product) })"
           width="240"
           height="240"
           loading="lazy"
           class="mb-3"
         />
-
-        <div class="flex mb-3">
-          <div class="mr-1 flex">
-            <span class="self-center"> {{ quantity }}x </span>
-          </div>
+        <div class="flex mb-1">
           <h1 class="font-bold typography-headline-4" data-testid="product-name">
             {{ productGetters.getName(product) }}
           </h1>
+        </div>
+        <div class="mb-3">
+          <span class="self-center text-gray-600 sm:typography-headline-4 typography-headline-3">
+            {{ t('account.ordersAndReturns.orderDetails.quantity') }}: {{ quantity }}
+          </span>
         </div>
 
         <ProductPrice :product="product" />
@@ -56,7 +56,17 @@
           <span>{{ t('asterisk') }}</span>
           <span v-if="showNetPrices">{{ t('itemExclVAT') }}</span>
           <span v-else>{{ t('itemInclVAT') }}</span>
-          <span>{{ t('excludedShipping') }}</span>
+          <i18n-t keypath="excludedShipping" scope="global">
+            <template #shipping>
+              <SfLink
+                :href="localePath(paths.shipping)"
+                target="_blank"
+                class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
+              >
+                {{ $t('delivery') }}
+              </SfLink>
+            </template>
+          </i18n-t>
         </div>
 
         <VariationProperties :product="lastUpdatedProduct" />
@@ -74,22 +84,22 @@
           data-testid="quick-checkout-cart-button"
           @click="goToPage(paths.cart)"
           size="lg"
-          class="sms-button--primary w-full mb-3"
+          class="w-full mb-3"
           variant="secondary"
         >
-          {{ $t('quickCheckout.checkYourCart') }}
+          {{ t('quickCheckout.checkYourCart') }}
         </UiButton>
 
         <UiButton
           data-testid="quick-checkout-checkout-button"
           @click="goToPage(paths.checkout)"
           size="lg"
-          class="sms-button--primary w-full mb-4 md:mb-0"
+          class="w-full mb-4 md:mb-0"
         >
-          {{ $t('goToCheckout') }}
+          {{ t('goToCheckout') }}
         </UiButton>
-        <OrDivider class="my-4" v-if="isPayPalReady" />
-        <PayPalExpressButton class="w-full text-center" type="CartPreview" />
+        <OrDivider class="my-4" v-if="isPaypalAvailable" />
+        <PayPalExpressButton class="w-full text-center" type="CartPreview" @on-approved="isOpen = false" />
         <PayPalPayLaterBanner placement="payment" :amount="totals.total" />
       </div>
     </div>
@@ -97,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { SfIconClose } from '@storefront-ui/vue';
+import { SfIconClose, SfLink } from '@storefront-ui/vue';
 import type { QuickCheckoutProps } from './types';
 import { cartGetters, Product, productGetters } from '@plentymarkets/shop-api';
 import ProductPrice from '~/components/ProductPrice/ProductPrice.vue';
@@ -106,11 +116,12 @@ import { paths } from '~/utils/paths';
 defineProps<QuickCheckoutProps>();
 
 const { t, n } = useI18n();
-const runtimeConfig = useRuntimeConfig();
-const showNetPrices = runtimeConfig.public.showNetPrices;
+
+const { showNetPrices } = useCustomer();
+
 const localePath = useLocalePath();
 const { data: cart, lastUpdatedCartItem } = useCart();
-const { isReady: isPayPalReady, loadConfig } = usePayPal();
+const { isAvailable: isPaypalAvailable, loadConfig } = usePayPal();
 const { addModernImageExtension } = useModernImage();
 const { isOpen, timer, startTimer, endTimer, closeQuickCheckout, hasTimer, quantity } = useQuickCheckout();
 const cartItemsCount = computed(() => cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0);

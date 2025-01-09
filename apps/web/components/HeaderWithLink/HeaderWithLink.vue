@@ -7,7 +7,7 @@
       </template>
       {{ labelMobile }}
     </UiButton>
-    <UiButton @click="goToPath" class="hidden md:flex hover:text-white bg-pink" variant="tertiary">
+    <UiButton @click="goToPath" class="hidden md:flex" variant="tertiary">
       <template #prefix>
         <SfIconArrowBack />
       </template>

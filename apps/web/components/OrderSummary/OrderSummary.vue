@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-lg md:rounded-md md:border sms-border--grey md:border-neutral-100" data-testid="order-summary">
+  <div class="shadow-lg md:rounded-md md:border md:border-neutral-100" data-testid="order-summary">
     <div class="flex justify-between items-end py-2 px-4 md:px-6 md:pt-6 md:pb-4">
       <h2 class="typography-headline-4 font-bold md:typography-headline-3">{{ t('orderSummary') }}</h2>
       <p class="typography-text-base font-medium" data-testid="total-in-cart">
@@ -65,7 +65,7 @@
         <h2 data-testid="total-label">{{ t('total') }}</h2>
         <h2 data-testid="total">{{ n(totals.total, 'currency') }}</h2>
       </div>
-      <UiDivider class="w-auto" />
+      <UiDivider class="w-auto mb-4" />
       <slot />
     </div>
   </div>

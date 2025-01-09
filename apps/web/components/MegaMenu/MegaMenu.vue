@@ -1,7 +1,7 @@
 <template>
-  <header ref="referenceRef" class="relative w-full z-40 md:sticky md:shadow-md">
+  <header :class="headerClass" ref="referenceRef" class="relative w-full md:sticky md:shadow-md">
     <div
-      class="flex justify-between items-center flex-wrap md:flex-nowrap px-4 md:px-10 py-2 md:py-5 w-full border-0 bg-primary-500 border-neutral-200 md:z-10"
+      class="flex justify-between items-center flex-wrap md:flex-nowrap px-4 md:px-10 py-2 md:py-5 w-full border-0 bg-primary-500 border-neutral-200"
       data-testid="navbar-top"
     >
       <div class="flex items-center">
@@ -31,7 +31,7 @@
     <div v-if="viewport.isGreaterOrEquals('lg')">
       <nav ref="floatingRef">
         <ul
-          class="flex px-6 py-2 sms-bg--grey "
+          class="flex px-6 py-2 bg-white border-b border-b-neutral-200 border-b-solid"
           @blur="
             (event) => {
               if (!(event.currentTarget as Element).contains(event.relatedTarget as Element)) {
@@ -48,14 +48,14 @@
                 ref="triggerReference"
                 variant="tertiary"
                 data-testid="category-button"
-                class="group mr-2 !text-white sms-button--nav hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900"
+                class="group mr-2 !text-neutral-900 hover:!bg-neutral-200 hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900"
                 @mouseenter="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
                 @click="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
               >
                 <span>{{ categoryTreeGetters.getName(menuNode) }}</span>
                 <SfIconChevronRight
                   v-if="menuNode.childCount > 0"
-                  class="rotate-90 !text-white text-neutral-500 group-hover:text-neutral-700 group-active:text-neutral-900"
+                  class="rotate-90 text-neutral-500 group-hover:text-neutral-700 group-active:text-neutral-900"
                 />
               </UiButton>
             </NuxtLink>
@@ -71,7 +71,7 @@
               :key="activeMenu.id"
               ref="megaMenuReference"
               :style="style"
-              class=" hidden md:grid gap-x-6 grid-cols-4 !text-white sms-bg--grey shadow-lg p-6 left-0 right-0 outline-none z-40"
+              class="hidden md:grid gap-x-6 grid-cols-4 bg-white shadow-lg p-6 left-0 right-0 outline-none z-40"
               tabindex="0"
               @mouseleave="close()"
               @keydown.esc="focusTrigger(index)"
@@ -83,7 +83,7 @@
                       :tag="NuxtLink"
                       size="sm"
                       :href="localePath(generateCategoryLink(node))"
-                      class="typography-text-sm mb-2 sms-button--nav !text-white"
+                      class="typography-text-sm mb-2"
                     >
                       {{ categoryTreeGetters.getName(node) }}
                     </SfListItem>
@@ -94,7 +94,7 @@
                     :tag="NuxtLink"
                     size="sm"
                     :href="localePath(generateCategoryLink(node))"
-                    class="typography-text-base font-medium text-white whitespace-nowrap px-4 py-1.5 border-b border-b-neutral-200 sms-subnav--link border-b-solid"
+                    class="typography-text-base font-medium text-neutral-900 whitespace-nowrap px-4 py-1.5 border-b border-b-neutral-200 border-b-solid"
                   >
                     {{ categoryTreeGetters.getName(node) }}
                   </SfListItem>
@@ -105,7 +105,7 @@
                         :tag="NuxtLink"
                         size="sm"
                         :href="localePath(generateCategoryLink(child))"
-                        class="typography-text-sm py-1.5 sms-subnav--link"
+                        class="typography-text-sm py-1.5"
                       >
                         {{ categoryTreeGetters.getName(child) }}
                       </SfListItem>
@@ -140,7 +140,7 @@
                 size="lg"
                 tag="button"
                 type="button"
-                class="text-white border-b border-b-neutral-200 border-b-solid"
+                class="border-b border-b-neutral-200 border-b-solid"
                 @click="goBack()"
               >
                 <div class="flex items-center">
@@ -269,4 +269,8 @@ watch(
     setCategory(categoryTree.value);
   },
 );
+
+const headerClass = computed(() => ({
+  'z-[10]': isOpen.value,
+}));
 </script>
