@@ -1,5 +1,6 @@
-import { type Address } from '@plentymarkets/shop-api';
+import type { Address } from '@plentymarkets/shop-api';
 
 export type AddressProps = {
   address: Address;
+  countryName?: string;
 };

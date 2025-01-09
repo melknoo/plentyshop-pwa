@@ -110,12 +110,6 @@ export type ApplePayPayment = {
   shippingContact?: ApplePayPaymentContact;
 };
 
-export type GooglePayPayerActionData = {
-  paypalOrderId: string;
-  paypalPayerId: string;
-  orderID: string;
-};
-
 export type ConfirmOrderParams = {
   orderId: string;
   token: ApplePayPaymentToken;
@@ -134,12 +128,6 @@ export type ValidateMerchantResponse = {
 };
 
 export type ApplepayType = {
-  config(): Promise<ConfigResponse>;
-  validateMerchant(argument0: ValidateMerchantParams): Promise<ValidateMerchantResponse>;
-  confirmOrder(argument0: ConfirmOrderParams): Promise<void>;
-};
-
-export type GooglepayType = {
   config(): Promise<ConfigResponse>;
   validateMerchant(argument0: ValidateMerchantParams): Promise<ValidateMerchantResponse>;
   confirmOrder(argument0: ConfirmOrderParams): Promise<void>;

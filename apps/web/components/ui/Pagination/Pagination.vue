@@ -10,7 +10,7 @@
       :aria-label="t('prevAriaLabel')"
       :disabled="pagination.selectedPage <= 1 || disabled"
       variant="tertiary"
-      class="gap-3"
+      class="gap-3 sms-button--primary"
       @click="previousPage"
       data-testid="pagination-previous"
     >
@@ -19,7 +19,7 @@
       </template>
       <span class="hidden sm:inline-flex">{{ t('prev') }}</span>
     </UiButton>
-    <ul class="flex justify-center">
+    <ul class="flex justify-center sms-pagination--ul">
       <li v-if="!pagination.pages.includes(1)">
         <div
           :class="[
@@ -84,7 +84,7 @@
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
               {
-                '!text-neutral-900 hover:!text-primary-800 active:!text-primary-700': pagination.selectedPage === page,
+                'active:sms-pagination--active !text-neutral-900 hover:!text-primary-800 active:!text-primary-700': pagination.selectedPage === page,
               },
             ]"
             :aria-current="pagination.selectedPage === page"
@@ -151,7 +151,7 @@
       :aria-label="t('nextAriaLabel')"
       :disabled="pagination.selectedPage >= pagination.totalPages || disabled"
       variant="tertiary"
-      class="gap-3"
+      class="gap-3 sms-button--primary"
       @click="nextPage"
       data-testid="pagination-next"
     >

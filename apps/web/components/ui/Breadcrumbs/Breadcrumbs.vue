@@ -27,7 +27,7 @@
                   :tag="NuxtLink"
                   :to="localePath(item.link)"
                   variant="secondary"
-                  class="leading-5 no-underline text-inherit hover:underline active:underline whitespace-nowrap outline-secondary-600"
+                  class="text-white leading-5 no-underline text-inherit hover:underline active:underline whitespace-nowrap outline-secondary-600"
                 >
                   {{ item.name }}
                 </SfLink>
@@ -39,18 +39,18 @@
       <li
         v-for="(item, index) in breadcrumbs"
         :key="item.name"
-        class="peer hidden sm:flex items-center peer-[:nth-of-type(even)]:before:content-['/'] peer-[:nth-of-type(even)]:before:px-2 peer-[:nth-of-type(even)]:before:leading-5 last-of-type:flex last-of-type:before:font-normal last-of-type:before:text-neutral-500 text-neutral-500 last-of-type:text-neutral-900 last-of-type:font-medium"
+        class="peer text-white hidden sm:flex items-center peer-[:nth-of-type(even)]:before:content-['/'] peer-[:nth-of-type(even)]:before:px-2 peer-[:nth-of-type(even)]:before:leading-5 last-of-type:flex last-of-type:before:font-normal last-of-type:before:text-neutral-500 text-neutral-500 last-of-type:text-neutral-900 last-of-type:font-medium"
       >
         <SfLink
           v-if="index < breadcrumbs.length - 1"
           :tag="NuxtLink"
           :to="localePath(item.link)"
           variant="secondary"
-          class="leading-5 no-underline hover:underline active:underline whitespace-nowrap outline-secondary-600 text-inherit"
+          class="leading-5 no-underline hover:underline active:underline whitespace-nowrap outline-secondary-600 text-white"
         >
           {{ item.name }}
         </SfLink>
-        <span v-else>
+        <span class="text-white" v-else>
           {{ item.name }}
         </span>
       </li>

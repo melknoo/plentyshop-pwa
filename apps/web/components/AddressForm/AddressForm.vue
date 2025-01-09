@@ -33,8 +33,6 @@
         v-model="defaultValues.country"
         @change="defaultValues.state = ''"
         :placeholder="$t('form.selectPlaceholder')"
-        wrapper-class-name="bg-white"
-        class="!ring-1 !ring-neutral-200"
         autocomplete="country-name"
         required
       >
@@ -62,11 +60,9 @@
       </UiFormLabel>
       <SfSelect
         v-model="defaultValues.state"
-        :placeholder="$t('form.selectPlaceholder')"
         name="state"
         autocomplete="address-level1"
-        wrapper-class-name="bg-white"
-        class="!ring-1 !ring-neutral-200"
+        :placeholder="$t('form.selectPlaceholder')"
       >
         <option v-for="(state, index) in states" :key="index" :value="state.id.toString()">{{ state.name }}</option>
       </SfSelect>
@@ -116,9 +112,15 @@ const { type, savedAddress: propertySavedAddress, useAsShippingDefault = true } 
 
 const { loading: loadBilling } = useAddress(AddressType.Billing);
 const { loading: loadShipping } = useAddress(AddressType.Shipping);
-const { billingCountries, default: defaultCountries } = useAggregatedCountries();
+const {
+  useGeoRegulatedCountries,
+  default: defaultCountries,
+  geoRegulated: geoRegulatedCountries,
+} = useAggregatedCountries();
 
-const countries = computed(() => (type === AddressType.Billing ? billingCountries.value : defaultCountries.value));
+const countries = computed(() =>
+  type === AddressType.Billing && useGeoRegulatedCountries ? geoRegulatedCountries.value : defaultCountries.value,
+);
 const isCartUpdateLoading = computed(() => loadBilling.value || loadShipping.value);
 const useAsShippingAddress = ref(useAsShippingDefault);
 const savedAddress = propertySavedAddress || ({} as Address);

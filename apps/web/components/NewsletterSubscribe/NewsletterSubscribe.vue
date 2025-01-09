@@ -1,5 +1,5 @@
 <template>
-  <div class="relative mt-5 bg-neutral-100 p-4 sm:p-10 text-center">
+  <div class="sms-newsletter--content text-white relative mt-5 bg-neutral-100  sms-pb--5  sm:p-10 text-center">
     <h2 class="typography-headline-4 sm:typography-headline-3 font-bold mb-2">
       {{ t('newsletter.heading') }}
     </h2>
@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div class="text-base text-neutral-900">
+      <div class="text-base text-white sms-copytext">
         <div class="flex justify-center items-center">
           <SfCheckbox
             v-model="privacyPolicy"
@@ -99,7 +99,7 @@
       </div>
 
       <div class="flex flex-col items-center">
-        <UiButton type="submit" size="lg" :disabled="loading">
+        <UiButton class="sms-button--primary" type="submit" size="lg" :disabled="loading">
           <SfLoaderCircular v-if="loading" class="flex justify-center items-center" size="base" />
           <template v-else>{{ t('newsletter.subscribe') }}</template>
         </UiButton>
@@ -119,6 +119,7 @@
 
     <div class="text-left typography-text-xs mt-3">** {{ t('contact.form.asterixHint') }}</div>
   </div>
+  <div class="sms-seperator--pink sms-seperator"></div>
 </template>
 
 <script lang="ts" setup>

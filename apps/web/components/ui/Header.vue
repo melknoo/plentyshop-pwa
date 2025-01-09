@@ -3,36 +3,33 @@
     <template v-if="viewport.isGreaterOrEquals('md')">
       <UiSearch class="hidden md:block flex-1" />
       <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
-        <template v-if="localeCodes.length > 1">
-          <UiButton
-            v-if="!isLanguageSelectOpen"
-            class="group neon-hover nav-transition--3 relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            variant="tertiary"
-            square
-            data-testid="open-languageselect-button"
-            @click="toggleLanguageSelect()"
-            :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-          <UiButton
-            v-else
-            class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            variant="tertiary"
-            square
-            data-testid="open-languageselect-button"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-        </template>
         <UiButton
-          class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          v-if="!isLanguageSelectOpen"
+          class="neon-hover nav-transition--3 group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
+          :aria-label="t('languageSelector')"
+          variant="tertiary"
+          square
+          data-testid="open-languageselect-button"
+          @click="toggleLanguageSelect()"
+        >
+          <template #prefix>
+            <SfIconLanguage class="relative" />
+          </template>
+        </UiButton>
+        <UiButton
+          v-else
+          class="neon-hover nav-transition--3 group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
+          :aria-label="t('languageSelector')"
+          variant="tertiary"
+          square
+          data-testid="open-languageselect-button"
+        >
+          <template #prefix>
+            <SfIconLanguage class="relative" />
+          </template>
+        </UiButton>
+        <UiButton
+          class="neon-hover nav-transition--3 group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
           :to="localePath(paths.wishlist)"
           :aria-label="t('numberInWishlist', { count: wishlistItemIds.length })"
@@ -44,7 +41,7 @@
             <SfIconFavorite />
             <SfBadge
               :content="wishlistItemIds.length"
-              class="outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+              class="nav-transition--3 outline outline-primary-500 !text-neutral-900 group-hover:outline-primary-600 group-hover:bg-white group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
               :class="badgeClassWhishlist"
               data-testid="wishlist-badge"
               placement="top-right"
@@ -53,7 +50,7 @@
           </template>
         </UiButton>
         <UiButton
-          class="neon-hover group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="neon-hover nav-transition--3 group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           :tag="NuxtLink"
           :to="localePath(paths.cart)"
           :aria-label="t('numberInCart', { count: cartItemsCount })"
@@ -64,7 +61,7 @@
             <SfIconShoppingCart />
             <SfBadge
               :content="cartItemsCount"
-              class="neon-hover outline outline-primary-500 bg-pink !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+              class="nav-transition--3 outline outline-primary-500 bg-pink !text-neutral-900 group-hover:outline-primary-600 group-hover:bg-white group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
               data-testid="cart-badge"
               placement="top-right"
               :max="99"
@@ -75,8 +72,8 @@
           <template #trigger>
             <UiButton
               variant="tertiary"
-              class="neon-hover relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
-              :class="{ 'bg-primary-700': isAccountDropdownOpen }"
+              class="sms-account_dropdown--button neon-hover nav-transition--3 relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md"
+              :class="{ 'sms-account_dropdown--button-active': isAccountDropdownOpen }"
               @click="accountDropdownToggle()"
               data-testid="account-dropdown-button"
             >
@@ -86,10 +83,10 @@
               {{ user.user?.firstName }}
             </UiButton>
           </template>
-          <ul class="sms-account_dropdown--ul neon-hover rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
+          <ul class="sms-account_dropdown--ul rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
             <li v-for="({ label, link }, labelIndex) in accountDropdown" :key="`label-${labelIndex}`">
               <template v-if="label === t('account.logout')">
-                <UiDivider class="my-2 sms-account_dropdown--divider" />
+                <UiDivider class=" sms-account_dropdown--divider" />
                 <SfListItem tag="button" class="text-left" data-testid="account-dropdown-logout-item" @click="logOut()">
                   {{ label }}
                 </SfListItem>
@@ -98,6 +95,7 @@
                 v-else
                 :tag="NuxtLink"
                 :to="link"
+                class="sms-account_dropdown--item"
                 :class="{ 'bg-neutral-200': route.path === link }"
                 data-testid="account-dropdown-list-item"
               >
@@ -108,8 +106,8 @@
         </SfDropdown>
         <UiButton
           v-else
-          @click="navigateToLogin"
-          class="group neon-hover relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          @click="openAuthentication"
+          class="neon-hover nav-transition--3 group relative text-pink hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           variant="tertiary"
           :aria-label="t('auth.login.openLoginForm')"
           square
@@ -119,7 +117,7 @@
         <UiButton
           v-if="showConfigurationDrawer"
           @click="open = true"
-          class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
+          class="neon-hover group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           variant="tertiary"
           :aria-label="t('openConfigurationDrawer')"
           square
@@ -137,7 +135,6 @@
         data-testid="open-languageselect-button"
         :aria-label="t('languageSelector')"
         @click="toggleLanguageSelect()"
-        :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
       >
         <SfIconLanguage />
       </UiButton>
@@ -221,7 +218,7 @@ const cartItemsCount = ref(0);
 const wishlistCount = ref(0);
 
 const NuxtLink = resolveComponent('NuxtLink');
-const { t, localeCodes } = useI18n();
+const { t } = useI18n();
 const route = useRoute();
 const localePath = useLocalePath();
 const { isOpen: isAccountDropdownOpen, toggle: accountDropdownToggle } = useDisclosure();
@@ -233,8 +230,8 @@ const { data: categoryTree } = useCategoryTree();
 const { data: user, isAuthorized, logout } = useCustomer();
 const viewport = useViewport();
 const runtimeConfig = useRuntimeConfig();
+
 const showConfigurationDrawer = runtimeConfig.public.showConfigurationDrawer;
-const { isEditing, disableActions } = useEditor();
 
 onNuxtReady(() => {
   cartItemsCount.value = cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0;
@@ -288,9 +285,4 @@ const accountDropdown = computed(() => [
     label: t('account.logout'),
   },
 ]);
-const navigateToLogin = () => {
-  if (route.path !== localePath(paths.authLogin)) {
-    openAuthentication();
-  }
-};
 </script>

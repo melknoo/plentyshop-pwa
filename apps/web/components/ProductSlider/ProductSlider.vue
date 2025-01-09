@@ -1,7 +1,7 @@
 <template>
   <SfScrollable
     buttons-placement="floating"
-    class="pb-4 scrollbar-hidden"
+    class="pb-4 scrollbar-hidden sms-productslider--wrapper"
     :wrapper-class="wrapperClass"
     data-testid="product-slider"
   >
@@ -34,29 +34,18 @@
     <span>{{ $t('asterisk') }}</span>
     <span v-if="showNetPrices">{{ $t('itemExclVAT') }}</span>
     <span v-else>{{ $t('itemInclVAT') }}</span>
-    <i18n-t keypath="excludedShipping" scope="global">
-      <template #shipping>
-        <SfLink
-          :href="localePath(paths.shipping)"
-          target="_blank"
-          class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
-        >
-          {{ $t('delivery') }}
-        </SfLink>
-      </template>
-    </i18n-t>
+    <span>{{ $t('excludedShipping') }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { productGetters, productImageGetters } from '@plentymarkets/shop-api';
-import { SfScrollable, SfLink } from '@storefront-ui/vue';
+import { SfScrollable } from '@storefront-ui/vue';
 import type { ProductSliderProps } from '~/components/ProductSlider/types';
-import { paths } from '~/utils/paths';
 
 const { addModernImageExtension } = useModernImage();
-const { showNetPrices } = useCustomer();
-const localePath = useLocalePath();
+const runtimeConfig = useRuntimeConfig();
+const showNetPrices = runtimeConfig.public.showNetPrices;
 
 defineProps<ProductSliderProps>();
 </script>

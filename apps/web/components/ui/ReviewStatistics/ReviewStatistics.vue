@@ -19,7 +19,7 @@
         <UiButton
           @click="openReviewModal(defaults.DEFAULT_REVIEW_MODAL_TYPES.createReview)"
           data-testid="add-review-button"
-          class="mt-2 mb-4 mx-auto"
+          class="mt-2 mb-4 mx-auto sms-button--primary"
           size="base"
         >
           {{ t('createCustomerReview') }}

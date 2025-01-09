@@ -26,7 +26,7 @@
         variant="tertiary"
         :disabled="disabled || count <= minValue"
         square
-        class="rounded-r-none"
+        class="sms-hover--bgpink hover:text-white neon-hover rounded-r-none bg-pink text-white"
         :aria-controls="inputId"
         :aria-label="$t('quantitySelectorDecrease')"
         data-testid="quantity-selector-decrease-button"
@@ -52,7 +52,7 @@
         variant="tertiary"
         :disabled="disabled || count >= maxValue"
         square
-        class="rounded-l-none"
+        class="sms-hover--bgpink hover:text-white neon-hover rounded-l-none bg-pink text-white"
         :aria-controls="inputId"
         :aria-label="$t('quantitySelectorIncrease')"
         data-testid="quantity-selector-increase-button"

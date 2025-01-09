@@ -115,13 +115,11 @@
         v-model="country"
         v-bind="countryAttributes"
         :placeholder="$t('form.selectPlaceholder')"
-        :invalid="Boolean(errors['country'])"
-        wrapper-class-name="bg-white"
-        class="!ring-1 !ring-neutral-200"
         autocomplete="country-name"
+        :invalid="Boolean(errors['country'])"
       >
         <option
-          v-for="(billingCountry, index) in billingCountries"
+          v-for="(billingCountry, index) in countries"
           :key="`billing-country-${index}`"
           :value="billingCountry.id.toString()"
         >
@@ -141,13 +139,17 @@ import { type Address, AddressType, userAddressGetters } from '@plentymarkets/sh
 
 const { address, addAddress = false } = defineProps<AddressFormProps>();
 
-const { isGuest } = useCustomer();
-const { shippingAsBilling } = useShippingAsBilling();
 const { hasCompany, addressToSave, save: saveAddress, validationSchema } = useAddressForm(AddressType.Billing);
 const { addresses: billingAddresses } = useAddressStore(AddressType.Billing);
 const { set: setCheckoutAddress } = useCheckoutAddress(AddressType.Billing);
 const { defineField, errors, setValues, validate, handleSubmit } = useForm({ validationSchema: validationSchema });
-const { billingCountries } = useAggregatedCountries();
+const {
+  useGeoRegulatedCountries,
+  default: defaultCountries,
+  geoRegulated: geoRegulatedCountries,
+} = useAggregatedCountries();
+
+const countries = computed(() => (useGeoRegulatedCountries ? geoRegulatedCountries.value : defaultCountries.value));
 
 const [firstName, firstNameAttributes] = defineField('firstName');
 const [lastName, lastNameAttributes] = defineField('lastName');
@@ -168,23 +170,18 @@ if (!addAddress) {
   }
 }
 
-const guestHasShippingAsBilling = isGuest.value && shippingAsBilling.value;
-
 const syncCheckoutAddress = async () => {
   await setCheckoutAddress(
-    addAddress || guestHasShippingAsBilling
+    addAddress
       ? (billingAddresses.value[0] as Address)
       : (userAddressGetters.getDefault(billingAddresses.value) as Address),
     !addAddress,
   );
-
-  if (guestHasShippingAsBilling) shippingAsBilling.value = false;
 };
 
 const submitForm = handleSubmit((billingAddressForm) => {
   addressToSave.value = billingAddressForm as Address;
 
-  if (guestHasShippingAsBilling && !addAddress) delete addressToSave.value?.id;
   if (addAddress) addressToSave.value.primary = true;
   if (!hasCompany.value) {
     addressToSave.value.companyName = '';

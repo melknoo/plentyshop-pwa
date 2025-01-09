@@ -1,9 +1,10 @@
 <template>
-  <nav class="w-full fixed bottom-0 left-0 flex flex-row items-stretch md:hidden" data-testid="navbar-bottom">
+  <nav class="w-full fixed bottom-0 left-0 flex flex-row items-stretch md:hidden z-10" data-testid="navbar-bottom">
     <UiButton
       v-for="{ label, icon, link } in items"
       :key="label"
       variant="tertiary"
+      class="bg-pink "
       :class="[
         '!p-1 !pt-3 flex flex-col h-full w-full rounded-none bg-primary-500 text-white hover:text-white hover:bg-primary-800 active:text-white active:bg-primary-700 !text-xs !font-base',
         { 'text-white bg-primary-700': route.path === link },
@@ -20,13 +21,13 @@
             v-if="label === t('cart')"
             :content="cartItemsCount"
             :max="99"
-            class="translate-x-[5px] translate-y-[-3px] outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+            class="translate-x-[5px] translate-y-[-3px]   bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
           />
           <SfBadge
             v-if="label === t('wishlist')"
             :content="wishlistItemIds.length"
             :max="99"
-            class="translate-x-[5px] translate-y-[-3px] outline outline-primary-500 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
+            class="translate-x-[5px] translate-y-[-3px]   bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-700 flex justify-center items-center text-xs min-w-[16px] min-h-[16px]"
             data-testid="wishlist-badge"
           />
         </div>

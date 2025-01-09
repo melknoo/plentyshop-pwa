@@ -1,5 +1,7 @@
 <template>
-  <div class="border border-neutral-200 rounded-md hover:shadow-lg flex flex-col" data-testid="product-card">
+  <div class="border border-neutral-200 sms-border--pink sms-boxshadow--pink rounded-md flex flex-col" data-testid="product-card"
+    :class="{ 'sms-productslider--item': isFromSlider }"
+    >
     <div class="relative overflow-hidden">
       <UiBadges
         :class="['absolute', isFromWishlist ? 'mx-2' : 'm-2']"
@@ -32,22 +34,22 @@
       <slot name="wishlistButton">
         <WishlistButton
           square
-          class="absolute bottom-0 right-0 mr-2 mb-2 bg-white ring-1 ring-inset ring-neutral-200 !rounded-full"
+          class="absolute bottom-0 right-0 mr-2 mb-2 sms-button--wishlist neon-hover bg-pink text-white ring-1 ring-inset ring-neutral-200 !rounded-full"
           :product="product"
         />
       </slot>
     </div>
-    <div class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col flex-auto">
-      <SfLink :tag="NuxtLink" :to="productPath" class="no-underline" variant="secondary">
+    <div class="uppercase p-2 border-t border-neutral-200 sms-border--pink typography-text-sm flex flex-col flex-auto">
+      <SfLink :tag="NuxtLink" :to="productPath" class="text-white no-underline" variant="secondary">
         {{ name }}
       </SfLink>
       <div class="flex items-center pt-1 gap-1" :class="{ 'mb-2': !productGetters.getShortDescription(product) }">
-        <SfRating size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
+        <SfRating class="sms-productcard--rating" size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
         <SfCounter size="xs">{{ ratingCount }}</SfCounter>
       </div>
       <div
         v-if="productGetters.getShortDescription(product)"
-        class="block py-2 font-normal typography-text-xs text-neutral-700 text-justify whitespace-pre-line break-words"
+        class="block py-2 font-normal typography-text-xs text-white text-justify whitespace-pre-line break-words"
       >
         <span class="line-clamp-3">
           {{ productGetters.getShortDescription(product) }}
@@ -72,7 +74,7 @@
       <UiButton
         v-if="productGetters.canBeAddedToCartFromCategoryPage(product)"
         size="sm"
-        class="min-w-[80px] w-fit"
+        class="min-w-[80px] w-fit sms-button--primary "
         data-testid="add-to-basket-short"
         @click="addWithLoader(Number(productGetters.getId(product)))"
         :disabled="loading"
@@ -85,7 +87,7 @@
           {{ t('addToCartShort') }}
         </span>
       </UiButton>
-      <UiButton v-else type="button" :tag="NuxtLink" :to="productPath" size="sm" class="w-fit">
+      <UiButton v-else type="button" :tag="NuxtLink" :to="productPath" size="sm" class="w-fit sms-button--primary">
         <span>{{ t('showOptions') }}</span>
       </UiButton>
     </div>
@@ -126,9 +128,8 @@ const { addToCart } = useCart();
 const { price, crossedPrice } = useProductPrice(product);
 const { send } = useNotification();
 const loading = ref(false);
-
-const { showNetPrices } = useCustomer();
-
+const runtimeConfig = useRuntimeConfig();
+const showNetPrices = runtimeConfig.public.showNetPrices;
 const path = computed(() => productGetters.getCategoryUrlPath(product, categoryTree.value));
 const productSlug = computed(() => productGetters.getSlug(product) + `_${productGetters.getItemId(product)}`);
 const productPath = computed(() => localePath(`${path.value}/${productSlug.value}`));

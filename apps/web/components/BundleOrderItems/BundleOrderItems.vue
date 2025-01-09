@@ -34,15 +34,19 @@
         </div>
 
         <div
-          class="h-auto line-clamp-3 mt-1 font-normal typography-text-sm no-preflight"
+          class="h-auto line-clamp-3 mt-1 font-normal typography-text-sm"
           v-html="productBundleGetters.getBundleItemDescription(item)"
         ></div>
       </div>
       <div v-else>
         <p class="font-medium text-sm">
-          {{ productBundleGetters.getBundleItemQuantity(item) }} x
-          <span class="h-auto">[{{ t('productAttributes.productNameMissing') }}]</span>
+          {{ productBundleGetters.getBundleItemQuantity(item) }}x
+          <span class="h-auto">{{ t('products') }}</span>
         </p>
+        <div
+          class="h-auto mt-1 font-normal typography-text-sm"
+          v-html="t('productAttributes.productInformationMissing')"
+        ></div>
       </div>
     </div>
   </div>

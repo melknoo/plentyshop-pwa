@@ -29,15 +29,26 @@
 </template>
 
 <script lang="ts" setup>
+import { AddressType } from '@plentymarkets/shop-api';
 import { SfLink, SfInput, SfLoaderCircular } from '@storefront-ui/vue';
 import type { LoginProps } from './types';
 
-const { login, loading } = useCustomer();
+const { getAddresses: getBillingAddresses } = useAddress(AddressType.Billing);
+const { getAddresses: getShippingAddresses } = useAddress(AddressType.Shipping);
+const { getShippingMethods } = useCartShippingMethods();
+
+const { login, loading, getSession } = useCustomer();
 const { send } = useNotification();
 const { t } = useI18n();
 
-const { isSoftLogin = false, isModal = false, skipReload = false } = defineProps<LoginProps>();
+const { isSoftLogin = false, isModal = false } = defineProps<LoginProps>();
 const emits = defineEmits(['loggedIn', 'change-view']);
+
+const loadAddresses = async () => {
+  await getBillingAddresses();
+  await getShippingAddresses();
+  await getShippingMethods();
+};
 
 const email = ref('');
 const password = ref('');
@@ -46,7 +57,14 @@ const loginUser = async () => {
   const success = await login(email.value, password.value);
   if (success) {
     send({ message: t('auth.login.success'), type: 'positive' });
-    emits('loggedIn', skipReload);
+    emits('loggedIn');
+    if (!isSoftLogin) {
+      const currentURL = window.location.href;
+      if (currentURL.includes(paths.checkout)) {
+        await loadAddresses();
+        await getSession();
+      }
+    }
   }
 };
 </script>

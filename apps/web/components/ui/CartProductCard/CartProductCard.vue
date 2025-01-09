@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex border-neutral-200 border-b min-w-[320px] p-4 last:mb-0" data-testid="cart-product-card">
+  <div class="relative flex border-neutral-200 border-b sms-border--grey min-w-[320px] p-4 last:mb-0" data-testid="cart-product-card">
     <div class="relative overflow-hidden rounded-md w-[100px] sm:w-[176px]">
       <SfLink :tag="NuxtLink" :to="path" class="flex items-center justify-center">
         <NuxtImg
@@ -24,7 +24,7 @@
         {{ cartGetters.getItemName(cartItem) }}
       </SfLink>
 
-      <div v-if="!cartItem.variation?.bundleComponents">
+      <div class="font-medium" v-if="!cartItem.variation?.bundleComponents">
         {{ n(cartGetters.getCartItemPrice(cartItem), 'currency') }}
       </div>
 
@@ -42,8 +42,8 @@
         <div class="my-2">
           <ul class="text-xs font-normal leading-5 sm:typography-text-sm text-neutral-700">
             <li v-for="attribute in cartGetters.getItemAttributes(cartItem)" :key="attribute.name">
-              <span class="mr-1">{{ attribute.label }}:</span>
-              <span class="font-medium">{{ attribute.value }}</span>
+              <span class="text-white mr-1">{{ attribute.label }}:</span>
+              <span class="font-medium text-white">{{ attribute.value }}</span>
             </li>
           </ul>
           <div
@@ -90,7 +90,7 @@
       <div class="items-start sm:items-center sm:mt-auto flex flex-col sm:flex-row">
         <span
           v-if="currentFullPrice"
-          class="text-secondary-600 sm:order-1 font-bold typography-text-sm sm:typography-text-lg sm:ml-auto"
+          class="text-white sm:order-1 font-bold typography-text-sm sm:typography-text-lg sm:ml-auto"
         >
           {{ n(currentFullPrice || 0, 'currency') }}
         </span>
@@ -117,7 +117,7 @@
       :aria-label="t('removeItemFromBasket')"
       variant="tertiary"
       size="sm"
-      class="absolute top-2 right-2 bg-white"
+      class="bg-pink absolute top-2 right-2 neon-hover hover:text-white sms-hover--bgpink"
     >
       <SfIconClose size="sm" />
     </UiButton>

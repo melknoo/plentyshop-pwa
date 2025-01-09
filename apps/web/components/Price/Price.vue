@@ -15,5 +15,6 @@ import type { PriceProps } from '~/components/Price/types';
 
 defineProps<PriceProps>();
 
-const { showNetPrices } = useCustomer();
+const runtimeConfig = useRuntimeConfig();
+const showNetPrices = runtimeConfig.public.showNetPrices;
 </script>
