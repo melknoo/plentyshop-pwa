@@ -31,7 +31,7 @@
     <div v-if="viewport.isGreaterOrEquals('lg')">
       <nav ref="floatingRef">
         <ul
-          class="flex px-6 py-2 bg-white border-b border-b-neutral-200 border-b-solid"
+          class="flex px-6 py-2 sms-bg--grey"
           @blur="
             (event) => {
               if (!(event.currentTarget as Element).contains(event.relatedTarget as Element)) {
@@ -48,7 +48,7 @@
                 ref="triggerReference"
                 variant="tertiary"
                 data-testid="category-button"
-                class="group mr-2 !text-neutral-900 hover:!bg-neutral-200 hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900"
+                class="group mr-2 !text-white sms-button--nav hover:!text-neutral-700 active:!bg-neutral-300 active:!text-neutral-900"
                 @mouseenter="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
                 @click="menuNode.childCount > 0 ? openMenu([menuNode.id]) : openMenu([])"
               >
