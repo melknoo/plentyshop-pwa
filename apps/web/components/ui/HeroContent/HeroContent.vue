@@ -33,7 +33,7 @@
         {{ heroItemProps.description }}
       </p>
       <div class="flex sms-button--primary flex-col md:flex-row gap-4 mt-6">
-        <UiButton :tag="NuxtLink" :to="localePath(props.heroItemProps.link ?? '')" size="lg">{{
+        <UiButton :tag="NuxtLink" :to="localePath(props.heroItemProps.link ?? '')" class="sms-button--primary sms-no_shadow" size="lg">{{
           heroItemProps.callToAction
         }}</UiButton>
       </div>

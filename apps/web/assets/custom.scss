@@ -63,6 +63,9 @@ button {
             border-color: $border-grey;
         }
     }
+    &-no_shadow {
+        box-shadow: none;
+    }
     &-headline {
         &-2 {
             font-weight: normal;
