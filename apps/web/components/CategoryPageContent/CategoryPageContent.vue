@@ -41,13 +41,13 @@
               :rating="productGetters.getAverageRating(product, 'half')"
               :image-url="addModernImageExtension(productGetters.getCoverImage(product))"
               :image-alt="
-                'alt-' + productImageGetters.getImageAlternate(productImageGetters.getFirstImage(product)) ||
-                productGetters.getName(product) ||
-                ''
+                'alt-'// + productImageGetters.getImageAlternate(productImageGetters.getFirstImage(product)) ||
+                //productGetters.getName(product) ??
+                //''
               "
               :image-title="
-                productImageGetters.getImageName(productImageGetters.getFirstImage(product)) ||
-                productGetters.getName(product) ||
+                //productImageGetters.getImageName(productImageGetters.getFirstImage(product)) ||
+                //productGetters.getName(product) ||
                 ''
               "
               :image-height="productGetters.getImageHeight(product) || 600"

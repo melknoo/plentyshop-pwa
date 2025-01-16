@@ -57,8 +57,8 @@ const isMobile = computed(() => viewport.isLessThan('lg'));
 const showZoomHint = ref(false);
 
 const imageUrl = productImageGetters.getImageUrl(image);
-const imageAlt = productImageGetters.getImageAlternate(image) || productImageGetters.getCleanImageName(image) || '';
-const imageTitle = productImageGetters.getImageName(image) || productImageGetters.getCleanImageName(image) || '';
+//const imageAlt = productImageGetters.getImageAlternate(image) || productImageGetters.getCleanImageName(image) || '';
+//const imageTitle = productImageGetters.getImageName(image) || productImageGetters.getCleanImageName(image) || '';
 
 const getSourceSet = (image: ImagesData) => {
   const dpr = 1;
@@ -87,8 +87,8 @@ const computedHeight = computed(() => {
 
 const nuxtImgProps = computed<Record<string, any>>(() => ({
   id: `gallery-img-${index}`,
-  alt: imageAlt,
-  title: imageTitle,
+  //alt: imageAlt,
+  //title: imageTitle,
   'aria-hidden': activeIndex !== index,
   fit: 'fill',
   class: isMobile.value

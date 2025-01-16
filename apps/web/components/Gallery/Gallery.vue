@@ -63,7 +63,6 @@
           @focus="onChangeIndex(index)"
         >
           <NuxtImg
-            :alt="productImageGetters.getImageAlternate(image)"
             class="object-contain"
             :width="productImageGetters.getImageWidth(image) ?? 80"
             :height="productImageGetters.getImageHeight(image) ?? 80"
