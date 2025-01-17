@@ -12,6 +12,7 @@
       <SwiperSlide v-for="(heroItem, index) in hero" :key="index" class="md:px-7 lg:px-15">
         <UiHeroContent :hero-item-props="heroItem" />
       </SwiperSlide>
+      <div class="sms-seperator"></div>
     </Swiper>
 
     <template #fallback>
