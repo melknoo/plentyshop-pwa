@@ -59,7 +59,7 @@
       data-testid="wishlist-page-content"
     >
       <SfLoaderCircular v-if="loading" class="absolute z-[99999]" size="2xl" />
-      <h2 data-testid="empty-wishlist-text" class="typography-headline-3 font-bold">
+      <h2 data-testid="empty-wishlist-text" class="typography-headline-3 text-white font-bold">
         {{ $t('emptyWishlist') }}
       </h2>
     </div>
