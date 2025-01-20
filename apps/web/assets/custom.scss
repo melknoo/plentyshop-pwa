@@ -11,8 +11,16 @@ p, span {
     color: inherit;
 }
 
-.text-pink {
-    color: $primary_pink;
+.text-pink, nav > a, nav > button, nav > div > button {
+    &:hover {
+        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+        background-color: $primary_pink;
+        color: white !important;
+    }
+    span {
+        background-color: $primary_pink !important;
+    }
+    color: $primary_pink !important;
 }
 
 .bg-pink {
@@ -49,6 +57,52 @@ button {
             color: $color_2_footer_nav_headline;
         }
     }
+}
+
+.blaze-slide {
+    & a {
+        display: inline-block;
+        color: #FFFFFF;
+        background-color: $primary_pink;
+        font-weight: 400;
+        padding: 5px 15px 6px 15px;
+        text-align: center;
+        line-height: normal;
+        text-transform: uppercase;
+        border-radius: 42px;
+        position: relative;
+        transition: 0.3s 0s;
+        &:hover {
+            color: $color-button-hover;
+            background-color: $primary_pink;
+            box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+        }
+    }
+    div > div {
+        background-color: transparent !important;
+    }
+    .object-cover {
+        object-fit: contain;
+    }
+}
+
+.typography-display-3 {
+    font-weight: normal;
+    font-family: 'Rubik Outline';
+    text-transform: uppercase;
+    color: #ff009b;
+    letter-spacing: 0.5px;
+    @media screen and (max-width: $small_screen) {
+        font-size: 50px;
+        height: auto;
+    }
+    font-size: 60px;
+    line-height: 66px;
+    text-shadow: 0 0 5px rgba(255, 0, 155, 0.8), 0 0 15px rgba(255, 0, 155, 0.8), 0 0 20px rgba(255, 0, 155, 0.8);
+}
+
+.text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs {
+    color: white;
 }
 
 .sms {

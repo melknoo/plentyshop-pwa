@@ -3,68 +3,129 @@
     {
       "name": "UiHeroCarousel",
       "options": {
-        "hero": [
+        "bannerItems": [
           {
             "image": {
-              "lg": "/images/straw-colours-pink.png",
-              "md": "/images/straw-colours-pink.png",
-              "sm": "/images/sm/homepage-hero-headphones.avif",
-              "xs": "/images/sm/homepage-hero-headphones.avif"
+              "desktop": "/images/straw-colours-pink.png",
+              "tablet": "/images/straw-colours-pink.png",
+              "mobile": "/images/straw-colours-pink.png",
+              "alt": "",
+              "brightness": 0.5
             },
-            "tagline": "Kristalklare Klänge Genießen",
-            "taglineColor": "#000000",
-            "heading": "Sound auf höchstem Niveau",
-            "headingColor": "#ff009b",
-            "description": "Unsere hochmodernen Kopfhörer: Entwickelt für das ultimative Hörerlebnis genügen sie auch den höchsten Ansprüchen. Entdecken Sie die perfekte Mischung aus Stil, Komfort und Klangqualität, die Ihren Musikgenuss auf ein völlig neues Niveau hebt.",
-            "alt": "Capybara-Kopfhörer",
-            "descriptionColor": "#fff",
-            "callToAction": "Capybara entdecken",
-            "link": "/gear/headphones-capybara_157"
+            "text": {
+              "color": "#fff",
+              "bgcolor": "#000",
+              "bgopacity": 0.9,
+              "pretitle": "Kristalklare Klänge Genießen",
+              "title": "Dein Sound",
+              "subtitle": "Auf höchstem Niveau",
+              "htmlDescription": "Unsere hochmodernen Kopfhörer: Entwickelt für das ultimative Hörerlebnis genügen sie auch den höchsten Ansprüchen. Entdecken Sie die perfekte Mischung aus Stil, Komfort und Klangqualität, die Ihren Musikgenuss auf ein völlig neues Niveau hebt.",
+              "textAlignment": "left",
+              "justify": "top",
+              "align": "start"
+            },
+            "button": {
+              "label": "Capybara entdecken",
+              "link": "/gear/headphones-capybara_157",
+              "variant": "primary"
+            }
           },
           {
             "image": {
-              "lg": "/images/straw-colours-blue.png",
-              "md": "/images/straw-colours-blue.png",
-              "sm": "/images/straw-colours-blue.png",
-              "xs": "/images/straw-colours-blue.png"
+              "desktop": "/images/straw-colours-blue.png",
+              "tablet": "/images/straw-colours-blue.png",
+              "mobile": "/images/straw-colours-blue.png",
+              "alt": "",
+              "brightness": 0.75
             },
-            "tagline": "Die Zukunft der Luftbildfotografie",
-            "taglineColor": "#000000",
-            "heading": "Drone Omega",
-            "headingColor": "#ff009b",
-            "description": "Omega ist eine leichte Drohne, die für atemberaubende Luftaufnahmen entwickelt wurde. Mit einer hochauflösenden Kamera auf einem 3-Achsen-Gimbal und einer Flugzeit von bis zu 45 Minuten sorgt sie für stabile, flüssige Videos. GPS-unterstützter Schwebeflug, Hindernisvermeidung und einfache Transportfähigkeit machen die Drone zum perfekten Begleiter für Ihre Aufnahmen.",
-            "alt": "Omega-Drone",
-            "descriptionColor": "#fff",
-            "callToAction": "Omega entdecken",
-            "link": "/gear/drone-omega_154"
+            "text": {
+              "color": "#fff",
+              "bgcolor": "#000",
+              "bgopacity": 1,
+              "pretitle": "Die Zukunft der Luftbildfotografie",
+              "title": "Drone Omega",
+              "htmlDescription": "Omega ist eine leichte Drohne, die für atemberaubende Luftaufnahmen entwickelt wurde. Mit einer hochauflösenden Kamera auf einem 3-Achsen-Gimbal und einer Flugzeit von bis zu 45 Minuten sorgt sie für stabile, flüssige Videos. GPS-unterstützter Schwebeflug, Hindernisvermeidung und einfache Transportfähigkeit machen die Drone zum perfekten Begleiter für Ihre Aufnahmen.",
+              "textAlignment": "left",
+              "justify": "top",
+              "align": "start"
+            },
+            "button": {
+              "label": "Omega entdecken",
+              "link": "/gear/drone-omega_154",
+              "variant": "primary"
+            }
           }
         ]
       }
     },
     {
-      "name": "UiMediaCard",
+      "name": "UiImageText",
       "options": {
-        "text": "<div class='flex flex-col mt-5 sm:mt-20 mt-0 sm:p-0 p-5 text-center sm:text-left'><span class='text-xl font-bold mb-2'>Experience the Future of Sound</span><h2 class='text-2xl font-rubik_outline sms-headline-2 mb-4'>Redefine Your Listening Experience</h2><p class='sms-copytext text-white md:typography-text-lg mb-6 padding-right-desktop'>Our latest collection of headphones is designed to deliver unparalleled audio precision, with deep bass, clear highs, and an immersive experience for every genre of music. Combining sleek design, comfort, and cutting-edge technology, these headphones are made for those who refuse to compromise on sound quality.</p><ul class='list-disc list-inside text-white sms-copytext '><li>Premium, studio-quality sound</li><li>Comfortable fit for extended listening</li><li>Long-lasting battery life</li><li>Seamless wireless connectivity</li></ul></div>",
-        "image": "/images/straw-h-blue.png",
-        "alt": "Headphones",
-        "alignment": "left"
+        "text": {
+          "htmlDescription": "Willkommen in unserem Shop, in dem Technikbegeisterte und Modeliebhaber gleichermaßen fündig werden! Von Premium-Kopfhörern und Hochleistungsdrohnen bis hin zu stylischer Kleidung bieten wir alles, was Ihr Leben smarter und Ihren Style einzigartig macht. Unsere Mission ist es, Ihnen eine sorgfältig zusammengestellte Auswahl an Produkten zu bieten, die Qualität, Innovation und Design vereinen. Egal, ob Sie einen neuen Lautsprecher für perfekten Sound oder einen lässigen Hoodie suchen, um Ihren Look zu vervollständigen – bei uns sind Sie an der richtigen Adresse.",
+          "title": "Entdecken Sie Technik und Stil",
+          "subtitle": "Innovative Technologie trifft moderne Mode",
+          "pretitle": "Willkommen in Ihrem neuen Lieblingsshop",
+          "textAlignment": "right"
+        },
+        "button": {
+          "label": "Get Started",
+          "link": "",
+          "variant": "primary"
+        },
+        "image": {
+          "desktop": "/images/straw-h-blue.png",
+          "tablet": "/images/straw-h-blue.png",
+          "mobile": "/images/straw-h-blue.png",
+          "alt": "Headphones",
+          "imageAlignment": "left"
+        }
+      }
+    },
+    {
+      "name": "UiTextCard",
+      "options": {
+        "text": {
+          "htmlDescription": "Willkommen in unserem Shop, wo Technikbegeisterte und Fashion-Liebhaber gleichermaßen fündig werden! Von hochwertigen Kopfhörern und leistungsstarken Drohnen bis hin zu stilvoller Kleidung findest du bei uns alles, was deinen Alltag smarter und deinen Look einzigartig macht.\n\nUnser Ziel ist es, dir eine erstklassige Auswahl an Produkten zu bieten, die Qualität, Innovation und Design vereinen. Ob du nach einem neuen Lautsprecher für den perfekten Sound suchst oder nach einem lässigen Hoodie, der deinem Stil entspricht – wir haben, was du brauchst.",
+          "pretitle": "Willkommen in deinem neuen Lieblingsshop",
+          "title": "Entdecke Technik & Style",
+          "subtitle": "Innovative Technik trifft auf moderne Mode",
+          "textAlignment": "center"
+        },
+        "button": {
+          "buttonText": "Jetzt zuschlagen",
+          "link": "",
+          "variant": "primary"
+        }
       }
     },
     {
       "name": "ProductRecommendedProducts",
-      "options": { "headline": "Entdecken Sie unsere Modekollektion", "categoryId": "49" }
+      "options": {
+        "text": {
+          "pretitle": "Mehr als nur Technik",
+          "title": "Entdecken Sie unsere Modekollektion",
+          "subtitle": "Sportive Mode und Accessories für alle.",
+          "htmlDescription": "<a class='underline' href='https://plentyshop.plentymarkets.com/wear' target='_self'>Zu unserer kompletten Kollektion.</a>"
+        },
+        "categoryId": "49"
+      }
     },
     {
       "name": "NewsletterSubscribe",
       "options": {
-        "email": "E-Mail",
-        "firstName": "Vorname",
-        "heading": "Abonnieren Sie unseren Newsletter",
-        "info": "Informieren Sie sich über bevorstehende Aktionen und Veranstaltungen. Erhalten Sie Geschenke und Sonderangebote!",
-        "lastName": "Nachname",
-        "policy": "Ich bestätige hiermit, dass ich die {privacyPolicy} gelesen habe. Ich kann meine Einwilligung jederzeit widerrufen.",
-        "subscribe": "Newsletter abonnieren",
-        "success": "Vielen Dank für Ihre Anmeldung! Bitte prüfen Sie Ihr E-Mail-Postfach und klicken Sie auf den Bestätigungslink in unserer Nachricht, um den Newsletter zu abonnieren."
+        "text": {
+          "bgColor": "#1e1e1e",
+          "title": "Abonnieren Sie unseren Newsletter",
+          "htmlDescription": "Informieren Sie sich über bevorstehende Aktionen und Veranstaltungen. Erhalten Sie Geschenke und Sonderangebote!"
+        },
+        "input": {
+          "displayNameInput": false,
+          "nameIsRequired": false
+        },
+        "button": {
+          "label": "Newsletter abonnieren"
+        }
       }
     }
   ],

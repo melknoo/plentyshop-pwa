@@ -10,16 +10,16 @@
       :aria-label="t('prevAriaLabel')"
       :disabled="pagination.selectedPage <= 1 || disabled"
       variant="tertiary"
-      class="gap-3 sms-button--primary"
-      @click="previousPage"
+      class="gap-3"
       data-testid="pagination-previous"
+      @click="previousPage"
     >
       <template #prefix>
         <SfIconChevronLeft />
       </template>
       <span class="hidden sm:inline-flex">{{ t('prev') }}</span>
     </UiButton>
-    <ul class="flex justify-center sms-pagination--ul">
+    <ul class="flex justify-center">
       <li v-if="!pagination.pages.includes(1)">
         <div
           :class="[
@@ -62,8 +62,8 @@
             ]"
             :aria-current="pagination.endPage - 1 === pagination.selectedPage"
             :aria-label="getAriaLabel(pagination.endPage - 1 === pagination.selectedPage, pagination.endPage - 1)"
-            @click="setPage(pagination.endPage - 1)"
             :disabled="disabled"
+            @click="setPage(pagination.endPage - 1)"
           >
             {{ pagination.endPage - 1 }}
           </button>
@@ -84,7 +84,7 @@
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
               {
-                'active:sms-pagination--active !text-neutral-900 hover:!text-primary-800 active:!text-primary-700': pagination.selectedPage === page,
+                '!text-neutral-900 hover:!text-primary-800 active:!text-primary-700': pagination.selectedPage === page,
               },
             ]"
             :aria-current="pagination.selectedPage === page"
@@ -107,8 +107,8 @@
               },
             ]"
             :aria-label="t('goToPage', { page: 2 })"
-            @click="setPage(2)"
             :disabled="disabled"
+            @click="setPage(2)"
           >
             2
           </button>
@@ -138,8 +138,8 @@
             ]"
             :aria-current="pagination.totalPages === pagination.selectedPage"
             :aria-label="getAriaLabel(pagination.totalPages === pagination.selectedPage, pagination.selectedPage)"
-            @click="setPage(pagination.totalPages)"
             :disabled="disabled"
+            @click="setPage(pagination.totalPages)"
           >
             {{ pagination.totalPages }}
           </button>
@@ -151,9 +151,9 @@
       :aria-label="t('nextAriaLabel')"
       :disabled="pagination.selectedPage >= pagination.totalPages || disabled"
       variant="tertiary"
-      class="gap-3 sms-button--primary"
-      @click="nextPage"
+      class="gap-3"
       data-testid="pagination-next"
+      @click="nextPage"
     >
       <span class="hidden sm:inline-flex">{{ t('next') }}</span>
       <template #suffix>

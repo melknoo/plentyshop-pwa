@@ -8,10 +8,10 @@
 
     <div class="px-4">
       <SfSelect
+        id="perPage"
         class="text-white"
         v-model="selected"
         :aria-label="$t('perPage')"
-        id="perPage"
         @change="updateItemsPerPage(Number(selected))"
       >
         <option class="sms-category_sidebar--option" v-for="{ value, label, disabled } in options" :key="value" :value="value" :disabled="disabled">
