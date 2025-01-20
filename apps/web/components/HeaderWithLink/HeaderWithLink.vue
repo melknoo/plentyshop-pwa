@@ -1,13 +1,13 @@
 <template>
   <div class="flex justify-between mt-8 mb-10 px-4 md:px-0">
-    <h1 class="font-bold typography-headline-3 md:typography-headline-2">{{ heading }}</h1>
-    <UiButton @click="goToPath" class="flex md:hidden whitespace-nowrap" size="sm" variant="tertiary">
+    <h1 class="font-bold text-white typography-headline-3 md:typography-headline-2">{{ heading }}</h1>
+    <UiButton @click="goToPath" class="bg-pink neon-hover hover:text-white sms-hover--bgpink flex md:hidden whitespace-nowrap" size="sm" variant="tertiary">
       <template #prefix>
         <SfIconArrowBack />
       </template>
       {{ labelMobile }}
     </UiButton>
-    <UiButton @click="goToPath" class="hidden md:flex" variant="tertiary">
+    <UiButton @click="goToPath" class="hidden md:flex bg-pink neon-hover hover:text-white sms-hover--bgpink" variant="tertiary">
       <template #prefix>
         <SfIconArrowBack />
       </template>

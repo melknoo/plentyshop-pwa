@@ -18,7 +18,7 @@
       data-testid="account-orders-content"
     >
       <h3 class="typography-headline-3 font-bold mt-6 mb-4">{{ t('account.ordersAndReturns.noOrders') }}</h3>
-      <UiButton :tag="NuxtLink" :to="localePath(paths.category)" variant="secondary" class="!ring-neutral-200">
+      <UiButton :tag="NuxtLink" :to="localePath(paths.category)" variant="secondary" class=" sms-button--primary">
         {{ t('account.ordersAndReturns.continue') }}
       </UiButton>
     </div>

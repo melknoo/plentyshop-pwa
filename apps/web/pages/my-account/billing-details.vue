@@ -7,7 +7,7 @@
     {{ $t('account.accountSettings.section.billingDetails') }}
   </h2>
   <AddressesList
-    class="col-span-3"
+    class="col-span-3 text-white"
     :type="AddressType.Billing"
     :add-address-text="$t('account.accountSettings.billingDetails.newAddress')"
     :edit-address-text="$t('account.accountSettings.billingDetails.billingAddress')"

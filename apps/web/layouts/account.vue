@@ -3,7 +3,7 @@
     <NarrowContainer :class="['mb-20 md:px-0', { 'px-4': !isRoot }]" data-testid="account-layout">
       <h1
         v-if="viewport.isGreaterOrEquals('md') || (viewport.isLessThan('md') && isRoot)"
-        class="mt-4 mb-10 md:my-10 mx-4 md:mx-0 font-bold typography-headline-3 md:typography-headline-2"
+        class="mt-4 text-white mb-10 md:my-10 mx-4 md:mx-0 font-bold typography-headline-3 md:typography-headline-2"
         data-testid="account-layout-heading"
       >
         {{ t('account.heading') }}
@@ -26,7 +26,7 @@
         </UiButton>
       </div>
 
-      <div class="md:flex gap-10" data-testid="account-page-sidebar">
+      <div class="md:flex gap-10 sms-account--sidebar" data-testid="account-page-sidebar">
         <div
           :class="[
             'border-t md:border border-neutral-200 pt-4 pb-4 md:p-4 md:rounded-md min-w-[300px] md:block',
@@ -38,7 +38,7 @@
             v-for="({ title, icon, subsections }, secIndex) in sections"
             :key="`section-${secIndex}`"
           >
-            <SfListItem class="py-4 md:py-2 hover:!bg-transparent font-medium !cursor-auto select-none">
+            <SfListItem class="py-4 md:py-2 hover:!bg-transparent text-white font-medium !cursor-auto select-none">
               <template #prefix><Component :is="icon" /></template>
               {{ title }}
             </SfListItem>
@@ -48,9 +48,9 @@
                 :tag="NuxtLink"
                 :to="localePath(link)"
                 :class="[
-                  'first-of-type:py-4 md:first-of-type:px-4 md:first-of-type:py-2 rounded-md active:bg-primary-100 !text-neutral-900',
+                  'first-of-type:py-4 !text-white md:first-of-type:px-4 md:first-of-type:py-2 rounded-md sms-',
                   {
-                    'font-medium bg-primary-100': router.currentRoute.value.path === localePath(link),
+                    'font-medium bg-pink': router.currentRoute.value.path === localePath(link),
                   },
                 ]"
               >
@@ -64,7 +64,7 @@
           <ul>
             <SfListItem
               @click="logOut"
-              class="py-4 md:py-2 mt-4 rounded-md active:bg-primary-100 !text-neutral-900"
+              class="py-4 !text-white md:py-2 mt-4 rounded-md active:bg-pink"
               data-testid="account-logout-button"
             >
               <template #prefix><SfIconBase /></template>
@@ -75,7 +75,7 @@
 
         <div class="flex-1">
           <section
-            class="grid grid-cols-1 2xs:grid-cols-2 gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 mb-10 md:mb-5"
+            class="grid text-white grid-cols-1 2xs:grid-cols-2 gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 mb-10 md:mb-5"
             data-testid="category-grid"
           >
             <NuxtPage />

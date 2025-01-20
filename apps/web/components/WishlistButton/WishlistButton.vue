@@ -8,7 +8,7 @@
         : t('addProductToWishlist', { label: productName })
     "
     :class="{ 'p-[0.5rem]': !isCloseButton }"
-    class="m-2"
+    class="m-2 bg-pink neon-hover hover:text-white sms-hover--bgpink"
     :disabled="wishlistLoading"
     @click="onWishlistClick"
     data-testid="wishlist-trigger"
