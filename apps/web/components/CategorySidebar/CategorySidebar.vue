@@ -12,10 +12,10 @@
       :model-value="true"
       :disable-click-away="true"
       :disable-esc="true"
-      class="w-full shadow-none md:translate-x-0 z-[100] md:z-0 md:static md:!block -translate-x-full shrink-0 md:w-[303px] bg-white overflow-y-auto"
+      class="w-full shadow-none md:translate-x-0 z-[100] md:z-0 md:static md:!block -translate-x-full shrink-0 md:w-[303px] bg-black overflow-y-auto"
       data-testid="category-sidebar"
     >
-      <div class="grid grid-rows-category-sidebar h-full md:block">
+      <div class="grid sms-category_sidebar--wrapper grid-rows-category-sidebar h-full md:block">
         <div class="p-4 flex justify-between items-center md:hidden">
           <span class="font-bold text-lg">{{ $t('listSettings') }}</span>
           <UiButton variant="tertiary" @click="$emit('close')" :aria-label="$t('closeListSettings')">
