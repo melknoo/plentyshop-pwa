@@ -7,16 +7,48 @@ $color-2-grey-100: rgb(30, 30, 30);
 $small_screen: 400px;
 $medium_screen: 900px;
 
-p, span {
+span {
     color: inherit;
 }
 
-[data-testid="quantity-selector"] input, [data-testid="product-accordion"], [data-testid="accordion-item"] {
+.typography-headline-3, p {
     color: white;
 }
 
-[data-testid="product-attributes"] option {
-    color:black;
+[data-testid="quantity-selector"] input, [data-testid="product-accordion"], [data-testid="accordion-item"], [data-testid="category-layout"] .typography-headline-3{
+    color: white;
+}
+
+[data-testid="product-attributes"] option,[data-testid="login-modal"] input, [data-testid="review-form"] span > input {
+    color:black !important;
+}
+
+[data-testid="review-form"] > div > form div:last-of-type {
+    button:first-child {
+        color: black;;
+        &:hover {
+            background-color: $primary_pink;
+        }
+    }
+}
+
+[data-testid="couponZone"] .flex.justify-between.font-medium.p-3.my-4.bg-gray-100.rounded-md {
+    p {
+        color:black;
+    }
+}
+[data-testid="checkout-button"], [data-testid="couponAdd"], [data-testid="contact-form"] button {
+    transition: 0.3s 0s;
+    background-color: $primary_pink !important;
+    &:hover { 
+        box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+    }
+}
+
+[data-testid="contact-form"] button{
+    &:hover {
+        color: white !important;
+    }
 }
 
 [data-testid="purchase-card"] {
