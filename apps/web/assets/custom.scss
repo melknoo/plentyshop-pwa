@@ -86,6 +86,19 @@ button {
     }
 }
 
+.blaze-next {
+    right: 0 !important;
+}
+
+.blaze-prev {
+    left: 0 !important;
+}
+
+.blaze-slide > div {
+    width: 50%;
+    margin-left: 17%;
+}
+
 .typography-display-3 {
     font-weight: normal;
     font-family: 'Rubik Outline';
