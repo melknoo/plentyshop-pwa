@@ -11,6 +11,19 @@ p, span {
     color: inherit;
 }
 
+[data-testid="quantity-selector"] input, [data-testid="product-accordion"], [data-testid="accordion-item"] {
+    color: white;
+}
+
+[data-testid="purchase-card"] {
+    button {
+        background-color: $primary_pink;
+        &:hover {
+            box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+        }
+    }
+}
+
 header ul.bg-white a:hover, header ul.bg-white button:hover {
     background-color: $primary_pink;
     color: white;
