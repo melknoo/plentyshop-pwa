@@ -11,7 +11,12 @@ p, span {
     color: inherit;
 }
 
-.text-pink, nav > a, nav > button, nav > div > button {
+header ul.bg-white a:hover, header ul.bg-white button:hover {
+    background-color: $primary_pink;
+    color: white;
+}
+
+.text-pink, header nav > a, header nav > button, header nav > div > button {
     &:hover {
         box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
         background-color: $primary_pink;
@@ -99,6 +104,10 @@ button {
     margin-left: 17%;
 }
 
+.blaze-slide > div > div {
+    opacity: 1 !important;
+}
+
 .typography-display-3 {
     font-weight: normal;
     font-family: 'Rubik Outline';
@@ -116,6 +125,10 @@ button {
 
 .text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs {
     color: white;
+}
+
+.bg-white .text-xl, .bg-white .text-2xl, .bg-white .text-lg,.bg-white .text-base,.bg-white .typography-headline-4,.bg-white .typography-text-sm,.bg-white .text-sm,.bg-white .typography-text-xs {
+    color: black;
 }
 
 .sms {
