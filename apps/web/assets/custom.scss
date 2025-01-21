@@ -123,11 +123,14 @@ button {
     text-shadow: 0 0 5px rgba(255, 0, 155, 0.8), 0 0 15px rgba(255, 0, 155, 0.8), 0 0 20px rgba(255, 0, 155, 0.8);
 }
 
-.text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs {
-    color: white;
+main {
+    .text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs {
+        color: white;
+    }
 }
 
-.bg-white .text-xl, .bg-white .text-2xl, .bg-white .text-lg,.bg-white .text-base,.bg-white .typography-headline-4,.bg-white .typography-text-sm,.bg-white .text-sm,.bg-white .typography-text-xs {
+
+.bg-white .text-xl, .bg-white .text-2xl, .bg-white .text-lg,.bg-white .typography-headline-4,.bg-white .typography-text-sm,.bg-white .text-sm,.bg-white .typography-text-xs {
     color: black;
 }
 
