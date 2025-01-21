@@ -15,6 +15,10 @@ p, span {
     color: white;
 }
 
+[data-testid="product-attributes"] option {
+    color:black;
+}
+
 [data-testid="purchase-card"] {
     button {
         background-color: $primary_pink;
@@ -137,7 +141,7 @@ button {
 }
 
 main {
-    .text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs {
+    .text-xl, .text-2xl, .text-lg, .text-base, .typography-headline-4, .typography-text-sm, .text-sm, .typography-text-xs, .typography-headline-6 {
         color: white;
     }
 }
