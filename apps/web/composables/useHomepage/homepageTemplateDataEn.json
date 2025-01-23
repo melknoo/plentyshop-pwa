@@ -10,11 +10,11 @@
             },
 
             "image": {
-              "desktop": "/images/straw/straw-colours-pink.png",
+              "desktop": "./images/lg/straw-colours-pink.png",
               "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-768.avif",
               "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-320.avif",
               "alt": "",
-              "brightness": 0.5
+              "brightness": 1
             },
             "text": {
               "color": "#000",
