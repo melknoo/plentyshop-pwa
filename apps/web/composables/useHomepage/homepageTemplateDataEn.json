@@ -10,7 +10,7 @@
             },
 
             "image": {
-              "desktop": "/lg/straw-colours-pink.png",
+              "desktop": "/images/straw-colours-pink.png",
               "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-768.avif",
               "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-320.avif",
               "alt": "",
