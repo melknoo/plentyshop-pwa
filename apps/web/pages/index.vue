@@ -1,4 +1,5 @@
 <template>
+  <HnHero></HnHero>
   <div>
     <EmptyBlock v-if="dataIsEmpty" @add-new-block="addNewBlock(0, 1)" />
     <Editor
@@ -31,6 +32,7 @@
 <script lang="ts" setup>
 import homepageTemplateDataEn from '../composables/useHomepage/homepageTemplateDataEn.json';
 import homepageTemplateDataDe from '../composables/useHomepage/homepageTemplateDataDe.json';
+import HnHero from '~/components/HnHero/HnHero.vue';
 
 const {
   currentBlock,
