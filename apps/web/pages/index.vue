@@ -1,5 +1,6 @@
 <template>
   <HnHero></HnHero>
+  <HnTextImage></HnTextImage>
   <div>
     <EmptyBlock v-if="dataIsEmpty" @add-new-block="addNewBlock(0, 1)" />
     <Editor
@@ -93,9 +94,7 @@ const getComponent = (name: string) => {
   if (name === 'UiTextCard') return resolveComponent('UiTextCard');
   if (name === 'UiImageText') return resolveComponent('UiImageText');
   if (name === 'ProductRecommendedProducts') return resolveComponent('ProductRecommendedProducts');
-  if (name === 'UiCarousel') {
-    return isHero.value ? resolveComponent('UiHeroCarousel') : resolveComponent('UiBlazeCarousel');
-  }
+ 
 };
 
 onMounted(() => {
