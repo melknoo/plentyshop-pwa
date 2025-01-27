@@ -3,8 +3,8 @@
         <div class="sms-hero--row">
             <img class="sms-hero--image" src="https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/SMS-Logo-onBlackGlow.svg">
         </div>
-        <div class="sms-hero--row">
-            <button class="sms-button--primary mx-auto sms-d--block">zum shop</button>
+        <div class="sms-hero--row text-center">
+            <a class="sms-button--primary mx-auto" href="">zum shop</a>
         </div>
         <div class="sms-hero--row">
             <div class="sms-hero--textwrapper">
@@ -21,6 +21,13 @@
                     Alternative zu Plastik</h2>
                 </div>
             </div>
+        </div>
+        <div class="sms-hero--row sms-hero--bottomspacer">
+            <div class="sms-seperator"></div>
+        </div>
+        <div class="sms-hero--row">
+            <div class="sms-hero--straw sms-asset--straw-1"></div>
+            <div class="sms-hero--straw sms-asset--straw-2"></div>
         </div>
     </div>
 </template>
