@@ -5,10 +5,19 @@
 ### New
 
 - Added site configuration drawer.
+- Added blocks drawer.
+- Added multiselect component that allows searching through the options.
+- Added preview functionality for blocks sizes.
+- If there are unsaved changes in the editor and the user tries to close or reload the page, the browser will now display a warning and ask for confirmation.
 
 ### 👷 Changed
 
 - Changed footer background for automatic coloring.
+- Changed editor save button disable logic to account for changes in the settings.
+
+### 🩹 Fixed
+
+- Fixed a hydration error when fetching recommended products on the homepage.
 
 ## v1.9.0 (2025-01-23) <a href="https://github.com/plentymarkets/plentyshop-pwa/compare/v1.8.0...v1.9.0" target="_blank" rel="noopener"><b>Overview of all changes</b></a>
 

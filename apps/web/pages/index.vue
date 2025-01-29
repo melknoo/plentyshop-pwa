@@ -51,15 +51,24 @@ const {
   updateBlock,
 } = useBlockManager();
 
+const runtimeConfig = useRuntimeConfig();
+const isHero = ref(runtimeConfig.public.isHero);
+const showBlockList = ref(runtimeConfig.public.showBlocksNavigation);
+
 const { data, initialBlocks, fetchPageTemplate, dataIsEmpty } = useHomepage();
 const { $i18n } = useNuxtApp();
 const { isEditing, isEditingEnabled, disableActions } = useEditor();
 
+const { settingsIsDirty, openDrawerWithView } = useSiteConfiguration();
 const defaultAddBlock = (lang: string) => {
   return lang === 'en' ? homepageTemplateDataEn.blocks[1] : homepageTemplateDataDe.blocks[1];
 };
 
 const addNewBlock = (index: number, position: number) => {
+  if (showBlockList.value) {
+    openDrawerWithView('blocks');
+  }
+
   const insertIndex = position === -1 ? index : index + 1;
   const updatedBlocks = [...data.value.blocks];
 
@@ -86,9 +95,6 @@ const changeBlockPosition = (index: number, position: number) => {
 
 const isLastBlock = (index: number) => index === data.value.blocks.length - 1;
 
-const runtimeConfig = useRuntimeConfig();
-const isHero = ref(runtimeConfig.public.isHero);
-
 const getComponent = (name: string) => {
   if (name === 'NewsletterSubscribe') return resolveComponent('NewsletterSubscribe');
   if (name === 'UiTextCard') return resolveComponent('UiTextCard');
@@ -99,7 +105,21 @@ const getComponent = (name: string) => {
 
 onMounted(() => {
   isEditingEnabled.value = false;
+  window.addEventListener('beforeunload', handleBeforeUnload);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload);
+});
+
+const hasUnsavedChanges = () => {
+  return !isEditingEnabled.value && !settingsIsDirty.value;
+};
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (hasUnsavedChanges()) return;
+  event.preventDefault();
+};
 
 fetchPageTemplate();
 </script>
