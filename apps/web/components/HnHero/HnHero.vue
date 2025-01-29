@@ -4,7 +4,7 @@
             <img class="sms-hero--image" src="https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/SMS-Logo-onBlackGlow.svg">
         </div>
         <div class="sms-hero--row text-center">
-            <a class="sms-button--primary mx-auto" href="">zum shop</a>
+            <!-- <a class="sms-button--primary mx-auto" href="">zum shop</a> -->
         </div>
         <div class="sms-hero--row">
             <div class="sms-hero--textwrapper">
