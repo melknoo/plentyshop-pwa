@@ -361,10 +361,6 @@ main {
     }
 
     &-centerimage {
-        &--wrapper {
-            padding-top: 200px;
-        }
-
         &--textwrapper {
             width: 100%;
             text-align: center;
@@ -510,6 +506,9 @@ main {
     &-pt {
         &--4 {
             padding-top: 5rem;
+        }
+        &--200{ 
+            padding-top: 200px;
         }
     }
 

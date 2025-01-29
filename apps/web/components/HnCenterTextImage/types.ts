@@ -1,5 +1,6 @@
 export type HnCenterTextImageProps = {
     text?: {
+      wrapper_class?: string;
       headline?: string;
       copytext?: string;
       fact1?: string;

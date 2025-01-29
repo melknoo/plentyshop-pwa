@@ -1,5 +1,5 @@
 <template>
-    <div class="sms-centerimage--wrapper">
+    <div :class="text?.wrapper_class" class="sms-centerimage--wrapper">
         <div class="sms-textimage--row relative">
             <div class="sms-centerimage--textwrapper">
                 <h2 class="sms-centerimage--headline typography-display-3 uppercase">{{ text?.headline }}</h2>
