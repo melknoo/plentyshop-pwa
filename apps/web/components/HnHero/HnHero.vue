@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="sms-hero--row sms-hero--bottomspacer">
-            <div class="sms-seperator"></div>
+            
         </div>
         <div class="sms-hero--row">
             <div class="sms-hero--straw sms-asset--straw-1"></div>

@@ -419,14 +419,14 @@ main {
     &-asset {
         &--straw {
             &-1 {
-                right: 800px;
+                right: 400px;
                 height: 50vh;
                 bottom: -20px;
                 transform: rotate(15deg);
             }
 
             &-2 {
-                right: 650px;
+                right: 270px;
                 bottom: -20px;
                 transform: rotate(15deg);
             }
@@ -630,6 +630,9 @@ main {
             @media screen and (max-width: $small_screen) {
                 bottom: 10px;
             }
+        }
+        &--hero {
+            top: -30px;
         }
     }
 

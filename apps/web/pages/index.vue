@@ -36,6 +36,7 @@ import homepageTemplateDataDe from '../composables/useHomepage/homepageTemplateD
 import HnHero  from '~/components/HnHero/HnHero.vue';
 import HnTextImage from '~/components/HnTextImage/HnTextImage.vue';
 import HnCenterTextImage from '~/components/HnCenterTextImage/HnCenterTextImage.vue';
+import HnSeperator from '~/components/HnSeperator/HnSeperator.vue';
 
 
 const {
@@ -101,6 +102,7 @@ const getComponent = (name: string) => {
   if (name === 'HnHero') return HnHero;
   if (name === 'HnTextImage') return HnTextImage;
   if (name === 'HnCenterTextImage') return HnCenterTextImage;
+  if (name === 'HnSeperator') return HnSeperator;
 };
 
 onMounted(() => {
