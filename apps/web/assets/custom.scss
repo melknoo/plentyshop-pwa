@@ -711,6 +711,7 @@ main {
         &--wrapper {
             overflow: hidden;
             position: relative;
+            display: none;
         }
 
         &--content {
