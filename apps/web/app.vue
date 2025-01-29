@@ -7,7 +7,7 @@
       :style="`font-family: ${config.font}`"
     />
 
-    <div class="w-100 bg-white sms-body" :class="{ 'lg:w-3/4': drawerOpen }">
+    <div class="w-100 sms-body" :class="{ 'lg:w-3/4': drawerOpen }">
       <Body class="font-body sms-body bg-editor-body-bg" :class="bodyClass" :style="currentFont" />
       <UiNotifications />
       <VitePwaManifest v-if="$pwa?.isPWAInstalled" />
