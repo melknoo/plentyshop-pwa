@@ -11,6 +11,7 @@
 
 ### New
 
+- Added ability to change primary and secondary colors from Site Configuration Drawer.
 - Added site configuration drawer.
 - Added blocks drawer.
 - Added multiselect component that allows searching through the options.
@@ -25,6 +26,7 @@
 ### 🩹 Fixed
 
 - Fixed a hydration error when fetching recommended products on the homepage.
+- Removed the `nuxt-security` module for now due to issues with PayPal.
 
 ## v1.9.0 (2025-01-23) <a href="https://github.com/plentymarkets/plentyshop-pwa/compare/v1.8.0...v1.9.0" target="_blank" rel="noopener"><b>Overview of all changes</b></a>
 

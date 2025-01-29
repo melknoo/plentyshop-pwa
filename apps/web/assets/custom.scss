@@ -58,6 +58,11 @@ p {
     }
 }
 
+[data-testid="footer"] {
+    position: sticky;
+    z-index: 1;
+}
+
 [data-testid="contact-form"] button {
     &:hover {
         color: white !important;
