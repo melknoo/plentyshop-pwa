@@ -1,5 +1,5 @@
 <template>
-    <div :class="['sms-seperator', custom_class]"></div>
+    <div :class="['sms-seperator', custom_class]" :style="{ backgroundColor: color }"></div>
 </template>
 
 <script lang="ts">
@@ -12,6 +12,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: ''
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '#1E1E1E'
     }
   }
 });

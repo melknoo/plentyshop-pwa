@@ -28,8 +28,8 @@
                     </div>
                 </div>
             </div>
-            <div class="sms-asset--straw-3 sms-textimage--straw"></div>
-            <div class="sms-asset--straw-4 sms-textimage--straw"></div>
+            <div class="sms-asset--straw-3 sms-textimage--straw" :style="{ backgroundImage: `url(${images?.img1_src})` }"></div>
+            <div class="sms-asset--straw-4 sms-textimage--straw" :style="{ backgroundImage: `url(${images?.img2_src})` }"></div>
         </div>
     </div>
 </template>

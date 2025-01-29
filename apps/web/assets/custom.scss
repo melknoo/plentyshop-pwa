@@ -424,6 +424,36 @@ main {
             line-height: 42px;
             font-weight: 800;
         }
+        &--bluewrapper::before {
+            content: "";
+            display: block;
+            width: calc(80%);
+            height: calc(100% + 80px);
+            border: 20px solid #0032a0;
+            position: absolute;
+            box-sizing: border-box;
+            top: -40px;
+            left: 10%;
+        }
+        &--absolute_images {
+            img {
+                position: absolute;
+            }
+        }
+        &--image1 {
+            height: 40px;
+            transform: rotate(-70deg);
+            bottom: 10px;
+            z-index: 1;
+            left: -50px;
+        }
+        &--image2 {
+            bottom: 160px;
+            z-index: 1;
+            left: -90px;
+            height: 40px;
+            transform: rotate(-70deg);
+        }
     }
 
 
@@ -522,6 +552,9 @@ main {
         &--4 {
             padding-top: 5rem;
         }
+        &--7 {
+            padding-top: 7rem;
+        }
         &--200{ 
             padding-top: 200px;
         }
@@ -539,6 +572,12 @@ main {
         }
         &--35 {
             margin-bottom: 35px;
+        }
+    }
+
+    &-my {
+        &--200 {
+            margin: 200px 0;
         }
     }
 
@@ -686,7 +725,7 @@ main {
         position: absolute;
         height: 45px;
         width: 100%;
-        left: -5px;
+        left: 0px;
 
         &--pink {
             background-color: $primary_pink;
@@ -701,6 +740,10 @@ main {
         }
         &--textimage_1 {
             bottom: 5px;
+        }
+        &--footer {
+            bottom: -22px;
+            transform: rotate(-0.9deg);
         }
     }
 
