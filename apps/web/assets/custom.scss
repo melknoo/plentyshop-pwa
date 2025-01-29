@@ -241,6 +241,9 @@ main {
     }
 
     &-hero {
+        &--wrapper {
+            padding-top: 100px;
+        }
         &--row {
             position: relative;
         }

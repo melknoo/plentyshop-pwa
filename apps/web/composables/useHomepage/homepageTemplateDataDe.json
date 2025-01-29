@@ -86,6 +86,21 @@
       }
     },
     {
+      "name": "HnHero",
+      "options": {
+        "content": {
+          "text1": "Der härteste Papierstrohhalm",
+          "text2": "Hält länger als dein Drink",
+          "text3": "Umweltfreundliche Alternative zu Plastik"
+        },
+        "button": {
+          "label": "Jetzt zuschlagen",  
+          "link": "",
+          "variant": "primary"
+        }
+      }
+    },
+    {
       "name": "UiTextCard",
       "options": {
         "text": {
