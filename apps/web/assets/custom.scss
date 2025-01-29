@@ -299,7 +299,7 @@ main {
     &-textimage {
         &--wrapper {
             margin: auto;
-            padding-top: 200px;
+            padding-top: 100px;
         }
 
         &--textwrapper {
@@ -314,6 +314,7 @@ main {
 
         &--headline {
             font-size: 80px;
+            max-width: 60%;
             line-height: 90px;
         }
 
@@ -361,7 +362,7 @@ main {
 
     &-centerimage {
         &--wrapper {
-            padding-bottom: 200px;
+            padding-top: 200px;
         }
 
         &--textwrapper {
@@ -372,6 +373,8 @@ main {
         &--headline {
             font-size: 60px;
             line-height: 66px;
+            max-width: 50%;
+            margin: auto;
         }
 
         &--inner {
@@ -386,7 +389,7 @@ main {
         }
         &--strawimage {
             top: 30px;
-            left: -11%;
+            left: -55%;
             position: absolute;
         }
         &--iconcontainer {
@@ -433,13 +436,13 @@ main {
 
             &-3 {
                 top: 300px;
-                left: 38%;
+                left: 33%;
                 background: url("https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink-pointed.png");
             }
 
             &-4 {
                 top: 10px;
-                left: 43%;
+                left: 40%;
                 background: url("https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink.png");
             }
         }

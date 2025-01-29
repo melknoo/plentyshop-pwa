@@ -1,9 +1,8 @@
 <template>
     <div class="sms-centerimage--wrapper">
-        <div class="sms-textimage--row relative overflow-hidden">
+        <div class="sms-textimage--row relative">
             <div class="sms-centerimage--textwrapper">
-                <h2 class="sms-centerimage--headline typography-display-3 uppercase">Es kommt eben doch<br> aufs
-                    aussehen an.</h2>
+                <h2 class="sms-centerimage--headline typography-display-3 uppercase">{{ text?.headline }}</h2>
                 <div class="sms-centerimage--strawwrapper">
                     <img class="sms-centerimage--strawimage" src="https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-blue.png">
                 </div>
@@ -25,8 +24,27 @@
                 </div>
             </div>
         </div>
-        <div class="sms-textimage--row relative">
-            <div class="sms-seperator sms-textimage--seperator"></div>
-        </div>
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { HnCenterTextImageProps } from './types';
+
+export default defineComponent({
+    name: 'HnCenterTextImage',
+    props: {
+        text: {
+            type: Object as () => HnCenterTextImageProps['text'],
+            required: false,
+            default: () => ({})
+        },
+        images: {
+            type: Object as () => HnCenterTextImageProps['imgages'],
+            required: false,
+            default: () => ({})
+        }
+    }
+});
+
+</script>
