@@ -80,6 +80,10 @@ header ul.bg-white button:hover {
     color: white;
 }
 
+.text-grey {
+    color: $color_2_footer_nav_headline;
+}
+
 .text-pink,
 header nav>a,
 header nav>button,
@@ -414,6 +418,14 @@ main {
             max-width: 260px;
         }
     }
+    &-cta {
+        &--headline {
+            font-size: 36px;
+            line-height: 42px;
+            font-weight: 800;
+        }
+    }
+
 
     &-asset {
         &--straw {
@@ -450,6 +462,9 @@ main {
         }
     }
     &-w {
+        &--50 {
+            width: 50%;
+        }
         &--75 {
             width: 75%;
         }
@@ -516,10 +531,26 @@ main {
         &--2 {
             margin-bottom: 2.25rem;
         }
-
         &--5 {
             margin-bottom: 7rem;
         }
+        &--30 {
+            margin-bottom: 30px;
+        }
+        &--35 {
+            margin-bottom: 35px;
+        }
+    }
+
+    &--shadowgradient::after {
+        display: block;
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background: linear-gradient(to left, rgba(0, 0, 0, 0) 60%, black 90%);
     }
 
     &-copytext {
@@ -541,6 +572,34 @@ main {
             padding: 5px 15px 6px 15px;
             text-align: center;
             line-height: normal;
+            text-transform: uppercase;
+            border-radius: 42px;
+            position: relative;
+            transition: 0.3s 0s;
+
+            &>a {
+                background-color: $primary_pink;
+            }
+
+            &:hover {
+                color: $color-button-hover;
+                background-color: $primary_pink;
+                box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+            }
+
+            svg {
+                vertical-align: bottom;
+            }
+        }
+        &--outline {
+            border: 1px solid #ff009b;
+            background-color: transparent;
+            color: #ff009b;
+            display: inline-block;
+            color: #FFFFFF;
+            font-weight: 300;
+            padding: 5px 15px 6px 15px;
+            text-align: center;
             text-transform: uppercase;
             border-radius: 42px;
             position: relative;

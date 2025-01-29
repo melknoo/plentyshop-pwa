@@ -100,6 +100,29 @@
       }
     },
     {
+      "name": "HnCta",
+      "options": {
+        "text": {
+          "wrapper_class": "sms-pt--4",
+          "headline": "Nachhaltigkeit",
+          "headline_class": "sms-w--50 text-white uppercase",
+          "subline": "Für die Umwelt",
+          "subline_class": "sms-w--50 text-grey uppercase sms-mb--30",
+          "copytext": "Nachhaltig hergestellt und voll kompostierbar. Unsere Papierstrohhalme haben die Umwelt im Blick und die Zukunft vor Augen. Eines unserer Mottos lautet daher auch: „Suck with conscience.“",
+          "copytext_class": "sms-w--50 sms-mb--35"
+        },
+        "button": {
+          "label": "Mehr erfahren",
+          "link": "",
+          "class": "primary"
+        },
+        "images": {
+          "img1_wrapper_class": "sms-w--50 sms--shadowgradient",
+          "img1_src": "https://suckmystraw.com/wp-content/uploads/2020/12/Schildkröte.png"
+        }
+      }
+    },
+    {
       "name": "NewsletterSubscribe",
       "options": {
         "text": {
