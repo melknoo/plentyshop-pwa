@@ -52,6 +52,7 @@
       "name": "HnCenterTextImage",
       "options": {
         "text": {
+          "wrapper_class": "sms-pt--200",
           "headline": "Es kommt eben doch aufs aussehen an.",
           "copytext": "Wähle jetzt aus 3000 Farben und unterschiedlichen Dicken und Längen deine individuellen Strohhalme aus. Unsere Favorite Suckers gibt’s natürlich auch in Neon, Metallic und Pastell. Auf Wunsch bekommst du zudem individualisierte Trinkhalme mit eigenem Logo auf jedem Halm und / oder auf der Verpackung. Zeitnah und schnell bis vor die Haustür.",
           "fact1": "Eigenes Logo",
@@ -80,6 +81,7 @@
       "name": "HnCenterTextImage",
       "options": {
         "text": {
+          "wrapper_class": "sms-pt--4",
           "headline": "Was für ein Stecher. Was für ein Rohr.",
           "copytext": "Wenn Strohhalme durch Oberflächen stechen sollen, brauchen Sie eine harte Spitze. SuckMyStraw Papierstrohhalme gibt es deswegen aus einem Guss und mit beachtlicher Penetrationsfähigkeit. Modelle aus Plastik können nun nicht mehr anders, als den Schwanz einzuziehen und den Profistechern das Feld zu überlassen. "
         },
@@ -88,6 +90,35 @@
           "img1_class": "",
           "img2_src": "",
           "img2_class": ""
+        }
+      }
+    },
+    {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
+      "name": "HnCta",
+      "options": {
+        "text": {
+          "wrapper_class": "sms-pt--4",
+          "headline": "Nachhaltigkeit",
+          "headline_class": "sms-w--50 text-white uppercase",
+          "subline": "Für die Umwelt",
+          "subline_class": "sms-w--50 text-grey uppercase sms-mb--30",
+          "copytext": "Nachhaltig hergestellt und voll kompostierbar. Unsere Papierstrohhalme haben die Umwelt im Blick und die Zukunft vor Augen. Eines unserer Mottos lautet daher auch: „Suck with conscience.“",
+          "copytext_class": "sms-w--50 sms-mb--35"
+        },
+        "button": {
+          "label": "Mehr erfahren",
+          "link": "",
+          "class": "primary"
+        },
+        "images": {
+          "img1_wrapper_class": "sms-w--50 sms--shadowgradient",
+          "img1_src": "https://suckmystraw.com/wp-content/uploads/2020/12/Schildkröte.png"
         }
       }
     },
@@ -110,6 +141,6 @@
     }
   ],
   "meta": {
-    "isDefault": null
+    "isDefault": true
   }
 }
