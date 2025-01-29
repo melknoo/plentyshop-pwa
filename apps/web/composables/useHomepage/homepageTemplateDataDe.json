@@ -1,146 +1,94 @@
 {
   "blocks": [
     {
-      "name": "UiCarousel",
+      "name": "HnHero",
       "options": {
-        "bannerItems": [
-          {
-            "controls": {
-              "color": "#fff"
-            },
-            "image": {
-              "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-pink.png",
-              "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-768.avif",
-              "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-320.avif",
-              "alt": "",
-              "brightness": 0.5
-            },
-            "text": {
-              "color": "#000",
-              "bgcolor": "#fff",
-              "bgopacity": 0.9,
-              "pretitle": "Kristalklare Klänge Genießen",
-              "title": "Ihr Sound",
-              "subtitle": "Auf höchstem Niveau",
-              "htmlDescription": "Unsere hochmodernen Kopfhörer: Entwickelt für das ultimative Hörerlebnis genügen sie auch den höchsten Ansprüchen. Entdecken Sie die perfekte Mischung aus Stil, Komfort und Klangqualität, die Ihren Musikgenuss auf ein völlig neues Niveau hebt.",
-              "textAlignment": "left",
-              "justify": "top",
-              "align": "start"
-            },
-            "button": {
-              "label": "Capybara entdecken",
-              "link": "/gear/headphones-capybara_157",
-              "variant": "primary"
-            }
-          },
-          {
-            "image": {
-              "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-blue.png",
-              "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-768.avif",
-              "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-320.avif",
-              "alt": "",
-              "brightness": 0.75
-            },
-            "text": {
-              "color": "#000",
-              "bgcolor": "#fff",
-              "bgopacity": 1,
-              "pretitle": "Die Zukunft der Luftbildfotografie",
-              "title": "Drone Omega",
-              "htmlDescription": "Omega ist eine leichte Drohne, die für atemberaubende Luftaufnahmen entwickelt wurde. Mit einer hochauflösenden Kamera auf einem 3-Achsen-Gimbal und einer Flugzeit von bis zu 45 Minuten sorgt sie für stabile, flüssige Videos. GPS-unterstützter Schwebeflug, Hindernisvermeidung und einfache Transportfähigkeit machen die Drone zum perfekten Begleiter für Ihre Aufnahmen.",
-              "textAlignment": "left",
-              "justify": "top",
-              "align": "start"
-            },
-            "button": {
-              "label": "Omega entdecken",
-              "link": "/gear/drone-omega_154",
-              "variant": "primary"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "UiImageText",
-      "options": {
-        "text": {
-          "htmlDescription": "Willkommen in unserem Shop, in dem Technikbegeisterte und Modeliebhaber gleichermaßen fündig werden! Von Premium-Kopfhörern und Hochleistungsdrohnen bis hin zu stylischer Kleidung bieten wir alles, was Ihr Leben smarter und Ihren Style einzigartig macht. Unsere Mission ist es, Ihnen eine sorgfältig zusammengestellte Auswahl an Produkten zu bieten, die Qualität, Innovation und Design vereinen. Egal, ob Sie einen neuen Lautsprecher für perfekten Sound oder einen lässigen Hoodie suchen, um Ihren Look zu vervollständigen – bei uns sind Sie an der richtigen Adresse.",
-          "title": "Entdecken Sie Technik und Stil",
-          "subtitle": "Innovative Technologie trifft moderne Mode",
-          "pretitle": "Willkommen in Ihrem neuen Lieblingsshop",
-          "textAlignment": "right"
+        "content": {
+          "text1": "Der härteste Papierstrohhalm",
+          "text2": "Hält länger als dein Drink",
+          "text3": "Umweltfreundliche Alternative zu Plastik"
         },
         "button": {
-          "label": "Get Started",
-          "link": "",
-          "variant": "primary"
-        },
-        "image": {
-          "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-blue.png",
-          "tablet": "/images/straw-h-blue.png",
-          "mobile": "/images/straw-h-blue.png",
-          "alt": "Headphones",
-          "imageAlignment": "left"
-        }
-      }
-    },
-    {
-      "name": "UiTextCard",
-      "options": {
-        "text": {
-          "htmlDescription": "<p>Willkommen in unserem Shop, wo Technikbegeisterte und Fashion-Liebhaber gleichermaßen fündig werden! Von hochwertigen Kopfhörern und leistungsstarken Drohnen bis hin zu stilvoller Kleidung finden Sie bei uns alles, was Ihren Alltag smarter und Ihren Look einzigartig macht.</p><p>Unser Ziel ist es, Ihnen eine erstklassige Auswahl an Produkten zu bieten, die Qualität, Innovation und Design vereinen. Ob Sie nach einem neuen Lautsprecher für den perfekten Sound suchen oder nach einem lässigen Hoodie, der Ihrem Stil entspricht – wir haben, was Sie brauchen.</p>",
-          "pretitle": "Willkommen in Ihrem neuen Lieblingsshop",
-          "title": "Entdecke Technik & Style",
-          "subtitle": "Innovative Technik trifft auf moderne Mode",
-          "textAlignment": "center"
-        },
-        "button": {
-          "buttonText": "Jetzt zuschlagen",
+          "label": "Jetzt zuschlagen",  
           "link": "",
           "variant": "primary"
         }
       }
     },
     {
-      "name": "ProductRecommendedProducts",
+      "name": "HnSeperator",
       "options": {
-        "categoryId": "73"
+        "custom_class": "sms-seperator--hero"
       }
     },
     {
-      "name": "UiImageText",
+      "name": "HnTextImage",
       "options": {
         "text": {
-          "htmlDescription": "<p>Unsere Kopfhörer-Kollektion setzt neue Maßstäbe in Sachen Audio-Präzision. Mit tiefem Bass, klaren Höhen und einem eindrucksvollen Klangbild bieten diese Kopfhörer ein einzigartiges Hörerlebnis für jedes Musikgenre. Mit einer Kombination aus modernem Design, höchstem Komfort und neuester Technologie sind sie die perfekte Wahl für alle, die keine Kompromisse bei der Klangqualität eingehen möchten.</p><ul class='list-disc pl-4 mt-4 space-y-1'><li>Premium-Sound in Studioqualität</li><li>Elegant und formschön</li><li>Lange Akkulaufzeit</li><li>Kabellose Verbindung via Bluetooth</li></ul>",
-          "title": "Entdecken Sie Technik und Stil",
-          "subtitle": "Innovative Technologie trifft moderne Fashion",
-          "textAlignment": "left"
+          "headline": "Sehr sehr stabiler strohhalm",
+          "copytext": "Macht definitiv nicht schlapp, egal wie feucht es wird. Zwei Jahre Forschung und Training haben unsere Papierstrohhalme ausgesprochen belastbar gemacht. Lebensmitteltauglich und komplett frei von bedenklichen Farben und Klebern, stehen sie in jedem Getränk wie eine verführerische Eins und freuen sich auf jede Suck-Action.",
+          "fact1": "Standfest bis zum Ende",
+          "fact1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/strong.svg",
+          "fact2": "-10 C° bis 100 C°",
+          "fact2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/temperature.svg",
+          "fact3": "Färbt nicht ab",
+          "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
         },
-        "button": {
-          "label": "Zu unseren Kopfhörern",
-          "link": "/technik/headphones-capybara_157",
-          "variant": "primary"
-        },
-        "image": {
-          "desktop": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/headphones-mediacard.avif",
-          "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/headphones-mediacard.avif",
-          "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/headphones-mediacard.avif",
-          "alt": "Headphones",
-          "imageAlignment": "left"
+        "images": {
+          "img1_src": "",
+          "img1_class": "",
+          "img2_src": "",
+          "img2_class": ""
         }
       }
     },
     {
-      "name": "ProductRecommendedProducts",
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
+      "name": "HnCenterTextImage",
       "options": {
         "text": {
-          "pretitle": "Mehr als nur Technik",
-          "title": "Entdecken Sie unsere Modekollektion",
-          "subtitle": "Sportive Mode und Accessories für alle.",
-          "htmlDescription": "<a class='underline' href='https://plentyshop.plentymarkets.com/wear' target='_self'>Zu unserer kompletten Kollektion.</a>"
+          "headline": "Es kommt eben doch aufs aussehen an.",
+          "copytext": "Wähle jetzt aus 3000 Farben und unterschiedlichen Dicken und Längen deine individuellen Strohhalme aus. Unsere Favorite Suckers gibt’s natürlich auch in Neon, Metallic und Pastell. Auf Wunsch bekommst du zudem individualisierte Trinkhalme mit eigenem Logo auf jedem Halm und / oder auf der Verpackung. Zeitnah und schnell bis vor die Haustür.",
+          "fact1": "Eigenes Logo",
+          "fact1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/magic.svg",
+          "fact2": "Passt genau zu deinen Vorstellungen",
+          "fact2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/dimensions.svg",
+          "fact2_class": "sms-w--75",
+          "fact3": "Färbt nicht ab",
+          "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
         },
-        "categoryId": "49"
+        "images": {
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-blue.png",
+          "img1_class": "",
+          "img2_src": "https://suckmystraw.com/wp-content/uploads/2020/12/nice@4x.png",
+          "img2_class": ""
+        }
+      }
+    },
+    {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
+      "name": "HnCenterTextImage",
+      "options": {
+        "text": {
+          "headline": "Was für ein Stecher. Was für ein Rohr.",
+          "copytext": "Wenn Strohhalme durch Oberflächen stechen sollen, brauchen Sie eine harte Spitze. SuckMyStraw Papierstrohhalme gibt es deswegen aus einem Guss und mit beachtlicher Penetrationsfähigkeit. Modelle aus Plastik können nun nicht mehr anders, als den Schwanz einzuziehen und den Profistechern das Feld zu überlassen. "
+        },
+        "images": {
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-pink-pointed.png",
+          "img1_class": "",
+          "img2_src": "",
+          "img2_class": ""
+        }
       }
     },
     {

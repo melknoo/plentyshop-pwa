@@ -1,7 +1,4 @@
 <template>
-  <HnHero></HnHero>
-  <HnTextImage></HnTextImage>
-  <HnCenterTextImage></HnCenterTextImage>
   <div>
     <EmptyBlock v-if="dataIsEmpty" @add-new-block="addNewBlock(0, 1)" />
     <Editor
@@ -36,6 +33,11 @@
 <script lang="ts" setup>
 import homepageTemplateDataEn from '../composables/useHomepage/homepageTemplateDataEn.json';
 import homepageTemplateDataDe from '../composables/useHomepage/homepageTemplateDataDe.json';
+import HnHero  from '~/components/HnHero/HnHero.vue';
+import HnTextImage from '~/components/HnTextImage/HnTextImage.vue';
+import HnCenterTextImage from '~/components/HnCenterTextImage/HnCenterTextImage.vue';
+import HnSeperator from '~/components/HnSeperator/HnSeperator.vue';
+
 
 const {
   currentBlock,
@@ -97,7 +99,10 @@ const isLastBlock = (index: number) => index === data.value.blocks.length - 1;
 
 const getComponent = (name: string) => {
   if (name === 'NewsletterSubscribe') return resolveComponent('NewsletterSubscribe');
- 
+  if (name === 'HnHero') return HnHero;
+  if (name === 'HnTextImage') return HnTextImage;
+  if (name === 'HnCenterTextImage') return HnCenterTextImage;
+  if (name === 'HnSeperator') return HnSeperator;
 };
 
 onMounted(() => {

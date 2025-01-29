@@ -241,6 +241,9 @@ main {
     }
 
     &-hero {
+        &--wrapper {
+            padding-top: 100px;
+        }
         &--row {
             position: relative;
         }
@@ -296,7 +299,7 @@ main {
     &-textimage {
         &--wrapper {
             margin: auto;
-            padding: 200px 0;
+            padding-top: 100px;
         }
 
         &--textwrapper {
@@ -311,6 +314,7 @@ main {
 
         &--headline {
             font-size: 80px;
+            max-width: 60%;
             line-height: 90px;
         }
 
@@ -358,7 +362,7 @@ main {
 
     &-centerimage {
         &--wrapper {
-            padding-bottom: 200px;
+            padding-top: 200px;
         }
 
         &--textwrapper {
@@ -369,6 +373,8 @@ main {
         &--headline {
             font-size: 60px;
             line-height: 66px;
+            max-width: 50%;
+            margin: auto;
         }
 
         &--inner {
@@ -383,7 +389,7 @@ main {
         }
         &--strawimage {
             top: 30px;
-            left: -11%;
+            left: -55%;
             position: absolute;
         }
         &--iconcontainer {
@@ -416,27 +422,27 @@ main {
     &-asset {
         &--straw {
             &-1 {
-                right: 800px;
+                right: 400px;
                 height: 50vh;
                 bottom: -20px;
                 transform: rotate(15deg);
             }
 
             &-2 {
-                right: 650px;
+                right: 270px;
                 bottom: -20px;
                 transform: rotate(15deg);
             }
 
             &-3 {
                 top: 300px;
-                left: 38%;
+                left: 33%;
                 background: url("https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink-pointed.png");
             }
 
             &-4 {
                 top: 10px;
-                left: 43%;
+                left: 40%;
                 background: url("https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink.png");
             }
         }
@@ -447,7 +453,11 @@ main {
             display: block !important;
         }
     }
-
+    &-w {
+        &--75 {
+            width: 75%;
+        }
+    }
     &-no_shadow {
         box-shadow: none;
     }
@@ -627,6 +637,12 @@ main {
             @media screen and (max-width: $small_screen) {
                 bottom: 10px;
             }
+        }
+        &--hero {
+            top: -30px;
+        }
+        &--textimage_1 {
+            bottom: 5px;
         }
     }
 

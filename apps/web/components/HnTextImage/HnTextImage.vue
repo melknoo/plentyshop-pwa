@@ -2,30 +2,56 @@
     <div class="sms-textimage--wrapper">
         <div class="sms-textimage--row relative overflow-hidden">
             <div class="sms-textimage--textwrapper">
-                <h2 class="sms-textimage--headline typography-display-3 uppercase">Sehr <br> sehr <br> stabiler <br> strohhalm</h2>
+                <h2 class="sms-textimage--headline typography-display-3 uppercase">{{ text?.headline }}</h2>
                 <div class="sms-textimage--inner">
-                    <p class="sms-textimage--copytext sms-copytext sms-mb--2">Macht definitiv nicht schlapp, egal wie feucht es wird.<br>
-    
-                    Zwei Jahre Forschung und Training haben unsere Papierstrohhalme ausgesprochen belastbar gemacht. Lebensmitteltauglich und komplett frei von bedenklichen Farben und Klebern, stehen sie in jedem Getränk wie eine verführerische Eins und freuen sich auf jede Suck-Action.</p>
-                <div class="sms-textimage--iconcontainer my-5">
-                    <div class="sms-textimage--iconcontainer-icon--1 sms-textimage--iconcontainer-icon"></div>
-                    <p class="sms-copytext sms-pl--4">Standfest bis zum Ende</p>
-                </div>
-                <div class="sms-textimage--iconcontainer my-5">
-                    <div class="sms-textimage--iconcontainer-icon--2 sms-textimage--iconcontainer-icon"></div>
-                    <p class="sms-copytext sms-pl--4">-10 C° bis 100 C°</p>
-                </div>
-                <div class="sms-textimage--iconcontainer my-5">
-                    <div class="sms-textimage--iconcontainer-icon--3 sms-textimage--iconcontainer-icon"></div>
-                    <p class="sms-copytext sms-pl--4">Färbt nicht ab</p>
-                </div>
+                    <p class="sms-textimage--copytext sms-copytext sms-mb--2">{{ text?.copytext }}</p>
+                    <div class="sms-textimage--iconcontainer my-5">
+                        <div 
+                            class="sms-textimage--iconcontainer-icon--1 sms-textimage--iconcontainer-icon" 
+                            :style="{ backgroundImage: `url(${text?.fact1_src})` }">
+                        </div>
+                        <p class="sms-copytext sms-pl--4">{{ text?.fact1 }}</p>
+                    </div>
+                    <div class="sms-textimage--iconcontainer my-5">
+                        <div
+                            class="sms-textimage--iconcontainer-icon--2 sms-textimage--iconcontainer-icon"
+                            :style="{ backgroundImage: `url(${text?.fact2_src})` }">
+                        </div>
+                        <p class="sms-copytext sms-pl--4">{{ text?.fact2 }}</p>
+                    </div>
+                    <div class="sms-textimage--iconcontainer my-5">
+                        <div 
+                            class="sms-textimage--iconcontainer-icon--3 sms-textimage--iconcontainer-icon"
+                            :style="{ backgroundImage: `url(${text?.fact3_src})` }">
+                        </div>
+                        <p class="sms-copytext sms-pl--4">{{ text?.fact3 }}</p>
+                    </div>
                 </div>
             </div>
             <div class="sms-asset--straw-3 sms-textimage--straw"></div>
             <div class="sms-asset--straw-4 sms-textimage--straw"></div>
         </div>
-        <div class="sms-textimage--row relative">
-            <div class="sms-seperator sms-textimage--seperator"></div>
-        </div>
     </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { HnTextImageProps } from './type';
+
+export default defineComponent({
+    name: 'HnTextImage',
+    props: {
+        text: {
+            type: Object as () => HnTextImageProps['text'],
+            required: false,
+            default: () => ({})
+        },
+        images: {
+            type: Object as () => HnTextImageProps['imgages'],
+            required: false,
+            default: () => ({})
+        }
+    }
+});
+
+</script>
