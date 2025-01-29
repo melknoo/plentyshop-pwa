@@ -299,7 +299,7 @@ main {
     &-textimage {
         &--wrapper {
             margin: auto;
-            padding: 200px 0;
+            padding-top: 200px;
         }
 
         &--textwrapper {
@@ -633,6 +633,9 @@ main {
         }
         &--hero {
             top: -30px;
+        }
+        &--textimage_1 {
+            bottom: 0;
         }
     }
 
