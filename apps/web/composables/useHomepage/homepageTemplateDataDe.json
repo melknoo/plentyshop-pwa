@@ -35,9 +35,9 @@
           "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
         },
         "images": {
-          "img1_src": "",
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink-pointed.png",
           "img1_class": "",
-          "img2_src": "",
+          "img2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink.png",
           "img2_class": ""
         }
       }
@@ -138,9 +138,42 @@
           "label": "Newsletter abonnieren"
         }
       }
+    },
+    {
+      "name": "HnCta",
+      "options": {
+        "text": {
+          "wrapper_class": "sms-pt--4 sms-cta--bluewrapper sms-my--200",
+          "headline": "Suck it professionally",
+          "headline_class": "sms-w--50 text-white uppercase",
+          "subline": "Individuelle Bestellungen mit großen Stückzahlen",
+          "subline_class": "sms-w--50 text-grey uppercase sms-mb--30",
+          "copytext": "Nutze nur die stärksten Papierstrohhalme für dein Business. Wähle jetzt einfach deine Wunschlänge, Farbe und Dicke aus und brande deine Trinkhalme mit deinem Logo. Für die Gastro sind SuckMyStraw Strohhalme aus Papier eine ideale Alternative zu Trinkhalmen aus Plastik, die ab Juli 2021 verboten sind. Aber auch für alle anderen Unternehmen und Betriebe sind unsere standfesten Trinkröhrchen perfekt für Gäste und Firmenfeiern geeignet.",
+          "copytext_class": "sms-w--50 sms-mb--35"
+        },
+        "button": {
+          "label": "Individuelle Bestellung",
+          "link": "",
+          "class": "primary"
+        },
+        "images": {
+          "img1_wrapper_class": "sms-cta--absolute_images sms-w--50",
+          "img1_class": "sms-cta--image1",
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-pink-pointed.png",
+          "img2_class": "sms-cta--image2",
+          "img2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-pink.png"
+        }
+      }
+    },
+    {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--footer",
+        "color": "#ff009b"
+      }
     }
   ],
   "meta": {
-    "isDefault": false
+    "isDefault": true
   }
 }
