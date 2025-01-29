@@ -453,7 +453,11 @@ main {
             display: block !important;
         }
     }
-
+    &-w {
+        &--75 {
+            width: 75%;
+        }
+    }
     &-no_shadow {
         box-shadow: none;
     }
@@ -638,7 +642,7 @@ main {
             top: -30px;
         }
         &--textimage_1 {
-            bottom: 0;
+            bottom: 5px;
         }
     }
 
