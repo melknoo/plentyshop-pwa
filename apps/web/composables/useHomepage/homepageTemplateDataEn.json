@@ -1,106 +1,94 @@
 {
   "blocks": [
     {
-      "name": "UiCarousel",
+      "name": "HnHero",
       "options": {
-        "bannerItems": [
-          {
-            "controls": {
-              "color": "#fff"
-            },
-
-            "image": {
-              "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-pink.png",
-              "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-768.avif",
-              "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Person/guy-320.avif",
-              "alt": "",
-              "brightness": 1
-            },
-            "text": {
-              "color": "#000",
-              "bgcolor": "#fff",
-              "bgopacity": 0.9,
-              "pretitle": "Feel the music",
-              "title": "Your Sound, Elevated",
-              "htmlDescription": "Immserse yourself in rich, crystal-clear audio with our cutting-edge headphones. Designed for the ultimate listening experience, whether you're a casual listener or an audiophile. Discover the perfect blend of style, comfort, and sound quality that elevates your music to new heights.",
-              "textAlignment": "left",
-              "justify": "top",
-              "align": "start"
-            },
-            "button": {
-              "label": "Discover Capybara",
-              "link": "/gear/headphones-capybara_157",
-              "variant": "primary"
-            }
-          },
-          {
-            "image": {
-              "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-blue.png",
-              "tablet": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-768.avif",
-              "mobile": "https://cdn02.plentymarkets.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-320.avif",
-              "alt": "",
-              "brightness": 0.75
-            },
-            "text": {
-              "color": "#000",
-              "bgcolor": "#fff",
-              "bgopacity": 1,
-              "pretitle": "The Future of Aerial Photography",
-              "title": "Drone Omega",
-              "htmlDescription": "A lightweight drone designed for stunning aerial footage. With a high-resolution camera on a 3-axis gimbal and up to 45 minutes of flight time, it's perfect for capturing smooth, stable video. Featuring GPS-assisted hover, obstacle avoidance, and easy portability, the Drone brings innovation and simplicity to your aerial shots.",
-              "textAlignment": "left",
-              "justify": "top",
-              "align": "start"
-            },
-            "button": {
-              "label": "Discover Omega",
-              "link": "/gear/drone-omega_154",
-              "variant": "primary"
-            }
-          }
-        ]
-      }
-    },
-   
-    {
-      "name": "ProductRecommendedProducts",
-      "options": {
-        "categoryId": "73"
-      }
-    },
-    {
-      "name": "UiImageText",
-      "options": {
-        "text": {
-          "htmlDescription": "<p>Our headphone collection sets new standards in audio precision. With deep bass, crystal-clear highs, and an impressive soundstage, these headphones deliver a unique listening experience for every music genre. Combining modern design, maximum comfort, and cutting-edge technology, they are the perfect choice for anyone who refuses to compromise on sound quality.</p><ul class='list-disc pl-4 mt-4 space-y-1'><li>Premium, studio-quality sound</li><li>Comfortable fit for extended listening</li><li>Long-lasting battery life</li><li>Seamless wireless connectivity</li></ul>",
-          "title": "A New Listening Experience",
-          "subtitle": "Innovative technology meets modern fashion",
-          "textAlignment": "left"
+        "content": {
+          "text1": "Der härteste Papierstrohhalm",
+          "text2": "Hält länger als dein Drink",
+          "text3": "Umweltfreundliche Alternative zu Plastik"
         },
         "button": {
-          "label": "To our headphones",
-          "link": "/gear/headphones-capybara_157",
+          "label": "Jetzt zuschlagen",  
+          "link": "",
           "variant": "primary"
-        },
-        "image": {
-          "desktop": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-blue.png",
-          "tablet": "/images/straw-h-blue.png",
-          "mobile": "/images/straw-h-blue.png",
-          "alt": "Headphones",
-          "imageAlignment": "left"
         }
       }
     },
     {
-      "name": "ProductRecommendedProducts",
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--hero"
+      }
+    },
+    {
+      "name": "HnTextImage",
       "options": {
         "text": {
-          "pretitle": "More than just technology",
-          "title": "Explore our fashion collection",
-          "subtitle": "Sportive fashion and accessoires for everybody.",
-          "htmlDescription": "<a class='underline' href='https://plentyshop.plentymarkets.com/wear' target='_self'>To our full collection.</a>"
+          "headline": "Sehr sehr stabiler strohhalm",
+          "copytext": "Macht definitiv nicht schlapp, egal wie feucht es wird. Zwei Jahre Forschung und Training haben unsere Papierstrohhalme ausgesprochen belastbar gemacht. Lebensmitteltauglich und komplett frei von bedenklichen Farben und Klebern, stehen sie in jedem Getränk wie eine verführerische Eins und freuen sich auf jede Suck-Action.",
+          "fact1": "Standfest bis zum Ende",
+          "fact1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/strong.svg",
+          "fact2": "-10 C° bis 100 C°",
+          "fact2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/temperature.svg",
+          "fact3": "Färbt nicht ab",
+          "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
         },
-        "categoryId": "49"
+        "images": {
+          "img1_src": "",
+          "img1_class": "",
+          "img2_src": "",
+          "img2_class": ""
+        }
+      }
+    },
+    {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
+      "name": "HnCenterTextImage",
+      "options": {
+        "text": {
+          "headline": "Es kommt eben doch aufs aussehen an.",
+          "copytext": "Wähle jetzt aus 3000 Farben und unterschiedlichen Dicken und Längen deine individuellen Strohhalme aus. Unsere Favorite Suckers gibt’s natürlich auch in Neon, Metallic und Pastell. Auf Wunsch bekommst du zudem individualisierte Trinkhalme mit eigenem Logo auf jedem Halm und / oder auf der Verpackung. Zeitnah und schnell bis vor die Haustür.",
+          "fact1": "Eigenes Logo",
+          "fact1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/magic.svg",
+          "fact2": "Passt genau zu deinen Vorstellungen",
+          "fact2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/dimensions.svg",
+          "fact2_class": "sms-w--75",
+          "fact3": "Färbt nicht ab",
+          "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
+        },
+        "images": {
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-blue.png",
+          "img1_class": "",
+          "img2_src": "https://suckmystraw.com/wp-content/uploads/2020/12/nice@4x.png",
+          "img2_class": ""
+        }
+      }
+    },
+    {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
+      "name": "HnCenterTextImage",
+      "options": {
+        "text": {
+          "headline": "Was für ein Stecher. Was für ein Rohr.",
+          "copytext": "Wenn Strohhalme durch Oberflächen stechen sollen, brauchen Sie eine harte Spitze. SuckMyStraw Papierstrohhalme gibt es deswegen aus einem Guss und mit beachtlicher Penetrationsfähigkeit. Modelle aus Plastik können nun nicht mehr anders, als den Schwanz einzuziehen und den Profistechern das Feld zu überlassen. "
+        },
+        "images": {
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-h-pink-pointed.png",
+          "img1_class": "",
+          "img2_src": "",
+          "img2_class": ""
+        }
       }
     },
     {
@@ -108,15 +96,15 @@
       "options": {
         "text": {
           "bgColor": "#1e1e1e",
-          "title": "Subscribe to our Newsletter",
-          "htmlDescription": "Be aware of upcoming sales and events. Receive gifts and special offers!"
+          "title": "Abonnieren Sie unseren Newsletter",
+          "htmlDescription": "Informieren Sie sich über bevorstehende Aktionen und Veranstaltungen. Erhalten Sie Geschenke und Sonderangebote!"
         },
         "input": {
           "displayNameInput": false,
           "nameIsRequired": false
         },
         "button": {
-          "label": "Subscribe To Newsletter"
+          "label": "Newsletter abonnieren"
         }
       }
     }
