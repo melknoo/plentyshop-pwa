@@ -6,15 +6,24 @@
                 <div class="sms-textimage--inner">
                     <p class="sms-textimage--copytext sms-copytext sms-mb--2">{{ text?.copytext }}</p>
                     <div class="sms-textimage--iconcontainer my-5">
-                        <div class="sms-textimage--iconcontainer-icon--1 sms-textimage--iconcontainer-icon"></div>
+                        <div 
+                            class="sms-textimage--iconcontainer-icon--1 sms-textimage--iconcontainer-icon" 
+                            :style="{ backgroundImage: `url(${text?.fact1_src})` }">
+                        </div>
                         <p class="sms-copytext sms-pl--4">{{ text?.fact1 }}</p>
                     </div>
                     <div class="sms-textimage--iconcontainer my-5">
-                        <div class="sms-textimage--iconcontainer-icon--2 sms-textimage--iconcontainer-icon"></div>
+                        <div
+                            class="sms-textimage--iconcontainer-icon--2 sms-textimage--iconcontainer-icon"
+                            :style="{ backgroundImage: `url(${text?.fact2_src})` }">
+                        </div>
                         <p class="sms-copytext sms-pl--4">{{ text?.fact2 }}</p>
                     </div>
                     <div class="sms-textimage--iconcontainer my-5">
-                        <div class="sms-textimage--iconcontainer-icon--3 sms-textimage--iconcontainer-icon"></div>
+                        <div 
+                            class="sms-textimage--iconcontainer-icon--3 sms-textimage--iconcontainer-icon"
+                            :style="{ backgroundImage: `url(${text?.fact3_src})` }">
+                        </div>
                         <p class="sms-copytext sms-pl--4">{{ text?.fact3 }}</p>
                     </div>
                 </div>
