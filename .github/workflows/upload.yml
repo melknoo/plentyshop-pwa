@@ -32,6 +32,12 @@ jobs:
         with:
           ref: ${{ inputs.tag-version || github.ref }}
 
+      - name: Load .env file
+        run: |
+          cp apps/web/.env .env
+        env:
+          STORENAME: ${{ secrets.STORENAME }}
+
       - name: Setup Node and Yarn
         uses: ./.github/actions/setup
 
@@ -41,6 +47,7 @@ jobs:
           cat <<EOT >> apps/web/.env
           API_URL=${{ vars.API_URL }}
           API_SECURITY_TOKEN=${{ secrets.API_SECURITY_TOKEN }}
+          STORENAME=${{ env.STORENAME }}
           ${{ vars.CONFIG }}
           EOT
 
