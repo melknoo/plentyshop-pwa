@@ -32,10 +32,6 @@ jobs:
         with:
           ref: ${{ inputs.tag-version || github.ref }}
 
-      - name: Load .env file
-        run: |
-          cp apps/web/.env .env
-
       - name: Setup Node and Yarn
         uses: ./.github/actions/setup
 
