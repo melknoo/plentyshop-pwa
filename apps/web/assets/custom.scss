@@ -23,6 +23,44 @@ p {
     color: white;
 }
 
+main [data-testid="contact-information-form"] button, [data-testid="contact-information-form"] input{
+    color: black;
+}
+
+[data-testid="contact-information-save-button"], [data-testid="quantity-selector"] > div > input {
+    color: white !important;
+}
+
+[data-testid="contact-information-form"] button[type="reset"] {
+    background-color: inherit !important;
+    &:hover {
+        color: black;
+    }
+}
+
+[data-testid="place-order-button"], [data-testid="checkout-address"] button, [data-testid="contact-information"] > div > button {
+    background-color: $primary_pink !important;
+    &:hover {
+        color: white;
+    }
+}
+
+[data-testid="checkout-layout"], [data-testid="checkout-address"] {
+    input {
+        color: black !important;
+    }
+    input[type="checkbox"] {
+        color: $primary_pink !important;
+    }
+}
+
+[data-testid="no-shipping-method-available"],
+[data-testid="no-payment-method-available"] {
+    & > div > p {
+        color: black;
+    }
+}
+
 [data-testid="product-attributes"] option,
 [data-testid="login-modal"] input,
 [data-testid="review-form"] span>input,
