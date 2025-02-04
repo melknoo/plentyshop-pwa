@@ -85,6 +85,15 @@ main [data-testid="contact-information-form"] button, [data-testid="contact-info
     }
 }
 
+[data-testid="drawer"] {
+    background-color: black;
+    .router-link-active {
+        background-color: $primary_pink;
+        font-weight: bold;
+    }
+}
+
+
 [data-testid="checkout-button"],
 [data-testid="couponAdd"],
 [data-testid="contact-form"] button {
@@ -260,6 +269,7 @@ main {
         color: white;
     }
 }
+
 
 
 .bg-white .text-xl,
