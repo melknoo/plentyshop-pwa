@@ -4,8 +4,8 @@ $color_2_footer_nav_headline: #555555;
 $dark_grey: #1E1E1E;
 $border-grey: #363636;
 $color-2-grey-100: rgb(30, 30, 30);
-$small_screen: 400px;
-$medium_screen: 900px;
+$small_screen: 768px;
+$medium_screen: 1024px;
 
 span {
     color: inherit;
@@ -1009,4 +1009,37 @@ main {
 .active\:sms-pagination--active {
     color: white !important;
     background-color: $primary_pink;
+}
+
+@media screen and (max-width: $small_screen) {
+    .sms {
+        &-hero {
+            &--wrapper {
+                padding: 50px 20px 0 20px;
+            }
+            &--h2 {
+                font-size: 16px;
+            }
+            &--container {
+                width: 50%;
+                margin-right: auto;
+            }
+            &--bottomspacer {
+                padding-top: 200px;
+            }
+        }
+        &-asset {
+            &--straw-1 {
+                left: 80px;
+                bottom: -55px;
+                height: 35vh;
+                transform: rotate(0);
+            }
+            &--straw-2 {
+                right: 40px;
+                bottom: -50px;
+                transform: rotate(0);
+            }
+        }
+    }
 }
