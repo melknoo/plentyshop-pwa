@@ -1032,13 +1032,40 @@ main {
             &--straw-1 {
                 left: 80px;
                 bottom: -55px;
-                height: 35vh;
+                height: 27vh;
                 transform: rotate(0);
             }
             &--straw-2 {
                 right: 40px;
+                height: 50vh;
                 bottom: -50px;
                 transform: rotate(0);
+            }
+            &--straw-3 {
+                display: none;
+            }
+            &--straw-4 {
+                left: 10%;
+                min-height: unset;
+                background-size: 100% !important;
+                top: unset;
+                height: 78%;
+                bottom: 0;
+            }
+        }
+        &-textimage {
+            &--textwrapper {
+                width: 100%;
+                padding: 0 20px;
+            }
+            &--headline {
+                max-width: 100%;
+                font-size: 50px;
+                line-height: 55px;
+            }
+            &--inner {
+                padding: 50px 0 200px 100px;
+                max-width: unset;
             }
         }
     }
