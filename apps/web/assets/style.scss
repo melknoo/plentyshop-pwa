@@ -1,7 +1,6 @@
-<<<<<<< HEAD
-@import '_variables';
-@import 'custom';
-@import '_fonts';
+@use '_variables' as *;
+@use 'custom';
+@use '_fonts';
 
 :root {
   --colors-2-primary-50: #{$color-2-primary-50};
@@ -39,8 +38,6 @@
   visibility: hidden;
 }
 
-=======
->>>>>>> upstream/main
 .scrollbar-hidden {
   -ms-overflow-style: none;
   scrollbar-width: none;
