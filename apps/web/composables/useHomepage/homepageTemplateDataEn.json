@@ -52,7 +52,7 @@
       "name": "HnCenterTextImage",
       "options": {
         "text": {
-          "wrapper_class": "sms-pt--200",
+          "wrapper_class": "sms-pt--200 sms-mobile--pt-0",
           "headline": "Es kommt eben doch aufs aussehen an.",
           "copytext": "Wähle jetzt aus 3000 Farben und unterschiedlichen Dicken und Längen deine individuellen Strohhalme aus. Unsere Favorite Suckers gibt’s natürlich auch in Neon, Metallic und Pastell. Auf Wunsch bekommst du zudem individualisierte Trinkhalme mit eigenem Logo auf jedem Halm und / oder auf der Verpackung. Zeitnah und schnell bis vor die Haustür.",
           "fact1": "Eigenes Logo",
@@ -118,6 +118,7 @@
         },
         "images": {
           "img1_wrapper_class": "sms-w--50 sms--shadowgradient",
+          "img1_class": "sms-cta--image-turtle",
           "img1_src": "https://suckmystraw.com/wp-content/uploads/2020/12/Schildkröte.png"
         }
       }

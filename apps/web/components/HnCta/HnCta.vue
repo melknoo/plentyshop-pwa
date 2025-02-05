@@ -1,11 +1,11 @@
 <template>
     <div :class="text?.wrapper_class" class="sms-cta--wrapper">
         <div class="sms-cta--row flex sms-mobile--column">
-            <div :class="images?.img1_wrapper_class" class="sms-cta--imgwrapper">
-                <img :class="images?.img1_class" class="sms-cta--image" :src="images?.img1_src">
-                <img :class="images?.img2_class" class="sms-cta--image" :src="images?.img2_src">
+            <div :class="images?.img1_wrapper_class" class="sms-cta--imgwrapper relative">
+                <div :class="images?.img1_class" class="sms-cta--image" :style="{ backgroundImage: `url(${images?.img1_src})` }"></div>
+                <div :class="images?.img2_class" class="sms-cta--image" :style="{ backgroundImage: `url(${images?.img2_src})` }"></div>
             </div>
-            <div :class="text?.copytext_class" class="sms-cta--copytextwrapper">
+            <div :class="text?.copytext_wrapperclass" class="sms-cta--copytextwrapper">
                 <h2 :class="text?.headline_class" class="sms-cta--headline">{{ text?.headline }}</h2>
                 <h2 :class="text?.subline_class" class="sms-cta--headline">{{ text?.subline }}</h2>
                 <p :class="text?.copytext_class" class="sms-cta--copytext">{{ text?.copytext }}</p>

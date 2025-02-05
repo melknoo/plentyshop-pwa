@@ -118,6 +118,7 @@
         },
         "images": {
           "img1_wrapper_class": "sms-w--50 sms-mobile--w--100 sms--shadowgradient",
+          "img1_class": "sms-cta--image-turtle",
           "img1_src": "https://suckmystraw.com/wp-content/uploads/2020/12/Schildkröte.png"
         }
       }
@@ -143,13 +144,14 @@
       "name": "HnCta",
       "options": {
         "text": {
-          "wrapper_class": "sms-pt--4 sms-cta--bluewrapper sms-my--200",
+          "wrapper_class": "sms-pt--4 sms-cta--bluewrapper sms-my--200 text-center",
           "headline": "Suck it professionally",
-          "headline_class": "sms-w--50 sms-mobile--w--100 text-white uppercase",
+          "headline_class": "sms-w--50 sms-mobile--w--100 text-white uppercase text-left",
           "subline": "Individuelle Bestellungen mit großen Stückzahlen",
-          "subline_class": "sms-w--50 sms-mobile--w--100 sms-mobile--w--100 text-grey uppercase sms-mb--30",
+          "subline_class": "sms-w--50 sms-mobile--w--100 sms-mobile--w--100 text-grey uppercase sms-mb--30 text-left",
           "copytext": "Nutze nur die stärksten Papierstrohhalme für dein Business. Wähle jetzt einfach deine Wunschlänge, Farbe und Dicke aus und brande deine Trinkhalme mit deinem Logo. Für die Gastro sind SuckMyStraw Strohhalme aus Papier eine ideale Alternative zu Trinkhalmen aus Plastik, die ab Juli 2021 verboten sind. Aber auch für alle anderen Unternehmen und Betriebe sind unsere standfesten Trinkröhrchen perfekt für Gäste und Firmenfeiern geeignet.",
-          "copytext_class": "sms-w--50 sms-mobile--w--100 sms-mb--35"
+          "copytext_class": "sms-w--50 sms-mobile--w--100  sms-mb--35 text-left",
+          "copytext_wrapperclass": "sms-w--50 sms-mobile--w--100 sms-mobile-mb--100  sms-mb--35"
         },
         "button": {
           "label": "Individuelle Bestellung",

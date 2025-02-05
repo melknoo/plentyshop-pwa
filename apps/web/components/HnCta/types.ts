@@ -7,6 +7,7 @@ export type HnCtaProps = {
       subline_class?: string;
       copytext?: string;
       copytext_class?: string;
+      copytext_wrapperclass?: string;
     };
     button?: {
         label?: string;
