@@ -4,6 +4,7 @@ $color_2_footer_nav_headline: #555555;
 $dark_grey: #1E1E1E;
 $border-grey: #363636;
 $color-2-grey-100: rgb(30, 30, 30);
+$mini_screen: 400px;
 $small_screen: 768px;
 $medium_screen: 1024px;
 
@@ -634,15 +635,18 @@ main {
         }
     }
 
-    &--shadowgradient::after {
-        display: block;
-        content: "";
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        background: linear-gradient(to left, rgba(0, 0, 0, 0) 60%, black 90%);
+    &--shadowgradient {
+        position: relative;
+        &::after {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0) 60%, black 90%);
+        }
     }
 
     &-copytext {
@@ -1066,6 +1070,56 @@ main {
             &--inner {
                 padding: 50px 0 200px 100px;
                 max-width: unset;
+            }
+        }
+        &-centerimage {
+            &--wrapper {
+                padding: 50px 40px 0 40px !important;
+            }
+            &--strawimage {
+                top: 30px;
+                left: -350%;
+                transform: translate(11%, 0);
+                position: absolute;
+                height: auto;
+                max-width: max-content;
+                width: auto;
+            }
+            &--headline {
+                max-width: 100%;
+                font-size: 44px;
+                line-height: 48px;
+                text-align: left;
+            }
+        }
+        &-cta {
+            &--wrapper {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            &--bluewrapper::before {
+                left: 0;
+                width: 100%;
+            }
+        }
+        &-mobile {
+            &--column {
+                flex-direction: column;
+            }
+            &--w {
+                &--100 {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width: $mini_screen) {
+    .sms {
+        &-centerimage {
+            &--strawimage {
+                left: -343%;
+                transform: translate(0, 0);
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div :class="text?.wrapper_class" class="sms-cta--wrapper">
-        <div class="sms-cta--row flex">
+        <div class="sms-cta--row flex sms-mobile--column">
             <div :class="images?.img1_wrapper_class" class="sms-cta--imgwrapper">
                 <img :class="images?.img1_class" class="sms-cta--image" :src="images?.img1_src">
                 <img :class="images?.img2_class" class="sms-cta--image" :src="images?.img2_src">
