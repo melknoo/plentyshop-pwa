@@ -282,7 +282,9 @@ main {
 .bg-white .typography-text-xs {
     color: black;
 }
-
+#scrollItem {
+    height: 300vh;
+}
 .sms {
     &-body {
         background: black;
@@ -557,6 +559,20 @@ main {
         }
         &--image1 {
             opacity: 1;
+        }
+        &--sticky {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            left: 50%;
+            max-width: 1456px;
+            transform: translate(-50%, 0);
+        }
+        &--bottom {
+            position: absolute;
+            top: 2200px;
+            max-width: 1456px;
         }
     }
 

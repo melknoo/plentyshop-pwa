@@ -67,6 +67,12 @@
       }
     },
     {
+      "name": "HnSeperator",
+      "options": {
+        "custom_class": "sms-seperator--textimage_1"
+      }
+    },
+    {
       "name": "HnCenterTextImage",
       "options": {
         "text": {
