@@ -1,5 +1,7 @@
 $color-button-hover: #0032a0;
 $primary_pink: #ff009b;
+$primary_blue: #0050FF;
+$primary_green: #2BD063;
 $color_2_footer_nav_headline: #555555;
 $dark_grey: #1E1E1E;
 $border-grey: #363636;
@@ -16,6 +18,8 @@ span {
 p {
     color: white;
 }
+
+
 
 [data-testid="quantity-selector"] input,
 [data-testid="product-accordion"],
@@ -297,6 +301,34 @@ main {
 
         &--grey {
             border-color: $border-grey;
+        }
+    }
+    &-color {
+        &--pink {
+            color: $primary_pink;
+        }
+        &--green {
+            color: $primary_green;
+        }
+        &--blue {
+            color: $primary_blue;
+        }
+    }
+    &-textshadow {
+        &--pink {
+            text-shadow: 0 0 5px rgba(255, 0, 155, 0.8),
+            0 0 15px rgba(255, 0, 155, 0.8),
+            0 0 20px rgba(255, 0, 155, 0.8);
+        }
+        &--blue {
+            text-shadow: 0 0 5px rgba(0, 80, 255, 0.8),
+            0 0 15px rgba(0, 80, 255, 0.8),
+            0 0 20px rgba(0, 80, 255, 0.8);
+        }
+        &--green {
+            text-shadow: 0 0 5px rgba(43, 208, 99, 0.8),
+            0 0 15px rgba(43, 208, 99, 0.8),
+            0 0 20px rgba(43, 208, 99, 0.8);
         }
     }
 
