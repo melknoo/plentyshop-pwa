@@ -19,7 +19,7 @@
         </span>
       </UiButton>
       <div v-if="!isSoftLogin" class="text-center">
-        <div class="my-5 font-bold">{{ t('auth.login.createAccount') }}</div>
+        <div class="my-5 font-bold sms-mobile--white">{{ t('auth.login.createAccount') }}</div>
         <SfLink variant="primary" class="cursor-pointer" @click="$emit('change-view')">
           {{ t('auth.login.createAccountLinkLabel') }}
         </SfLink>

@@ -11,15 +11,43 @@ window.addEventListener('scroll', function() {
     const shadowpink = "sms-textshadow--pink";
     const shadowblue = "sms-textshadow--blue";
     const shadowgreen = "sms-textshadow--green";
-    let bottomOffset = 4500;
-    let topOffset = 2200;
+    
+    let bottomOffset, topOffset, colorChangeOffset1, colorChangeOffset2;
+
+    // Check if it's a mobile view
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMini = window.matchMedia("(max-width: 375px)").matches;
+
+    if (isMobile && !isMini) {
+        // Mobile-specific scroll breakpoints
+        bottomOffset = 3600; 
+        topOffset = 1600; 
+        colorChangeOffset1 = topOffset + 300; // Pink to Blue
+        colorChangeOffset2 = colorChangeOffset1 + 600; // Blue to Green
+    } 
+    else if(isMini) {
+        // Mini Mobile-specific scroll breakpoints
+        bottomOffset = 3120;
+        topOffset = 1680;
+        colorChangeOffset1 = topOffset + 300; // Pink to Blue
+        colorChangeOffset2 = colorChangeOffset1 + 700; // Blue to Green
+    }
+    else {
+        // Default (Desktop) breakpoints
+        bottomOffset = 4500;
+        topOffset = 2200;
+        colorChangeOffset1 = topOffset + 750; // Pink to Blue
+        colorChangeOffset2 = topOffset + 1500; // Blue to Green
+    }
+
     let scrollY = window.scrollY || document.documentElement.scrollTop;
+    console.log(scrollY);
     if(scrollY > topOffset) {
         item.classList.add('sms-scroll--sticky');
         item.classList.remove('sms-scroll--bottom');
     }
     // color pink
-    if(scrollY < topOffset+750) {
+    if(scrollY < colorChangeOffset1) {
         headline.classList.add('sms-color--pink');
         headline.classList.add(shadowpink);
         headline.classList.remove('sms-color--blue');
@@ -28,7 +56,7 @@ window.addEventListener('scroll', function() {
         img2.style.opacity = 0;
     }
     // color blue
-    if(scrollY > topOffset+750) {
+    if(scrollY > colorChangeOffset1) {
         headline.classList.add('sms-color--blue');
         headline.classList.add(shadowblue);
         headline.classList.remove(shadowpink);
@@ -40,7 +68,7 @@ window.addEventListener('scroll', function() {
         img3.style.opacity = 0;
     }
     // color green
-    if(scrollY > topOffset+1500) {
+    if(scrollY > colorChangeOffset2) {
         headline.classList.add('sms-color--green');
         headline.classList.add(shadowgreen);
         headline.classList.remove(shadowblue);

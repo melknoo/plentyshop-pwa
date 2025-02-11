@@ -5,7 +5,7 @@
                 <div class="sms-scroll--textwrapper">
                     <h2 class="sms-scroll--headline typography-display-3 uppercase">{{ text?.headline }}</h2>
                     <div class="sms-scroll--container">
-                        <p class="sms-textimage--copytext sms-copytext sms-mb--2">{{ text?.copytext }}</p>
+                        <p class="sms-textimage--copytext sms-scroll--copytext sms-copytext sms-mb--2">{{ text?.copytext }}</p>
                     </div>
                     <div class="sms-scroll--sticky_container">
 

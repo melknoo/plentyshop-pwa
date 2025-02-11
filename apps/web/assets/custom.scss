@@ -28,6 +28,11 @@ p {
     color: white;
 }
 
+input[name="email"],
+input[name="password"] {
+    color: black !important;
+}
+
 main [data-testid="contact-information-form"] button, [data-testid="contact-information-form"] input{
     color: black;
 }
@@ -101,6 +106,7 @@ main [data-testid="contact-information-form"] button, [data-testid="contact-info
 
 [data-testid="checkout-button"],
 [data-testid="couponAdd"],
+[data-testid="login-submit"],
 [data-testid="contact-form"] button {
     transition: 0.3s 0s;
     background-color: $primary_pink !important;
@@ -1223,6 +1229,31 @@ main {
                 transform: scaleX(-1);
             }
         }
+        &-scroll {
+            &--textwrapper {
+                margin: 20px;
+                width: 100%;
+            }
+            &--headline {
+                font-size: 32px;
+                line-height: 38px;
+            }
+            &--container {
+                max-width: 55%;
+            }
+            &--sticky_container {
+                top: -50px;
+            }
+            &--imagecontainer {
+                height: 100vh;
+                background-size: auto 100%;
+                background-position: left center;
+                right: calc((200% - 100vw) / 2);
+            }
+            &--bottom {
+                top: 1925px;
+            }
+        }
         &-mobile {
             &--column {
                 flex-direction: column;
@@ -1242,7 +1273,13 @@ main {
                     padding-top: 0;
                 }
             }
+            &--white {
+                color: white;
+            }
         }
+    }
+    #scrollItem {
+        height: 305vh;
     }
 }
 @media screen and (max-width: $mini_screen) {
@@ -1252,5 +1289,13 @@ main {
                 transform: translate(0, 0);
             }
         }
+        &-scroll {
+            &--bottom {
+                top: 1410px;
+            }
+        }
+    }
+    #scrollItem {
+        height: 308vh;
     }
 }
