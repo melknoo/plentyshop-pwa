@@ -5066,6 +5066,7 @@ __metadata:
     prettier: "npm:^3.3.2"
     rimraf: "npm:^5.0.7"
     rollup: "npm:^3.29.4"
+    scrollmagic: "npm:^2.0.8"
     turbo: "npm:^2.4.0"
     typescript: "npm:5.6.2"
     vitest: "npm:^2.1.1"
@@ -20188,6 +20189,13 @@ __metadata:
   bin:
     sass: sass.js
   checksum: 10c0/fe5a393c0aa29eda9f83c06be9b94788b61fe8bad0616ee6e3a25d21ab504f430d40c0064fdca89b02b8e426411ae6dcd906c91f2e48c263575c3d392b6daeb1
+  languageName: node
+  linkType: hard
+
+"scrollmagic@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "scrollmagic@npm:2.0.8"
+  checksum: 10c0/bc3d08f1adf86d8e6cea8eb0516de40a378a33eea44e2d26aafc4b09a15237c517a3ac28da442954ddb5a5260e456474d0b9118dcd0c6a21dff0f447fc347f0d
   languageName: node
   linkType: hard
 
