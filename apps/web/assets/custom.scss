@@ -358,6 +358,7 @@ main {
         &--wrapper {
             margin: auto;
             padding-top: 100px;
+            overflow: hidden;
         }
 
         &--textwrapper {
@@ -522,6 +523,42 @@ main {
         }
     }
 
+    &-scroll {
+        &--wrapper {
+            height: 200vh;
+        }
+        &--headline {
+            max-width: 360px;
+        }
+        &--textwrapper {
+            width: 52%;
+            margin: 100px 0 0 400px;
+        }
+        &--container {
+            padding: 20px 0 200px 0;
+            max-width: 30%;
+        }
+        &--sticky_container {
+            position: absolute;
+            top: -90px;
+            height: calc(100vh + 50px);
+            width: 50%;
+            right: 0px;
+        }
+        &--imagecontainer {
+            position: absolute;
+            top: 0px;
+            height: 100%;
+            width: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right center;
+            opacity: 0;
+        }
+        &--image1 {
+            opacity: 1;
+        }
+    }
 
     &-asset {
         &--straw {

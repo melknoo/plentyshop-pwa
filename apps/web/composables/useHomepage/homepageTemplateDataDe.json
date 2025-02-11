@@ -49,6 +49,24 @@
       }
     },
     {
+      "name": "HnScrollElement",
+      "options": {
+        "text": {
+          "headline_class": "",
+          "headline": "Wahnsinn. diese Farbauswahl.",
+          "copytext":"Klassic. Neon. Metallic. Pastell. 3000 Farben – Wir haben sie alle. Wähle jetzt deinen nächsten Farbhöhepunkt aus und lass dir deine Trinkhalme in genau dieser Farbe liefern. Sexy gestreift oder mit eigenem Style und Design."
+        },
+        "images": {
+          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-pink.png",
+          "img1_class": "sms-scroll--image1",
+          "img2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-blue.png",
+          "img2_class": "sms-scroll--image2",
+          "img3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-colours-green.png",
+          "img3_class": "sms-scroll--image3"
+        }
+      }
+    },
+    {
       "name": "HnCenterTextImage",
       "options": {
         "text": {
