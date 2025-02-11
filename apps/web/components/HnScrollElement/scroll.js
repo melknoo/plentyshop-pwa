@@ -41,7 +41,6 @@ window.addEventListener('scroll', function() {
     }
 
     let scrollY = window.scrollY || document.documentElement.scrollTop;
-    console.log(scrollY);
     if(scrollY > topOffset) {
         item.classList.add('sms-scroll--sticky');
         item.classList.remove('sms-scroll--bottom');
