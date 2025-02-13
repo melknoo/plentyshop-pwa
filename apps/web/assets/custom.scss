@@ -27,6 +27,15 @@ p {
 [data-testid="category-layout"] .typography-headline-3 {
     color: white;
 }
+[data-testid="quick-checkout-cart-button"] {
+    color: $primary_pink;
+    background-color: white;
+    --tw-ring-color: #ff009b;
+    &:hover {
+        color: white !important;
+        background-color: $primary_pink !important;
+    }
+}
 
 input[name="email"],
 input[name="password"] {
