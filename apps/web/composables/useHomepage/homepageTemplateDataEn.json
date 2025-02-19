@@ -124,23 +124,6 @@
       }
     },
     {
-      "name": "NewsletterSubscribe",
-      "options": {
-        "text": {
-          "bgColor": "#1e1e1e",
-          "title": "Abonnieren Sie unseren Newsletter",
-          "htmlDescription": "Informieren Sie sich über bevorstehende Aktionen und Veranstaltungen. Erhalten Sie Geschenke und Sonderangebote!"
-        },
-        "input": {
-          "displayNameInput": true,
-          "nameIsRequired": false
-        },
-        "button": {
-          "label": "Newsletter abonnieren"
-        }
-      }
-    },
-    {
       "name": "HnCta",
       "options": {
         "text": {
