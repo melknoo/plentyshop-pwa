@@ -1400,3 +1400,13 @@ main {
         height: 308vh;
     }
 }
+
+@media screen and (max-height: 1140px) {
+    .sms {
+        &-scroll {
+            &--bottom {
+                top: 1880px;
+            }
+        }
+    }
+}
