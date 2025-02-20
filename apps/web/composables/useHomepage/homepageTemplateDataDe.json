@@ -35,9 +35,9 @@
           "fact3_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/icons/shadow/water.svg"
         },
         "images": {
-          "img1_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink-pointed.png",
+          "img1_src": "/images/straw-v-pink-pointed.png",
           "img1_class": "",
-          "img2_src": "https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/straws/straw-v-pink.png",
+          "img2_src": "/images/straw-v-pink.png",
           "img2_class": ""
         }
       }
