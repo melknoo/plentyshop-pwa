@@ -12,6 +12,8 @@ window.addEventListener('scroll', function() {
     const shadowblue = "sms-textshadow--blue";
     const shadowgreen = "sms-textshadow--green";
     const shortScreen = 1140;
+    const midScreen = 1240;
+    const bigscreen = 1440;
     
     let bottomOffset, topOffset, colorChangeOffset1, colorChangeOffset2;
 
@@ -43,8 +45,15 @@ window.addEventListener('scroll', function() {
     if(window.innerHeight<shortScreen) {
         bottomOffset = 4080;
     }
-
+    if(window.innerHeight<=midScreen) {
+        bottomOffset = 4300;
+    }
+    if(window.innerHeight<=bigscreen && window.innerHeight>midScreen) {
+        bottomOffset = 4620;
+    }
+    console.log(window.innerHeight);
     let scrollY = window.scrollY || document.documentElement.scrollTop;
+    console.log(scrollY);
     if(scrollY > topOffset) {
         item.classList.add('sms-scroll--sticky');
         item.classList.remove('sms-scroll--bottom');

@@ -126,6 +126,7 @@ main [data-testid="contact-information-form"] button,
 
 [data-testid="checkout-button"],
 [data-testid="couponAdd"],
+[data-testid="guest-checkout-button"],
 [data-testid="login-submit"],
 [data-testid="contact-form"] button {
     transition: 0.3s 0s;
@@ -1406,6 +1407,15 @@ main {
         &-scroll {
             &--bottom {
                 top: 1880px;
+            }
+        }
+    }
+}
+@media screen and (max-height: 1240px) and (min-height: 1141px) {
+    .sms {
+        &-scroll {
+            &--bottom {
+                top: 2050px;
             }
         }
     }
