@@ -6,7 +6,7 @@ $color_2_footer_nav_headline: #555555;
 $dark_grey: #1E1E1E;
 $border-grey: #363636;
 $color-2-grey-100: rgb(30, 30, 30);
-$mini_screen: 400px;
+$mini_screen: 389px;
 $small_screen: 768px;
 $medium_screen: 1024px;
 
@@ -1389,7 +1389,11 @@ main {
                 transform: translate(0, 0);
             }
         }
-
+        &-centerimage {
+            &--strawimage {
+                left: -430%;
+            }
+        }
         &-scroll {
             &--bottom {
                 top: 1410px;
@@ -1401,8 +1405,17 @@ main {
         height: 308vh;
     }
 }
+@media screen and (max-width: 390px) and (min-width: 389px){
+    .sms {
+        &-scroll {
+            &--bottom {
+                top: 1750px;
+            }
+        }
+    }
+}
 
-@media screen and (max-height: 1140px) {
+@media screen and (max-height: 1140px) and (min-height: 1000px) {
     .sms {
         &-scroll {
             &--bottom {

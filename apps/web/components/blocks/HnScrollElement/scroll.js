@@ -42,13 +42,13 @@ window.addEventListener('scroll', function() {
         colorChangeOffset2 = topOffset + 1500; // Blue to Green
     }
 
-    if(window.innerHeight<shortScreen) {
+    if(window.innerHeight<shortScreen && !isMini && !isMobile) {
         bottomOffset = 4080;
     }
-    if(window.innerHeight<=midScreen) {
+    if(window.innerHeight<=midScreen && !isMini && !isMobile) {
         bottomOffset = 4300;
     }
-    if(window.innerHeight<=bigscreen && window.innerHeight>midScreen) {
+    if(window.innerHeight<=bigscreen && window.innerHeight>midScreen && !isMini && !isMobile) {
         bottomOffset = 4620;
     }
     console.log(window.innerHeight);
