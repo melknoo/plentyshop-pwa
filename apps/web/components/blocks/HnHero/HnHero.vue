@@ -1,7 +1,7 @@
 <template>
     <div class="sms-hero--wrapper">
         <div class="sms-hero--row">
-            <img class="sms-hero--image" src="https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/SMS-Logo-onBlackGlow.svg">
+            <img class="sms-hero--image" :src="images?.hero_img">
         </div>
         <div class="sms-hero--row text-center">
             <!-- <a class="sms-button--primary mx-auto" href="">zum shop</a> -->
@@ -25,8 +25,8 @@
             
         </div>
         <div class="sms-hero--row">
-            <div class="sms-hero--straw sms-asset--straw-1"></div>
-            <div class="sms-hero--straw sms-asset--straw-2"></div>
+            <div class="sms-hero--straw sms-asset--straw-1" :style="{ backgroundImage: `url(${images?.straw_1})` }" ></div>
+            <div class="sms-hero--straw sms-asset--straw-2" :style="{ backgroundImage: `url(${images?.straw_2})` }" ></div>
         </div>
     </div>
 </template>
@@ -47,7 +47,12 @@ export default defineComponent({
       type: Object as () => HnHeroProps['button'],
       required: false,
       default: () => ({ label: '', link: '', variant: 'primary' })
-    }
+    },
+    images: {
+            type: Object as () => HnHeroProps['images'],
+            required: false,
+            default: () => ({})
+        }
   }
 });
 

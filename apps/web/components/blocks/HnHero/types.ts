@@ -9,5 +9,10 @@ export type HnHeroProps = {
       link?: string;
       variant?: 'primary' | 'secondary';
     };
+    images?: {
+      hero_img?: string,
+      straw_1?: string,
+      straw_2?: string
+    }
   };
   
