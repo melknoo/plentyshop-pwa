@@ -50,7 +50,6 @@ export default defineComponent({
         }
     },
     mounted() {
-        console.log("client?");
         import('./scroll.js').then((module) => {
 
         });

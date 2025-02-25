@@ -1,6 +1,5 @@
 import { head } from "lodash-es";
 
-console.log("eyoo");
 
 window.addEventListener('scroll', function() {
     const item = document.querySelector('.sms-scroll--wrapper');
@@ -51,9 +50,9 @@ window.addEventListener('scroll', function() {
     if(window.innerHeight<=bigscreen && window.innerHeight>midScreen && !isMini && !isMobile) {
         bottomOffset = 4620;
     }
-    console.log(window.innerHeight);
+    //console.log(window.innerHeight);
     let scrollY = window.scrollY || document.documentElement.scrollTop;
-    console.log(scrollY);
+    //console.log(scrollY);
     if(scrollY > topOffset) {
         item.classList.add('sms-scroll--sticky');
         item.classList.remove('sms-scroll--bottom');
