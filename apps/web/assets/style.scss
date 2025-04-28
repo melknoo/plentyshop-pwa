@@ -85,6 +85,13 @@ apple-pay-button {
 .swiper-button-next {
   //color: rgb(var(--colors-2-primary-500)) !important;
   color: rgb(var(--colors-neutral-600)) !important;
+  color: rgb(var(--colors-2-primary-500)) !important;
+  z-index: 0 !important;
+}
+
+.swiper-button-next {
+  color: rgb(var(--colors-2-primary-500)) !important;
+  z-index: 0 !important;
 }
 
 .font-rubik {

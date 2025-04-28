@@ -1,3 +1,5 @@
+import type { Block } from '@plentymarkets/shop-api';
+
 export type BlocksList = {
   [key: string]: {
     category: string;
@@ -7,15 +9,21 @@ export type BlocksList = {
       title: string;
       image: string;
       template: {
-        en: {
-          name: string;
-          options: Record<string, unknown>;
-        };
-        de: {
-          name: string;
-          options: Record<string, unknown>;
-        };
+        en: Block;
+        de: Block;
       };
     }[];
   };
 };
+
+export interface Category {
+  title: string;
+  blockName: string;
+  category: string;
+  variations: Variation[];
+}
+
+interface Variation {
+  image: string;
+  title: string;
+}

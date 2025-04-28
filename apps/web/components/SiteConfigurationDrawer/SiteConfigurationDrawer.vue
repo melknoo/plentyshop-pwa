@@ -6,9 +6,9 @@
     :disable-click-away="true"
     :class="[
       'bg-neutral-50',
-      'border',
+      'border-0',
       'border-gray-300',
-      'z-[150]',
+      'z-[15]',
       { 'w-1/2 lg:w-1/4': placement === 'left' || placement === 'right' },
     ]"
   >
@@ -23,7 +23,8 @@ import { SfDrawer } from '@storefront-ui/vue';
 const { drawerOpen, drawerView, placement } = useSiteConfiguration();
 
 const getDrawerView = (view: string) => {
-  if (view === 'settings') return resolveComponent('SiteSettingsView');
+  if (view === 'DesignView') return resolveComponent('DesignView');
+  if (view === 'PagesView') return resolveComponent('PagesView');
   if (view === 'blocksList') return resolveComponent('BlocksNavigation');
   if (view === 'blocksSettings') return resolveComponent('BlockEditView');
 };

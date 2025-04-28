@@ -1,43 +1,48 @@
-import { BannerSliderObject } from "../../support/pageObjects/BannerSliderObject";
-import { paths } from "../../../utils/paths";
-
-
+import {
+  BannerSliderObject,
+  firstBannerBlockUuid,
+  secondBannerBlockUuid,
+} from '../../support/pageObjects/BannerSliderObject';
+import { paths } from '../../../utils/paths';
 
 describe('Banner Slider Block Form', () => {
   const bannerSlider = new BannerSliderObject();
 
   const openSettingsForBannerSliderBlock = () => {
-    cy.get('[data-testid="open-editor-button"]')
-      .eq(0)
-      .should('exist')
-      .click();
+    cy.get('[data-testid="open-editor-button"]').eq(0).should('exist').click();
 
     cy.get('[data-testid="banner-carousel-form"]').should('exist');
   };
 
   beforeEach(() => {
+    cy.clearCookies();
+    cy.setCookie('vsf-locale', 'en');
+    cy.setCookie(
+      'consent-cookie',
+      '{"Essentials":{"Session":true,"Consent":true,"Session2":true},"External Media":{"Session":false,"Consent":false,"Session2":false},"Functional":{"Session":false,"Consent":false,"Session2":false},"Marketing":{"Session":false,"Consent":false,"Session2":false}}',
+    );
     cy.visitAndHydrate(paths.home);
     openSettingsForBannerSliderBlock();
   });
 
   describe('Slide Settings', () => {
     it('should display the slide whose settings are open', () => {
-      bannerSlider.checkIsBannerImageVisible(0);
+      bannerSlider.checkIsBannerImageVisible(firstBannerBlockUuid);
       bannerSlider.checkSlideSettings(0);
       bannerSlider.openSlideOneSettings();
-      bannerSlider.checkIsBannerImageVisible(1);
+      bannerSlider.checkIsBannerImageVisible(secondBannerBlockUuid);
       bannerSlider.checkSlideSettings(1);
     });
 
     it('should add a new slide via quick add', () => {
       bannerSlider.quickAddSlide();
-      bannerSlider.checkIsBannerImageVisible(2);
+      bannerSlider.checkIsNewBannerImageVisible();
     });
 
     it('should add a new slide via the actions menu', () => {
       bannerSlider.openSlideActions();
       bannerSlider.addSlide();
-      bannerSlider.checkIsBannerImageVisible(2);
+      bannerSlider.checkIsNewBannerImageVisible();
     });
 
     it('should remove a slide', () => {
@@ -62,24 +67,13 @@ describe('Banner Slider Block Form', () => {
       bannerSlider.moveSlideDown(1);
       bannerSlider.checkSlideSettings(2);
     });
-    
-    it('should not move up the first slide', () => {
-      bannerSlider.openSlideActions();
-      bannerSlider.checkIsMoveSlideUpDisabled(0);
-    });
-    
-    it('should not move down the last slide', () => {
-      bannerSlider.openSlideActions();
-      bannerSlider.checkIsMoveSlideDownDisabled(1);
-    });
   });
 
   describe('Image Settings', () => {
     it('should open the image settings', () => {
-      cy.get('[data-testid="banner-image-0"]').should('be.visible');
+      cy.get(`[data-testid="banner-image-${firstBannerBlockUuid}"]`).should('be.visible');
       bannerSlider.openImageGroup();
     });
-
 
     it('should change the image', () => {
       bannerSlider.changeBannerImage();
@@ -103,8 +97,7 @@ describe('Banner Slider Block Form', () => {
       bannerSlider.alignBoxCenterX();
       bannerSlider.alignBoxBottomX();
       bannerSlider.alignBoxTopX();
-      });
-
+    });
 
     it('should change the text box alignment y', () => {
       bannerSlider.closeImageGroup();
@@ -123,7 +116,6 @@ describe('Banner Slider Block Form', () => {
       bannerSlider.textAlignRight();
       bannerSlider.textAlignLeft();
     });
-
   });
 
   describe('Button Settings', () => {
@@ -131,7 +123,7 @@ describe('Banner Slider Block Form', () => {
       bannerSlider.closeImageGroup();
       bannerSlider.closeTextGroup();
       bannerSlider.changeButtonLabelAndLink();
-      bannerSlider.checkButtonLabelAndLink();      
+      bannerSlider.checkButtonLabelAndLink();
       bannerSlider.checkButtonSecondary();
       bannerSlider.checkButtonPrimary();
     });

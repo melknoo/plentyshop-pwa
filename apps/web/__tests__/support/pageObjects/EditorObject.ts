@@ -1,20 +1,22 @@
-import { PageObject } from "./PageObject";
+import { PageObject } from './PageObject';
+
+export const firstBannerBlockUuid = 'a7b3c1d9-2e6f-4a5b-8c7d-1e2f3b4c5a6d';
 
 export class EditorObject extends PageObject {
   get pretitle() {
-    return cy.getByTestId('banner-pretitle-0');
+    return cy.getByTestId(`banner-pretitle-${firstBannerBlockUuid}`);
   }
 
   get title() {
-    return cy.getByTestId('banner-title-0');
+    return cy.getByTestId(`banner-title-${firstBannerBlockUuid}`);
   }
 
   get subtitle() {
-    return cy.getByTestId('banner-subtitle-0');
+    return cy.getByTestId(`banner-subtitle-${firstBannerBlockUuid}`);
   }
 
   get description() {
-    return cy.getByTestId('banner-description-0');
+    return cy.getByTestId(`banner-description-${firstBannerBlockUuid}`);
   }
 
   get editorToolbar() {
@@ -38,7 +40,7 @@ export class EditorObject extends PageObject {
   }
 
   get exitEditorButton() {
-    return cy.get('#close')
+    return cy.get('#close');
   }
 
   get blockWrappers() {
@@ -46,23 +48,23 @@ export class EditorObject extends PageObject {
   }
 
   get topBlockButton() {
-    return cy.getByTestId('top-add-block')
+    return cy.getByTestId('top-add-block');
   }
 
   get bottomBlockButton() {
-    return cy.getByTestId('bottom-add-block')
+    return cy.getByTestId('bottom-add-block');
   }
 
   get deleteBlockButton() {
-    return cy.getByTestId('delete-block-button')
+    return cy.getByTestId('delete-block-button');
   }
 
   get topMoveBlockButton() {
-    return cy.getByTestId('move-up-button')
+    return cy.getByTestId('move-up-button');
   }
 
   get bottomMoveBlockButton() {
-    return cy.getByTestId('move-down-button')
+    return cy.getByTestId('move-down-button');
   }
 
   get recommendedProducts() {
@@ -73,20 +75,20 @@ export class EditorObject extends PageObject {
     return cy.getByTestId('editor-language-select');
   }
 
-  get addBlockButton(){
+  get addBlockButton() {
     return cy.getByTestId('block-add-image-with-text-0');
   }
 
-  get siteSettingsButton(){
-    return cy.getByTestId('open-settings-drawer');
+  get designSettingsButton() {
+    return cy.getByTestId('open-design-drawer');
   }
 
   blockIsBanner(el: JQuery<HTMLElement>) {
-    return el[0].innerHTML.includes('banner-image')
+    return el[0].innerHTML.includes('banner-image');
   }
 
   blockIsNewsletter(el: JQuery<HTMLElement>) {
-    return el[0].innerHTML.includes('newsletter-block')
+    return el[0].innerHTML.includes('newsletter-block');
   }
 
   togglePreviewMode() {
@@ -100,8 +102,8 @@ export class EditorObject extends PageObject {
     return this;
   }
 
-  toggleSiteSettings() {
-    this.siteSettingsButton.should('be.visible').click();
+  toggleDesignSettings() {
+    this.designSettingsButton.should('be.visible').click();
     return this;
   }
 
@@ -137,7 +139,7 @@ export class EditorObject extends PageObject {
       .should('exist')
       .and('be.visible')
       .invoke('attr', 'placeholder')
-      .should('not.be.empty')
+      .should('not.be.empty');
   }
 
   replaceEditorContent(content: string) {
@@ -150,7 +152,7 @@ export class EditorObject extends PageObject {
           cy.wrap($el).clear();
         }
       })
-      .type(content, {delay: 0})
+      .type(content, { delay: 0 })
       .should('have.value', content);
   }
 
@@ -163,10 +165,7 @@ export class EditorObject extends PageObject {
   }
 
   buttonsExistWithGroupClasses() {
-    this.blockWrappers.first()
-      .should('exist')
-      .and('have.class', 'group')
-      .and('not.have.css', 'outline-style', 'solid');
+    this.blockWrappers.first().should('exist').and('have.class', 'group').and('not.have.css', 'outline-style', 'solid');
     this.blockWrappers.first().within(() => {
       this.topBlockButton
         .should('exist')
@@ -181,7 +180,6 @@ export class EditorObject extends PageObject {
         .and('have.class', 'group-hover:opacity-100')
         .and('have.class', 'group-focus:opacity-100');
     });
-
   }
 
   deleteBlock() {
@@ -192,13 +190,13 @@ export class EditorObject extends PageObject {
       cy.wait(1000);
       this.blockWrappers.should('have.length', initialLength - 1);
     });
-   }
+  }
 
-   recommendedProductsExist() {
-      this.recommendedProducts.should('exist');
-   }
+  recommendedProductsExist() {
+    this.recommendedProducts.should('exist');
+  }
 
-   switchLanguage() {
+  switchLanguage() {
     cy.intercept('/plentysystems/getCart').as('getCart');
     cy.intercept('/plentysystems/getCategoryTree').as('getCategoryTree');
     cy.intercept('/plentysystems/getFacet').as('getFacet');
@@ -236,38 +234,28 @@ export class EditorObject extends PageObject {
 
   checkFirstBlock() {
     this.blockWrappers.first().within(() => {
-      this.topMoveBlockButton.first()
-        .should('exist')
-        .and('be.disabled')
-        .and('have.class', 'cursor-not-allowed');
+      this.topMoveBlockButton.first().should('exist').and('be.disabled').and('have.class', 'cursor-not-allowed');
     });
   }
 
   checkLastBlock() {
     this.blockWrappers.last().within(() => {
-      this.bottomMoveBlockButton.first()
-        .should('exist')
-        .and('be.disabled')
-        .and('have.class', 'cursor-not-allowed');
+      this.bottomMoveBlockButton.first().should('exist').and('be.disabled').and('have.class', 'cursor-not-allowed');
     });
   }
 
   assertDefaultBlockOrder() {
-    this.blockWrappers.
-      first().should('contain.text', 'Feel the music').
-      next().should('contain.text', 'Discover Tech');
+    this.blockWrappers.first().should('contain.text', 'Feel the music').next().should('contain.text', 'Discover Tech');
   }
 
   moveBlock() {
     this.blockWrappers.first().within(() => {
       this.bottomMoveBlockButton.first().should('exist').click();
-    })
+    });
   }
 
   assertChangedBlockOrder() {
-    this.blockWrappers.
-      first().should('contain.text', 'Discover Tech').
-      next().should('contain.text', 'Feel the music');
+    this.blockWrappers.first().should('contain.text', 'Discover Tech').next().should('contain.text', 'Feel the music');
   }
 
   checkWrapperSpacings() {
@@ -280,7 +268,4 @@ export class EditorObject extends PageObject {
       }
     });
   }
-  
-
 }
-

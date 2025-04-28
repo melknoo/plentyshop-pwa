@@ -1,9 +1,14 @@
 <template>
-  <ProductSlider v-if="products?.length" :items="products" />
+  <ProductSlider v-if="recommendedProducts?.length" :items="recommendedProducts" />
 </template>
 
 <script setup lang="ts">
-import type { RecommendedProductsProps } from '~/components/RecommendedProducts/types';
+import type { RecommendedProductsProps } from './types';
 
-defineProps<RecommendedProductsProps>();
+const props = defineProps<RecommendedProductsProps>();
+const { data: recommendedProducts, fetchProductRecommended } = useProductRecommended(props.categoryId + props.cacheKey);
+
+if (props.categoryId) {
+  fetchProductRecommended(props.categoryId);
+}
 </script>

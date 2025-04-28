@@ -6,9 +6,11 @@ import type {
   SetColorPalette,
   DrawerView,
   SaveSettings,
+  SettingsType,
 } from '~/composables/useSiteConfiguration/types';
 import type { TailwindPalette } from '~/utils/tailwindHelper';
 import { getPaletteFromColor } from '~/utils/tailwindHelper';
+import type { Block, CategoryTreeItem } from '@plentymarkets/shop-api';
 
 /**
  * @description Composable for managing site configuration.
@@ -22,6 +24,9 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
   const state = useState<UseSiteConfigurationState>('siteConfiguration', () => ({
     data: [],
     drawerOpen: false,
+    pageModalOpen: false,
+    settingsCategory: null,
+    settingsType: null,
     loading: false,
     placement: 'left',
     newBlockPosition: 0,
@@ -30,7 +35,7 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
     secondaryColor: useRuntimeConfig().public.secondaryColor,
     drawerView: null,
     blockType: '',
-    blockIndex: 0,
+    blockUuid: '',
     blockSize: useRuntimeConfig().public.blockSize,
     selectedFont: { caption: useRuntimeConfig().public.font, value: useRuntimeConfig().public.font },
     initialData: {
@@ -98,16 +103,14 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
     },
   );
 
-  const openDrawerWithView = (view: DrawerView, type: string = '', blockIndex: number = 0) => {
-    const { setIndex } = useHomepage();
-
-    setIndex(blockIndex, 0);
+  const openDrawerWithView = (view: DrawerView, block?: Block) => {
+    if (block) {
+      state.value.blockType = block.name;
+      state.value.blockUuid = block.meta.uuid;
+    }
 
     state.value.drawerView = view;
     state.value.drawerOpen = true;
-
-    state.value.blockType = type;
-    state.value.blockIndex = blockIndex;
 
     state.value.placement = view === 'blocksSettings' ? 'right' : 'left';
   };
@@ -134,11 +137,7 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
     );
   });
 
-  const saveSettings: SaveSettings = async () => {
-    if (!settingsIsDirty.value) {
-      return;
-    }
-
+  const saveSettings: SaveSettings = async (): Promise<boolean> => {
     state.value.loading = true;
 
     const settings = [
@@ -151,16 +150,20 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
         value: state.value.selectedFont.value,
       },
       {
-        key: 'primary',
+        key: 'primaryColor',
         value: state.value.primaryColor,
       },
       {
-        key: 'secondary',
+        key: 'secondaryColor',
         value: state.value.secondaryColor,
       },
     ];
+    const { error } = await useAsyncData(() => useSdk().plentysystems.setConfiguration({ settings }));
 
-    await useAsyncData(() => useSdk().plentysystems.setConfiguration({ settings }));
+    if (error.value) {
+      state.value.loading = false;
+      return false;
+    }
 
     state.value.initialData = {
       blockSize: state.value.blockSize,
@@ -170,6 +173,16 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
     };
 
     state.value.loading = false;
+    return true;
+  };
+
+  const togglePageModal = (value: boolean) => {
+    state.value.pageModalOpen = value;
+  };
+
+  const setSettingsCategory = (category: CategoryTreeItem | null, settingsType?: SettingsType) => {
+    state.value.settingsType = settingsType || null;
+    state.value.settingsCategory = category;
   };
 
   return {
@@ -183,5 +196,7 @@ export const useSiteConfiguration: UseSiteConfigurationReturn = () => {
     closeDrawer,
     settingsIsDirty,
     saveSettings,
+    togglePageModal,
+    setSettingsCategory,
   };
 };

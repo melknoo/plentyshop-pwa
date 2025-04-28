@@ -13,13 +13,18 @@ describe('SiteSettings', () => {
   const blockSpacingMargin = '30';
 
   beforeEach(() => {
+    cy.clearCookies();
+    cy.setCookie('vsf-locale', 'en');
+    cy.setCookie(
+      'consent-cookie',
+      '{"Essentials":{"Session":true,"Consent":true,"Session2":true},"External Media":{"Session":false,"Consent":false,"Session2":false},"Functional":{"Session":false,"Consent":false,"Session2":false},"Marketing":{"Session":false,"Consent":false,"Session2":false}}',
+    );
     cy.visitAndHydrate(paths.home);
   });
 
   it('should change the font', () => {
     editor.isToolbarVisible();
-    editor.toggleEditMode();
-    editor.toggleSiteSettings();
+    editor.toggleDesignSettings();
 
     siteSettings
       .checkDrawerVisible()
@@ -28,15 +33,14 @@ describe('SiteSettings', () => {
       .changeFont(font)
       .checkFontPreview(font)
       .checkSaveButtonEnabled()
+      .closeDrawer();
 
-    editor.toggleSiteSettings();
-    siteSettings.checkDrawerNotVisible()
+    siteSettings.checkDrawerNotVisible();
   });
 
   it('should change the theme colors', () => {
     editor.isToolbarVisible();
-    editor.toggleEditMode();
-    editor.toggleSiteSettings();
+    editor.toggleDesignSettings();
 
     siteSettings
       .checkDrawerVisible()
@@ -45,15 +49,14 @@ describe('SiteSettings', () => {
       .changeColor(primaryColor, secondaryColor)
       .checkColorPreview(primaryColor)
       .checkSaveButtonEnabled()
+      .closeDrawer();
 
-    editor.toggleSiteSettings();
-    siteSettings.checkDrawerNotVisible()
+    siteSettings.checkDrawerNotVisible();
   });
 
   it('should change the spacing', () => {
     editor.isToolbarVisible();
-    editor.toggleEditMode();
-    editor.toggleSiteSettings();
+    editor.toggleDesignSettings();
 
     siteSettings
       .checkDrawerVisible()
@@ -62,8 +65,8 @@ describe('SiteSettings', () => {
       .changeBlockSpacing(blockSpacing)
       .checkBlockSpacingPreview(blockSpacingMargin)
       .checkSaveButtonEnabled()
+      .closeDrawer();
 
-    editor.toggleSiteSettings();
-    siteSettings.checkDrawerNotVisible()
+    siteSettings.checkDrawerNotVisible();
   });
 });
