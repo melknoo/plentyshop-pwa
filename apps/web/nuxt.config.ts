@@ -29,7 +29,7 @@ export default defineNuxtConfig({
       },
     },
     optimizeDeps: {
-      include: ['dotenv', 'validator'],
+      include: ['dotenv', 'validator', 'js-sha256'],
     },
   },
   css: ['~/assets/style.scss'],
@@ -60,14 +60,15 @@ export default defineNuxtConfig({
       isDev: process.env.NODE_ENV === 'development',
       cookieGroups: cookieConfig,
       turnstileSiteKey: process.env?.TURNSTILESITEKEY ?? '',
-      useAvif: process.env?.IMAGEAVIF === 'true',
-      useWebp: process.env?.IMAGEWEBP === 'true',
+      useAvif: process.env?.NUXT_PUBLIC_USE_AVIF === 'true',
+      useWebp: process.env?.NUXT_PUBLIC_USE_WEBP === 'true',
       validateReturnReasons: process.env.VALIDATE_RETURN_REASONS === '1',
       enableQuickCheckoutTimer: process.env.ENABLE_QUICK_CHECKOUT_TIMER === '1',
       useTagsOnCategoryPage: process.env.USE_TAGS_ON_CATEGORY_PAGE === '1',
       showConfigurationDrawer: process.env.SHOW_CONFIGURATION_DRAWER === '1',
       defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
-      headerLogo: process.env.LOGO || '/_nuxt-plenty/images/logo.svg',
+      headerLogo:
+        process.env.NUXT_PUBLIC_HEADER_LOGO || 'https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/SuckMyStraw-Logo-small.svg',
       homepageCategoryId: Number(process.env.HOMEPAGE) ?? null,
       shippingTextCategoryId: Number(process.env.SHIPPINGTEXT) ?? null,
       storename: process.env.STORENAME || 'PlentyONE GmbH',
@@ -210,8 +211,8 @@ export default defineNuxtConfig({
       cleanupOutdatedCaches: true,
     },
     manifest: {
-      name: 'plentyshop PWA',
-      short_name: 'plentyshopPWA',
+      name: process.env.STORENAME || 'PlentyONE GmbH',
+      short_name: 'PlentyONEShop',
       theme_color: '#0C7992',
       icons: [
         {

@@ -27,11 +27,11 @@
           class="group"
           :class="[
             {
-              'max-w-screen-3xl mx-auto lg:px-10 mt-3': block.name !== 'Banner' && block.name !== 'Carousel',
+              'max-w-screen-3xl mx-auto lg:px-10 mt-3': block.name !== 'Banner' && block.name !== 'Carousel' && block.name !== 'HnSeperator',
             },
             {
               'px-4 md:px-6':
-                block.name !== 'Carousel' && block.name !== 'Banner' && block.name !== 'NewsletterSubscribe',
+                block.name !== 'Carousel' && block.name !== 'HnSeperator' && block.name !== 'Banner' && block.name !== 'NewsletterSubscribe',
             },
           ]"
           data-testid="block-wrapper"
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import draggable from 'vuedraggable';
+import draggable from 'vuedraggable/src/vuedraggable';
 import type { DragEvent, EditablePageProps } from './types';
 
 const props = defineProps<EditablePageProps>();
@@ -82,8 +82,20 @@ onMounted(() => {
   window.addEventListener('beforeunload', handleBeforeUnload);
 });
 
+const config = useRuntimeConfig();
+const showConfigurationDrawer = config.public.showConfigurationDrawer;
+const isPreview = ref(false);
+
+onMounted(async () => {
+  const pwaCookie = useCookie('pwa');
+  isPreview.value = !!pwaCookie.value || (showConfigurationDrawer as boolean);
+
+  if (isPreview.value) {
+    await import('./draggable.css');
+  }
+});
+
 onBeforeUnmount(() => {
-  closeDrawer();
   window.removeEventListener('beforeunload', handleBeforeUnload);
 });
 
@@ -110,28 +122,3 @@ onBeforeRouteLeave((to, from, next) => {
   }
 });
 </script>
-
-<style>
-.sortable-ghost {
-  opacity: 0.6;
-  background: #f0f4ff;
-  border-radius: 8px;
-}
-.sortable-drag {
-  opacity: 1 !important;
-  transform: scale(1.02);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-.sortable-chosen .block-wrapper {
-  outline: none !important;
-}
-.sortable-chosen .add-block-button,
-.sortable-chosen .block-actions {
-  display: none !important;
-}
-.sortable-chosen {
-  opacity: 0.6;
-  background: #f0f4ff;
-  border-radius: 8px;
-}
-</style>
