@@ -47,7 +47,7 @@
             {{ t('orderConfirmation.saveOrderToAccount') }}
           </div>
           <div class="font-bold text-center mt-3">{{ t('orderConfirmation.createAccountForBenefits') }}</div>
-          <UiButton variant="primary" class="mt-5 mb-5" @click="isAuthenticationOpen = true">
+          <UiButton variant="primary" class="mt-5 mb-5 sms-button--secondary" @click="isAuthenticationOpen = true">
             {{ t('orderConfirmation.signUp') }}
           </UiButton>
         </div>
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <UiButton :tag="NuxtLink" :href="localePath(paths.home)" class="max-md:w-full mt-6 mb-8" variant="secondary">
+    <UiButton :tag="NuxtLink" :href="localePath(paths.home)" class="max-md:w-full mt-6 mb-8 sms-button--secondary" variant="secondary">
       {{ t('continueShopping') }}
     </UiButton>
   </div>
