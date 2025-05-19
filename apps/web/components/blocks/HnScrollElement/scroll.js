@@ -7,6 +7,9 @@ window.addEventListener('scroll', function() {
     const img2 = document.querySelector('.sms-scroll--image2');
     const img3 = document.querySelector('.sms-scroll--image3');
     const headline = document.querySelector('.sms-scroll--headline');
+    if(!item && !img1 && !img2 && !img3 && !headline) {
+        return; // Exit if any of the elements are not found
+    }
     const shadowpink = "sms-textshadow--pink";
     const shadowblue = "sms-textshadow--blue";
     const shadowgreen = "sms-textshadow--green";

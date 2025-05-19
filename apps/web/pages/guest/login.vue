@@ -34,7 +34,7 @@
             <UiFormPasswordInput v-model="password" name="password" autocomplete="current-password" required />
           </label>
 
-          <UiButton :disabled="loading || loginSubmit" type="submit" class="mt-8 w-full">
+          <UiButton :disabled="loading || loginSubmit" type="submit" class="sms-button--secondary mt-8 w-full">
             <SfLoaderCircular v-if="loading || loginSubmit" class="flex justify-center items-center" size="base" />
             <template v-else>{{ t('auth.login.loginAndContinue') }}</template>
           </UiButton>

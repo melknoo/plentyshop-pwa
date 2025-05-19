@@ -888,6 +888,14 @@ main input.text-base {
                 vertical-align: bottom;
             }
         }
+        &--secondary {
+            transition: 0.3s 0s;
+            background-color: $primary_pink !important;
+
+            &:hover {
+                box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+            }
+        }
 
         &--wishlist {
             --tw-ring-color: none;
