@@ -893,6 +893,7 @@ main input.text-base {
             background-color: $primary_pink !important;
 
             &:hover {
+                color: white;
                 box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
             }
         }
