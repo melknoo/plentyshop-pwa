@@ -172,17 +172,15 @@ header ul.bg-white button:hover {
 header nav>a,
 header nav>button,
 header nav>div>button {
+    color: $primary_pink !important;
     &:hover {
         box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
         background-color: $primary_pink;
         color: white !important;
     }
-
     span {
         background-color: $primary_pink !important;
     }
-
-    color: $primary_pink !important;
 }
 
 .bg-pink {
@@ -274,17 +272,16 @@ button {
     text-transform: uppercase;
     color: #ff009b;
     letter-spacing: 0.5px;
-
-    @media screen and (max-width: $small_screen) {
-        font-size: 50px;
-        height: auto;
-    }
-
     font-size: 60px;
     line-height: 66px;
     text-shadow: 0 0 5px rgba(255, 0, 155, 0.8),
     0 0 15px rgba(255, 0, 155, 0.8),
     0 0 20px rgba(255, 0, 155, 0.8);
+    @media screen and (max-width: $small_screen) {
+        font-size: 50px;
+        height: auto;
+    }
+    
 }
 
 main {
@@ -722,17 +719,15 @@ main input.text-base {
             font-weight: normal;
             color: #ff009b;
             letter-spacing: 0.5px;
-
-            @media screen and (max-width: $small_screen) {
-                font-size: 50px;
-                height: auto;
-            }
-
             font-size: 60px;
             line-height: 66px;
             text-shadow: 0 0 5px rgba(255, 0, 155, 0.8),
             0 0 15px rgba(255, 0, 155, 0.8),
             0 0 20px rgba(255, 0, 155, 0.8);
+            @media screen and (max-width: $small_screen) {
+                font-size: 50px;
+                height: auto;
+            }
         }
     }
 
