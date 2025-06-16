@@ -3,7 +3,7 @@
     <h6
       class="bg-pink text-white mb-4 px-4 py-2 rounded uppercase typography-headline-6 font-bold tracking-widest select-none"
     >
-      {{ $t('perPage') }}
+      {{ t('perPage') }}
     </h6>
 
     <div class="px-4">
@@ -11,7 +11,7 @@
         id="perPage"
         class="text-white"
         v-model="selected"
-        :aria-label="$t('perPage')"
+        :aria-label="t('perPage')"
         @change="updateItemsPerPage(Number(selected))"
       >
         <option class="sms-category_sidebar--option" v-for="{ value, label, disabled } in options" :key="value" :value="value" :disabled="disabled">
@@ -30,6 +30,7 @@ import { defaults } from '~/composables';
 const props = defineProps<CategoryItemsPerPageProps>();
 
 const { updateItemsPerPage, getFacetsFromURL } = useCategoryFilter();
+const { t } = useI18n();
 
 const options = ref(
   defaults.PER_PAGE_STEPS.map((o: number) => ({ label: o.toString(), value: o.toString(), disabled: false })),

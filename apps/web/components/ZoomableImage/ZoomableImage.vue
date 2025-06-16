@@ -7,12 +7,13 @@
       v-if="showZoomHint && isMobile"
       class="zoom-hint absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-75 text-white px-4 py-2 rounded z-20"
     >
-      {{ $t('double-tap-zoom') }}
+      {{ t('double-tap-zoom') }}
     </div>
 
     <Drift v-if="!isMobile && imagesLoaded[`gallery-img-${index}`]" :key="route.fullPath" :index="index">
       <NuxtImg
         v-bind="nuxtImgProps"
+        :data-testid="`product-image-${index}`"
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd"
@@ -23,6 +24,7 @@
     <NuxtImg
       v-else
       v-bind="nuxtImgProps"
+      :data-testid="`product-image-${index}`"
       @touchstart="onTouchStart"
       @touchmove="onTouchMove"
       @touchend="onTouchEnd"
@@ -40,6 +42,7 @@ import type { ImagesData } from '@plentymarkets/shop-api';
 import type { ZoomableImageProps } from '~/components/ZoomableImage/types';
 
 const props = defineProps<ZoomableImageProps>();
+const { t } = useI18n();
 
 const containerReference = useTemplateRef<null>('containerReference');
 const imagesLoaded = ref([] as unknown as { [key: string]: boolean });

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mb-3"
+    class="mb-3 font-editor"
     :class="['sticky top-0 bg-white h-[52px] shadow-[0px_15px_20px_-15px_#111]', drawerZIndexClass]"
     data-testid="edit-mode-toolbar"
   >
@@ -66,7 +66,6 @@ const { data, loading, cleanData } = useCategoryTemplate();
 const { closeDrawer, settingsIsDirty, loading: settingsLoading } = useSiteConfiguration();
 
 const { save } = useToolbar();
-const { getBlocksLists } = useBlockManager();
 
 const isTouched = computed(() => settingsIsDirty.value || isEditingEnabled.value);
 
@@ -77,10 +76,6 @@ const toggleEdit = () => {
     isEditing.value = false;
   }
 };
-
-onMounted(() => {
-  getBlocksLists();
-});
 
 const drawerZIndexClass = computed(() => (isDrawerOpen.value ? 'lg:z-20 md:z-10' : 'md:z-20'));
 

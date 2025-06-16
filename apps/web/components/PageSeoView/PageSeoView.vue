@@ -4,7 +4,7 @@
     class="sticky top-[52px] h-[calc(100vh-50px)] overflow-y-auto"
     data-testid="pages-seo-settings-drawer"
   >
-    <form data-testid="basic-settings-form" class="w-full abssolute bg-white">
+    <form data-testid="basic-settings-form" class="w-full shadow-[inset_0px_0px_20px_-20px_#111] absolute bg-white">
       <UiAccordionItem
         v-model="metaData"
         data-testid="open-basic-settings"
@@ -99,9 +99,11 @@
           </div>
 
           <Multiselect
-            v-model="data.details[0].metaRobots"
+            v-model="pageRobots"
             data-testid="page-parent"
             :options="robotNames"
+            label="label"
+            track-by="value"
             placeholder="Select robots"
             :allow-empty="false"
             class="cursor-pointer"
@@ -191,9 +193,24 @@ watch(
 
 const robotsDropdown = ref(false);
 const furtherSettings = ref(false);
-const robotNames = ['all', 'noindex', 'nofollow', 'noindex, nofollow'];
+const robotNames = [
+  { label: 'All', value: 'ALL' },
+  { label: 'No Index', value: 'NOINDEX' },
+  { label: 'No Follow', value: 'NOFOLLOW' },
+  { label: 'No Index, No Follow', value: 'NOINDEX_NOFOLLOW' },
+];
 
-const titleTooltip = 'Title displayed in search results of search engines.';
+const pageRobots = computed({
+  get() {
+    return robotNames.find((option) => option.value === data.value.details[0].metaRobots) || null;
+  },
+  set(selectedOption) {
+    data.value.details[0].metaRobots = selectedOption ? selectedOption.value : '';
+  },
+});
+
+const titleTooltip =
+  'Title displayed in search results of search engines. Enter text here to add a prefix before the shop name in the page title (shown as “your text / shop name”).';
 const descTooltip =
   'Short description of the page shown in search results of search engines. Should be engaging and informative.';
 const robotsTooltip =
