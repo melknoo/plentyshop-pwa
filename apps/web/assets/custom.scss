@@ -1,5 +1,5 @@
 $color-button-hover: #0032a0;
-$primary_pink: #ff009b;
+$primary_pink: rgb(255, 0, 155);
 $primary_blue: #0050FF;
 $primary_green: #2BD063;
 $color_2_footer_nav_headline: #555555;
@@ -19,7 +19,7 @@ p {
     color: white;
 }
 
-.outline-pink-500 {
+.sms-outline-pink-500 {
     outline-color: $primary_pink !important;
     box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
 }
