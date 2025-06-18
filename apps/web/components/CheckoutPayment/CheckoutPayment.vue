@@ -22,7 +22,7 @@
           }"
           class="h-20 flex flex-col items-center justify-center py-4 px-4 cursor-pointer rounded-md border 
           border-neutral-200 -outline-offset-2 hover:border-primary-50 hover:bg-primary-50 
-          active:border-primary-100 active:bg-primary-50 peer-checked:outline peer-checked:outline-2 peer-checked:outline-white peer-checked:bg-pink
+          active:border-primary-100 active:bg-primary-50 peer-checked:outline peer-checked:outline-2 peer-checked:outline-white peer-checked:bg-[var(--colors-2-primary-600)]
           peer-disabled:opacity-50 peer-disabled:bg-neutral-100 peer-disabled:border-neutral-200 peer-disabled:cursor-not-allowed peer-disabled:[&_img]:grayscale"
         >
           <span v-if="paymentMethod.id === -1">
