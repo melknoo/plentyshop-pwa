@@ -19,7 +19,10 @@ p {
     color: white;
 }
 
-
+.outline-pink-500 {
+    outline-color: $primary_pink !important;
+    box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+}
 
 [data-testid="quantity-selector"] input,
 [data-testid="product-accordion"],
