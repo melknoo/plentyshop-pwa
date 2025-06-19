@@ -129,13 +129,13 @@
                     class="rounded bg-white relative shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2"
                   >
                     <li>
-                      <SfListItem tag="button" class="text-left" @click="openOrderAgainModal(order)">
+                      <SfListItem tag="button" class="text-left text-black" @click="openOrderAgainModal(order)">
                         {{ t('account.ordersAndReturns.orderAgain.heading') }}
                       </SfListItem>
                     </li>
                     <li>
                       <NuxtLink :to="localePath(generateNewReturnLink(order))">
-                        <SfListItem v-if="orderGetters.isReturnable(order)" tag="button" class="text-left">
+                        <SfListItem v-if="orderGetters.isReturnable(order)" tag="button" class="text-black text-left">
                           {{ t('returns.return') }}
                         </SfListItem>
                       </NuxtLink>
