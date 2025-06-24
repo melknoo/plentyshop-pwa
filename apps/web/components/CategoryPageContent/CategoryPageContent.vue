@@ -9,7 +9,7 @@
       </CategorySidebar>
       <div class="flex-1">
         <div class="flex justify-between items-center mb-6">
-          <span class="font-bold md:text-lg">
+          <span class="font-bold text-white md:text-lg">
             {{
               t('numberOfProducts', {
                 count: products?.length ?? 0,

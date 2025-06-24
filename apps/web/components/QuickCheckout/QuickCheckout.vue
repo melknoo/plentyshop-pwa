@@ -80,13 +80,13 @@
       </div>
       <div class="py-8 px-10">
         <div class="mb-8">
-          <p class="font-medium text-base">{{ t('quickCheckout.cartContains', cartItemsCount) }}</p>
+          <p class="font-medium text-black text-base">{{ t('quickCheckout.cartContains', cartItemsCount) }}</p>
           <div class="grid grid-cols-2">
-            <p class="text-base">{{ t('quickCheckout.subTotal') }}:</p>
-            <p v-if="showNetPrices" data-testid="subtotal" class="font-medium text-right">
+            <p class="text-base text-black">{{ t('quickCheckout.subTotal') }}:</p>
+            <p v-if="showNetPrices" data-testid="subtotal" class="text-black font-medium text-right">
               {{ format(cartGetters.getItemSumNet(cart)) }}
             </p>
-            <p v-else data-testid="subtotal" class="font-medium text-right">{{ format(totals.subTotal) }}</p>
+            <p v-else data-testid="subtotal" class="font-medium text-black text-right">{{ format(totals.subTotal) }}</p>
           </div>
         </div>
 
