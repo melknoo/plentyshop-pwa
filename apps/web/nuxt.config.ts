@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     asyncContext: true,
   },
   appConfig: {
-    titleSuffix: process.env.STORENAME || 'PlentyONE Shop',
+    titleSuffix: process.env.STORENAME || 'Suck My Straw',
     fallbackCurrency: 'GBP',
   },
   imports: {
@@ -74,7 +74,7 @@ export default defineNuxtConfig({
       defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
       headerLogo:
         process.env.LOGO ||
-        process.env.NUXT_PUBLIC_HEADER_LOGO || 'https://suckmystraw.com/wp-content/themes/suckmystraw-theme/img/SuckMyStraw-Logo-small.svg',
+        process.env.NUXT_PUBLIC_HEADER_LOGO || '/images/logo.svg',
       homepageCategoryId: Number(process.env.HOMEPAGE) ?? null,
       shippingTextCategoryId: Number(process.env.SHIPPINGTEXT) ?? null,
       storename: process.env.STORENAME || 'PlentyONE GmbH',
