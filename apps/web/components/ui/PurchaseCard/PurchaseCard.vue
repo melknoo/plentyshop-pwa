@@ -8,9 +8,17 @@
       <div class="drift-zoom-image">
         <section class="p-4 xl:p-6">
           <div class="grid grid-cols-[2fr_1fr] mt-4">
-            <h1 class="font-bold typography-headline-4" data-testid="product-name">
+            <div class="flex flex-col justify-start">
+            <h1 class="font-bold !text-2xl typography-headline-4" data-testid="product-name">
               {{ productGetters.getName(product) }}
             </h1>
+            <h2 class="typography-headline-3" data-testid="product-name">
+              {{ product.variation.name }}
+            </h2>
+            <h2 class="typography-headline-3" data-testid="product-name">
+              Artikelnummer: {{ product.variation.externalId }}
+            </h2>
+            </div>
             <div class="flex items-center justify-center">
               <WishlistButton
                 :product="product"
