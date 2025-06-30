@@ -58,7 +58,7 @@
           v-if="orderGetters.isReturnable(order) && orderGetters.hasReturnableItems(order)"
           :order="order"
         />
-        <OrderAgainButton v-if="isAuthorized" :order="order" />
+        <OrderAgainButton class="sms-button--secondary w-[200px] flex mx-auto" v-if="isAuthorized" :order="order" />
       </div>
     </div>
 
