@@ -44,6 +44,10 @@
       <SfLink :tag="NuxtLink" :to="productPath" class="no-underline" variant="secondary" data-testid="productcard-name">
         {{ name }}
       </SfLink>
+      <p class="normal-case typography-text-sm " data-testid="product-name">
+              {{ product.variation.name }}
+              {{ product.variation.externalId }}
+      </p>
       <div class="flex items-center pt-1 gap-1" :class="{ 'mb-2': !productGetters.getShortDescription(product) }">
         <SfRating class="sms-productcard--rating" size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
         <SfCounter size="xs">{{ ratingCount }}</SfCounter>
