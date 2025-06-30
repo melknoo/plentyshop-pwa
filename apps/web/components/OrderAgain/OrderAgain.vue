@@ -212,7 +212,7 @@
           </i18n-t>
         </div>
         <div class="ml-auto float-right">
-          <UiButton class="mr-2" variant="secondary" size="lg" @click="close()">
+          <UiButton class="text-black mr-2" variant="secondary" size="lg" @click="close()">
             {{ t('account.ordersAndReturns.orderAgain.cancel') }}
           </UiButton>
           <UiButton
@@ -220,6 +220,7 @@
             :disabled="loading || loadingAddToCart || !canAddToCart"
             size="lg"
             variant="primary"
+            class="!bg-pink"
             @click="addToCart"
           >
             <SfLoaderCircular v-if="loadingAddToCart" class="flex justify-center items-center" size="sm" />
