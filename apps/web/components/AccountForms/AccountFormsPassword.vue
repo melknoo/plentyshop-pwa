@@ -36,8 +36,8 @@
         pattern="^(?=.*[A-Za-z])(?=.*\d)\S{8,}$"
       />
     </label>
-    <div class="mt-6 flex flex-col-reverse md:flex-row md:justify-end gap-4">
-      <UiButton type="reset" variant="secondary" @click="$emit('on-cancel')">
+    <div class="mt-6 flex flex-col-reverse  md:flex-row md:justify-end gap-4">
+      <UiButton type="reset" class="!text-black" variant="secondary" @click="$emit('on-cancel')">
         {{ t('contactInfo.cancel') }}
       </UiButton>
       <UiButton type="submit" class="min-w-[120px]" :disabled="loading">

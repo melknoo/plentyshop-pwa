@@ -84,7 +84,7 @@
     <div class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end mt-6 gap-4">
       <UiButton
         type="button"
-        class="max-md:w-1/2"
+        class="max-md:w-1/2 !text-black"
         variant="secondary"
         :disabled="isCartUpdateLoading"
         @click="clearInputs"
