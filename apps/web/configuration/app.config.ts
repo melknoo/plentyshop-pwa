@@ -7,14 +7,14 @@ export const metaDefaults = {
 };
 
 export const openGraph = {
-  title: process.env.OG_TITLE || process.env.NUXT_PUBLIC_OG_TITLE || 'PlentyONE Shop',
-  image: process.env.OG_IMG || process.env.NUXT_PUBLIC_OG_IMG || '/_nuxt-plenty/images/logo.svg',
-  type: process.env.OG_TYPE || process.env.NUXT_PUBLIC_OG_TYPE || 'website',
+  title: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'PlentyONE Shop',
+  image: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/_nuxt-plenty/images/logo.svg',
+  type: process.env.NUXT_PUBLIC_OG_TYPE || process.env.OG_TYPE || 'website',
 };
 
 export const favicon = {
-  icon: process.env.FAVICON || process.env.NUXT_PUBLIC_FAVICON || '/_nuxt-plenty/favicon.ico',
-  appleTouchIcon: process.env.FAVICON || process.env.NUXT_PUBLIC_FAVICON || '/_nuxt-plenty/favicon.ico',
+  icon: process.env.NUXT_PUBLIC_FAVICON || process.env.FAVICON || '/_nuxt-plenty/favicon.ico',
+  appleTouchIcon: process.env.NUXT_PUBLIC_FAVICON || process.env.FAVICON || '/_nuxt-plenty/favicon.ico',
 };
 
 export const appConfiguration = {
