@@ -2,7 +2,7 @@
   <div class="border border-neutral-200 sms-border--pink sms-boxshadow--pink rounded-md flex flex-col" data-testid="product-card"
     :class="{ 'sms-productslider--item': isFromSlider }"
     >
-    <div class="relative overflow-hidden">
+    <div class="relative overflow-hidden bg-white">
       <UiBadges
         :use-tags="useTagsOnCategoryPage"
         :class="['absolute', isFromWishlist ? 'mx-2' : 'm-2']"
