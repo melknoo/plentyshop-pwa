@@ -29,21 +29,22 @@
           class="grid grid-cols-1 2xs:grid-cols-2 gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 mb-10 md:mb-5"
           data-testid="category-grid"
         >
-          <NuxtLazyHydrate
+            <NuxtLazyHydrate
             v-for="(product, index) in products"
             :key="productGetters.getVariationId(product)"
             when-visible
-          >
+            >
             <UiProductCard
               :product="product"
+              v-if="product.filter?.isSalableAndActive"
               :name="productGetters.getName(product) ?? ''"
               :rating-count="productGetters.getTotalReviews(product)"
               :rating="productGetters.getAverageRating(product, 'half')"
               :image-url="addModernImageExtension(productGetters.getCoverImage(product))"
               :image-alt="
-                productImageGetters.getImageAlternate(productImageGetters.getFirstImage(product)) ||
-                productGetters.getName(product) ||
-                ''
+              productImageGetters.getImageAlternate(productImageGetters.getFirstImage(product)) ||
+              productGetters.getName(product) ||
+              ''
               "
               :image-title="productImageGetters.getImageName(productImageGetters.getFirstImage(product)) || ''"
               :image-height="productGetters.getImageHeight(product) || 600"
@@ -55,7 +56,7 @@
               :unit-name="productGetters.getUnitName(product)"
               :show-base-price="productGetters.showPricePerUnit(product)"
             />
-          </NuxtLazyHydrate>
+            </NuxtLazyHydrate>
         </section>
         <LazyCategoryEmptyState v-else />
         <div v-if="totalProducts > 0" class="mt-4 mb-4 typography-text-xs flex gap-1">
