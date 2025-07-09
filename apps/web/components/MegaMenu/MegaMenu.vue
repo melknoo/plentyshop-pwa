@@ -34,7 +34,7 @@
         <ul
           class="flex flex-wrap px-6 py-2 sms-bg--grey"
           @blur="
-            (event) => {
+            (event: FocusEvent) => {
               if (!(event.currentTarget as Element).contains(event.relatedTarget as Element)) {
                 close();
               }
