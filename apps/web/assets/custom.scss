@@ -122,11 +122,13 @@ main [data-testid="contact-information-form"] button,
 }
 
 [data-testid="drawer"] {
-    background-color: black;
+    @media screen and (max-width: $medium_screen) {
+        background-color: black;
 
-    .router-link-active {
-        background-color: $primary_pink;
-        font-weight: bold;
+        .router-link-active {
+            background-color: $primary_pink;
+            font-weight: bold;
+        }
     }
 }
 
