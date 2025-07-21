@@ -10,10 +10,11 @@
       <EditablePage :identifier="categoryGetters.getId(productsCatalog.category)" :type="'category'" />
     </template>
     <template v-else>
+      {{ console.log(productsCatalog?.products) }}
       <CategoryPageContent
         v-if="productsCatalog?.products"
         :title="categoryGetters.getCategoryName(productsCatalog.category)"
-        :total-products="productsCatalog.pagination.totals"
+        :total-products="productsCatalog.products?.filter(p => p.filter?.isSalableAndActive)?.length ?? 0"
         :products="productsCatalog.products"
         :items-per-page="Number(productsPerPage)"
       >

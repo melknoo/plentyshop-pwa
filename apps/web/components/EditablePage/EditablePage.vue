@@ -30,7 +30,7 @@
               'max-w-screen-3xl mx-auto lg:px-10 mt-3': block.name !== 'Banner' && block.name !== 'Carousel' && block.name !== 'HnSeperator',
               'px-4 md:px-6': block.name !== 'Carousel' && block.name !== 'HnSeperator' && block.name !== 'Banner' && block.name !== 'NewsletterSubscribe',
             },
-            getBlockClass(block).value
+            (block.name !== 'HnSeperator') ? getBlockClass(block).value : null
           ]"
           data-testid="block-wrapper"
           @click="tabletEdit(index)"
