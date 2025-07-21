@@ -205,5 +205,39 @@
       "custom_class": "sms-seperator--footer",
       "color": "#ff009b"
     }
+  },
+  {
+    "name": "Footer",
+    "type": "content",
+    "meta": {
+      "uuid": "4f7e2b1a-9c8d-4e6f-b3a2-1d0c5b4a3e2f",
+      "isGlobalTemplate": true
+    },
+    "content": {
+      "column1": {
+        "title": "Legal"
+      },
+      "column2": {
+        "title": "Contact",
+        "showContactLink": true,
+        "htmlDescription": "<ul><li><a href='https://plentyshop.plentymarkets.com/contact'></a></li></ul>"
+      },
+      "column3": {
+        "title": "",
+        "htmlDescription": ""
+      },
+      "column4": {
+        "title": "",
+        "htmlDescription": ""
+      },
+      "footnote": "© PlentyONE GmbH 2025",
+      "footnoteAlign": "right",
+      "colors": {
+        "background": "#cfe4ec",
+        "text": "#151a16",
+        "footnoteBackground": "#151a16",
+        "footnoteText": "#8b8d8b"
+      }
+    }
   }
 ]
