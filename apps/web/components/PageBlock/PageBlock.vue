@@ -1,15 +1,15 @@
 <template>
-  <div v-if="block.meta" :key="block.meta.uuid">
+  <div v-if="block.meta && (block.name !== 'Footer' || runtimeConfig.public.isDev)" :key="block.meta.uuid">
     <UiBlockPlaceholder v-if="displayTopPlaceholder(block.meta.uuid)" />
     <div
       :id="`block-${index}`"
       :class="[
         'relative block-wrapper',
         {
-          'mb-s': blockSize === 's' && root,
-          'mb-m': blockSize === 'm' && root,
-          'mb-l': blockSize === 'l' && root,
-          'mb-xl': blockSize === 'xl' && root,
+          'mb-s': blockSize === 's' && isRootNonFooter,
+          'mb-m': blockSize === 'm' && isRootNonFooter,
+          'mb-l': blockSize === 'l' && isRootNonFooter,
+          'mb-xl': blockSize === 'xl' && isRootNonFooter,
         },
         {
         'max-w-screen-3xl mx-auto lg:px-10 mt-3': block.name !== 'BannerCarousel' && block.name !== 'UiCarousel' && block.name !== 'HnSeperator',
@@ -35,15 +35,13 @@
       </button>
       <UiBlockActions
         v-if="disableActions && blockHasData && blockHasData(block) && $isPreview && root && !isDragging"
+        :key="`${block.meta.uuid}`"
         :class="[
           'opacity-0 block-actions',
           {
             'hover:opacity-100 group-hover:opacity-100 group-focus:opacity-100': !isTablet,
             'opacity-100': isTablet && isClicked && clickedBlockIndex === index,
           },
-          // {
-          //   'max-w-max max-h-max bottom-0 left-0 m-auto': block.type === 'content',
-          // },
         ]"
         :index="index"
         :block="block"
@@ -69,7 +67,7 @@
       </component>
 
       <button
-        v-if="disableActions && $isPreview && root && !isDragging"
+        v-if="disableActions && $isPreview && root && !isDragging && props.block.name !== 'Footer'"
         :key="isDragging ? 'dragging' : 'not-dragging'"
         class="add-block-button no-drag z-[0] md:z-[1] lg:z-[10] absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rounded-[18px] p-[6px] bg-[#538aea] text-white opacity-0 group-hover:opacity-100 group-focus:opacity-100"
         :class="[{ 'opacity-100': isClicked && clickedBlockIndex === index }]"
@@ -87,6 +85,8 @@
 <script lang="ts" setup>
 import type { Block } from '@plentymarkets/shop-api';
 import { SfIconAdd } from '@storefront-ui/vue';
+
+const runtimeConfig = useRuntimeConfig();
 
 const { $isPreview } = useNuxtApp();
 
@@ -155,4 +155,6 @@ const addNewBlock = (block: Block, position: 'top' | 'bottom') => {
   togglePlaceholder(block.meta.uuid, position);
   openDrawerWithView('blocksList');
 };
+
+const isRootNonFooter = computed(() => props.root && props.block.name !== 'Footer');
 </script>
