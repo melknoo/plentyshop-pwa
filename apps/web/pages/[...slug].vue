@@ -10,7 +10,6 @@
       <EditablePage :identifier="categoryGetters.getId(productsCatalog.category)" :type="'category'" />
     </template>
     <template v-else>
-      {{ console.log(productsCatalog?.products) }}
       <CategoryPageContent
         v-if="productsCatalog?.products"
         :title="categoryGetters.getCategoryName(productsCatalog.category)"
