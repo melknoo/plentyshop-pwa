@@ -12,7 +12,7 @@
           <span class="font-bold text-white md:text-lg">
             {{
               t('numberOfProducts', {
-                count: products?.length ?? 0,
+                count: products?.filter(p => p.filter?.isSalableAndActive)?.length ?? 0,
                 total: totalProducts,
               })
             }}
