@@ -1,10 +1,10 @@
 <template>
   <div class="mt-2" data-testing="variation-select-unit-wrapper">
-    <div class="input-unit w-full">
+    <div class="input-unit w-full text-white">
       <label for="unit-combination" data-testing="variation-select-unit-label">{{ t('content') }}</label>
       <SfSelect
         id="unit-combination"
-        class="custom-select w-full"
+        class="custom-select w-full !text-white"
         data-testing="variation-select-unit"
         :model-value="selectedUnit"
         @update:model-value="(event) => onChange(Number(event))"

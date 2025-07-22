@@ -132,6 +132,9 @@ main [data-testid="contact-information-form"] button,
     }
 }
 
+[data-testing="variation-select-unit-wrapper"] {
+    display: none !important;
+}
 
 [data-testid="checkout-button"],
 [data-testid="couponAdd"],
