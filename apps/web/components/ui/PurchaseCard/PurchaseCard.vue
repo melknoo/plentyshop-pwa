@@ -1,4 +1,5 @@
 <template>
+  {{ console.log(product) }}
   <form
     class="md:border md:border-neutral-100 md:shadow-lg md:rounded-md md:sticky md:top-40"
     data-testid="purchase-card"
