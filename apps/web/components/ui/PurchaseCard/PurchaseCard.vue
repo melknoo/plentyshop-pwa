@@ -49,7 +49,7 @@
           </div>
           <LowestPrice :product="product" />
           <BasePrice
-            v-if="productGetters.showPricePerUnit(product)"
+            
             :base-price="basePriceSingleValue"
             :unit-content="productGetters.getUnitContent(product)"
             :unit-name="productGetters.getUnitName(product)"
