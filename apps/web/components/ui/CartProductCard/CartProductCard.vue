@@ -29,7 +29,7 @@
         {{ cartGetters.getItemName(cartItem) }}
       </SfLink>
 
-      <div class="font-medium" v-if="!cartItem.variation?.bundleComponents">
+      <div v-if="!cartItem.variation?.bundleComponents" data-testid="cart-item-price">
         {{ format(cartGetters.getCartItemPrice(cartItem)) }}
       </div>
 
@@ -94,7 +94,8 @@
       <div class="items-start sm:items-center sm:mt-auto flex flex-col sm:flex-row">
         <span
           v-if="currentFullPrice"
-          class="text-white sm:order-1 font-bold typography-text-sm sm:typography-text-lg sm:ml-auto"
+          data-testid="product-full-price"
+          class="text-white  sm:order-1 font-bold typography-text-sm sm:typography-text-lg sm:ml-auto"
         >
           {{ format(currentFullPrice || 0) }}
         </span>

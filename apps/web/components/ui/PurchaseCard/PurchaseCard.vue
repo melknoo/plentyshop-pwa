@@ -50,7 +50,7 @@
           </div>
           <LowestPrice :product="product" />
           <BasePrice
-            v-if="productGetters.showPricePerUnit(product)"
+            
             :base-price="basePriceSingleValue"
             :unit-content="productGetters.getUnitContent(product)"
             :unit-name="productGetters.getUnitName(product)"
@@ -84,8 +84,7 @@
           />
 
           <ProductAttributes :product="product" />
-
-          <BundleOrderItems v-if="product.bundleComponents && showBundleComponents" :product="product" />
+          <BundleOrderItems v-if="product.bundleComponents" :product="product" />
           <OrderProperties :product="product" />
           <GraduatedPriceList :product="product" :count="quantitySelectorValue" />
 
@@ -159,11 +158,6 @@ import type { PayPalAddToCartCallback } from '~/components/PayPal/types';
 import { paths } from '~/utils/paths';
 
 const { product, reviewAverage } = defineProps<PurchaseCardProps>();
-
-const { getSetting } = useSiteSettings('bundleItemDisplay');
-const showBundleComponents = computed(() => {
-  return getSetting() !== '1';
-});
 
 const { showNetPrices } = useCustomer();
 const viewport = useViewport();
