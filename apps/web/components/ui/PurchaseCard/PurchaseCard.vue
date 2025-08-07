@@ -82,8 +82,12 @@
             data-testid="product-description"
             v-html="productGetters.getShortDescription(product)"
           />
-
-          <ProductAttributes :product="product" />
+          {{ console.log(product) }}
+          <ProductAttributes
+            :product="product"
+            :class="{ 'sms--attributes-hidden': product.variationAttributeMap && product.variationAttributeMap.variations.length <= 1 }"
+          />
+          <!-- <ProductAttributes :product="product" /> -->
           <BundleOrderItems v-if="product.bundleComponents" :product="product" />
           <OrderProperties :product="product" />
           <GraduatedPriceList :product="product" :count="quantitySelectorValue" />
