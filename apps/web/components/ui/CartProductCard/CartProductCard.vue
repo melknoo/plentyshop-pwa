@@ -24,7 +24,7 @@
         :tag="NuxtLink"
         :to="path"
         variant="secondary"
-        class="w-fit no-underline typography-text-sm sm:typography-text-lg"
+        class="w-fit no-underline typography-text-sm sm:typography-text-lg break-word"
       >
         {{ cartGetters.getItemName(cartItem) }}
       </SfLink>
