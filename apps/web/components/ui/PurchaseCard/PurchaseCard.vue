@@ -1,5 +1,5 @@
 <template>
-  {{ console.log(product) }}
+
   <form
     class="md:border md:border-neutral-100 md:shadow-lg md:rounded-md md:sticky md:top-40"
     data-testid="purchase-card"
@@ -82,7 +82,7 @@
             data-testid="product-description"
             v-html="productGetters.getShortDescription(product)"
           />
-          {{ console.log(product) }}
+
           <ProductAttributes
             :product="product"
             :class="{ 'sms--attributes-hidden': product.variationAttributeMap && product.variationAttributeMap.variations.length <= 1 }"

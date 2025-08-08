@@ -21,7 +21,7 @@
         :value="productAttributeGetters.getAttributeValueId(item)"
         :disabled="productAttributeGetters.isAttributeValueDisabled(item)"
       >
-        {{ productAttributeGetters.getAttributeValueName(item) }} {{ productAttributeGetters.getAttributeName(attribute) }}
+        {{ productAttributeGetters.getAttributeValueName(item) }}
       </option>
     </SfSelect>
     <ErrorMessage as="span" name="selectedValue" class="flex text-negative-700 text-sm mt-2" />
