@@ -13,7 +13,7 @@
             <h1 class="font-bold !text-2xl typography-headline-4" data-testid="product-name">
               {{ productGetters.getName(product) }}
             </h1>
-            <h2 class="typography-headline-3" data-testid="product-name">
+            <h2 v-if="hasOneOrZeroVariations"  class="typography-headline-3" data-testid="product-name">
               {{ product.variation.name }}
             </h2>
             <h2 class="typography-headline-3" data-testid="product-name">
@@ -85,7 +85,7 @@
 
           <ProductAttributes
             :product="product"
-            :class="{ 'sms--attributes-hidden': product.variationAttributeMap && product.variationAttributeMap.variations.length <= 1 }"
+            :class="{ 'sms--attributes-hidden': hasOneOrZeroVariations }"
           />
           <!-- <ProductAttributes :product="product" /> -->
           <BundleOrderItems v-if="product.bundleComponents" :product="product" />
@@ -182,6 +182,9 @@ const { openQuickCheckout } = useQuickCheckout();
 const { crossedPrice } = useProductPrice(product);
 const { reviewArea } = useProductReviews(Number(productGetters.getId(product)));
 const localePath = useLocalePath();
+
+const variationCount = computed(() => product.variationAttributeMap?.variations?.length ?? 0);
+const hasOneOrZeroVariations = computed(() => variationCount.value <= 1);
 
 onMounted(() => {
   resetInvalidFields();

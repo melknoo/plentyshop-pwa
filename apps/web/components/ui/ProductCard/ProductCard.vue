@@ -45,7 +45,7 @@
         {{ name }}
       </SfLink>
       <p class="normal-case typography-text-sm " data-testid="product-name">
-              {{ product.variation.name }}
+              <span v-if="hasOneOrZeroVariations" >{{ product.variation.name }}</span>
               {{ product.variation.externalId }}
       </p>
       <div class="flex items-center pt-1 gap-1" :class="{ 'mb-2': !productGetters.getShortDescription(product) }">
@@ -138,6 +138,9 @@ const config = useRuntimeConfig();
 const useTagsOnCategoryPage = config.public.useTagsOnCategoryPage;
 
 const variationId = computed(() => productGetters.getVariationId(product));
+
+const hasOneOrZeroVariations = computed(() => (product.item?.salableVariationCount ?? 0) <= 1);
+
 
 const productPath = computed(() => {
   const basePath = `/${productGetters.getUrlPath(product)}_${productGetters.getItemId(product)}`;
