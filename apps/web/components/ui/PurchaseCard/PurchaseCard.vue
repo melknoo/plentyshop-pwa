@@ -42,7 +42,10 @@
           </div>
           <div class="flex space-x-2">
             <Price :price="priceWithProperties" :crossed-price="crossedPrice" />
-            <div v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0" class="m-auto">
+            <div
+              v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0 && showBundleComponents"
+              class="m-auto"
+            >
               <UiTag :size="'sm'" :variant="'secondary'">{{
                 t('procentageSavings', { percent: productBundleGetters.getBundleDiscount(product) })
               }}</UiTag>
@@ -247,6 +250,10 @@ const handleAddToCart = async (quickCheckout = true) => {
     quickCheckout
       ? openQuickCheckout(product, quantitySelectorValue.value)
       : send({ message: t('addedToCart'), type: 'positive' });
+
+    if (getSetting() === '0') {
+      send({ message: t('error.notificationsItemBundleSplitted'), type: 'warning' });
+    }
   }
 
   return addedToCart;
