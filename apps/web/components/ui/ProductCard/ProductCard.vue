@@ -141,12 +141,11 @@ const variationId = computed(() => productGetters.getVariationId(product));
 
 const hasOneOrZeroVariations = computed(() => (product.item?.salableVariationCount ?? 0) <= 1);
 
-
 const productPath = computed(() => {
   const basePath = `/${productGetters.getUrlPath(product)}_${productGetters.getItemId(product)}`;
-  const shouldAppendVariation = variationId.value && productGetters.getSalableVariationCount(product) === 1;
+  //const shouldAppendVariation = variationId.value && productGetters.getSalableVariationCount(product) === 1;
 
-  return localePath(shouldAppendVariation ? `${basePath}_${variationId.value}` : basePath);
+  return localePath(variationId.value ? `${basePath}_${variationId.value}` : basePath);
 });
 
 const getWidth = () => {
