@@ -23,7 +23,7 @@
           :is-tablet="isTablet"
           :block-has-data="blockHasData"
           :change-block-position="changeBlockPosition"
-          :root="true"
+          :root="getBlockDepth(block.meta.uuid) === 0"
           class="group"
           :class="[
             {
@@ -71,6 +71,7 @@ const {
   changeBlockPosition,
   handleDragStart,
   handleDragEnd,
+  getBlockDepth,
 } = useBlockManager();
 
 const scrollToBlock = (evt: DragEvent) => {

@@ -1,13 +1,8 @@
 <template>
   <div class="">
     <div class="flex justify-between mb-2">
-      <UiFormLabel>Global fonts</UiFormLabel>
-      <SfTooltip
-        label="The shop supports Google Fonts. Fonts are downloaded during the build process. This means the shop does not connect to Google while the shop is running."
-        :placement="'top'"
-        :show-arrow="true"
-        class="ml-2 z-10"
-      >
+      <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
+      <SfTooltip :label="getEditorTranslation('tooltip')" :placement="'top'" :show-arrow="true" class="ml-2 z-10">
         <SfIconInfo :size="'sm'" />
       </SfTooltip>
     </div>
@@ -16,15 +11,14 @@
       v-model="font"
       data-testid="font-select"
       :options="fonts"
-      placeholder="Select a font"
+      :placeholder="getEditorTranslation('placeholder')"
       label="value"
       track-by="caption"
       :allow-empty="false"
       class="cursor-pointer"
       select-label=""
-      deselect-label="Selected"
+      :deselect-label="getEditorTranslation('deselect-label')"
     />
-    <span class="typography-text-xs text-neutral-700">Choose one Google font for all texts</span>
   </div>
 </template>
 
@@ -38,7 +32,6 @@ const fonts = ref([]);
 
 onMounted(async () => {
   const response = await fetch('/_nuxt-plenty/editor/fonts.json');
-
   if (response.ok) {
     fonts.value = await response.json();
   }
@@ -57,3 +50,20 @@ const font = computed({
   },
 });
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "label": "Global fonts",
+    "tooltip": "Choose one Google Font for all texts. Fonts are served locally to ensure privacy compliance, with no live requests to Google.",
+    "placeholder": "Select a font",
+    "deselect-label": "Selected"
+  },
+  "de": {
+    "label": "Global fonts",
+    "tooltip": "Choose one Google Font for all texts. Fonts are served locally to ensure privacy compliance, with no live requests to Google.",
+    "placeholder": "Select a font",
+    "deselect-label": "Selected"
+  }
+}
+</i18n>

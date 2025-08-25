@@ -1,13 +1,8 @@
 <template>
   <div class="py-2">
     <div class="flex justify-between mb-2">
-      <UiFormLabel>Icon color</UiFormLabel>
-      <SfTooltip
-        label="Use this to override the default white icon color in the header, ensuring sufficient contrast with your chosen background."
-        :placement="'top'"
-        :show-arrow="true"
-        class="ml-2 z-10"
-      >
+      <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
+      <SfTooltip :label="getEditorTranslation('tooltip')" :placement="'top'" :show-arrow="true" class="ml-2 z-10">
         <SfIconInfo :size="'sm'" />
       </SfTooltip>
     </div>
@@ -23,7 +18,6 @@
           </label>
         </template>
       </SfInput>
-      <span class="typography-text-xs text-neutral-700">Choose icon color</span>
     </label>
   </div>
 </template>
@@ -37,3 +31,16 @@ const iconColor = computed({
   set: (value) => updateSetting(value),
 });
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "label": "Icon colour",
+    "tooltip": "If set, this colour overrides the default white of the icons in the header, ensuring sufficient contrast with your chosen background."
+  },
+  "de": {
+    "label": "Icon colour",
+    "tooltip": "If set, this colour overrides the default white of the icons in the header, ensuring sufficient contrast with your chosen background."
+  }
+}
+</i18n>
