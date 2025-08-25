@@ -54,7 +54,7 @@
           <LowestPrice :product="product" />
           <BasePrice
             
-            :base-price="basePriceSingleValue"
+            :base-price="custom_base_price"
             :unit-content="productGetters.getUnitContent(product)"
             :unit-name="productGetters.getUnitName(product)"
           />
@@ -185,6 +185,27 @@ const { openQuickCheckout } = useQuickCheckout();
 const { crossedPrice } = useProductPrice(product);
 const { reviewArea } = useProductReviews(Number(productGetters.getId(product)));
 const localePath = useLocalePath();
+
+const unitContent = computed(() => {
+  const value = productGetters.getUnitContent(product);
+  return value ?? 1;
+});
+
+const custom_base_price = computed(() => {
+  const price = priceWithProperties.value || 0;
+  const u = unitContent.value || 1;
+
+  const number = price / u;
+
+  return new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: 4,
+    maximumFractionDigits: 4,
+  }).format(number) + ' EUR / '+ (productGetters.getUnitName(product) || '');
+});
+  
+
+
+
 
 const variationCount = computed(() => product.variationAttributeMap?.variations?.length ?? 0);
 const hasOneOrZeroVariations = computed(() => variationCount.value <= 1);
