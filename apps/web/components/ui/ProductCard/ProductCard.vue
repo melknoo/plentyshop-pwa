@@ -41,11 +41,11 @@
       </slot>
     </div>
     <div class="p-2 uppercase border-t border-neutral-200 sms-border--pink typography-text-sm flex flex-col flex-auto">
-      <SfLink :tag="NuxtLink" :to="productPath" class="no-underline" variant="secondary" data-testid="productcard-name">
+      <SfLink :tag="NuxtLink" :to="productPath" class="min-h-[40px] no-underline" variant="secondary" data-testid="productcard-name">
         {{ name }}
       </SfLink>
       <p class="normal-case typography-text-sm " data-testid="product-name">
-              <span v-if="hasOneOrZeroVariations" >{{ product.variation.name }}</span>
+              <!-- <span v-if="hasOneOrZeroVariations" >{{ product.variation.name }}</span> -->
               {{ product.variation.externalId }}
       </p>
       <div class="flex items-center pt-1 gap-1" :class="{ 'mb-2': !productGetters.getShortDescription(product) }">
@@ -141,12 +141,11 @@ const variationId = computed(() => productGetters.getVariationId(product));
 
 const hasOneOrZeroVariations = computed(() => (product.item?.salableVariationCount ?? 0) <= 1);
 
-
 const productPath = computed(() => {
   const basePath = `/${productGetters.getUrlPath(product)}_${productGetters.getItemId(product)}`;
-  const shouldAppendVariation = variationId.value && productGetters.getSalableVariationCount(product) === 1;
+  //const shouldAppendVariation = variationId.value && productGetters.getSalableVariationCount(product) === 1;
 
-  return localePath(shouldAppendVariation ? `${basePath}_${variationId.value}` : basePath);
+  return localePath(variationId.value ? `${basePath}_${variationId.value}` : basePath);
 });
 
 const getWidth = () => {

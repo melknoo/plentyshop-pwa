@@ -14,7 +14,7 @@
       :invalid="Boolean(errors['selectedValue'])"
       @update:model-value="(event) => doUpdateValue(Number(event))"
     >
-      <option :value="undefined">{{ t('pleaseSelect') }}</option>
+      <!-- <option class="test" :value="undefined">{{ t('pleaseSelect') }}</option> -->
       <option
         v-for="item in productAttributeGetters.getAttributeValues(attribute)"
         :key="productAttributeGetters.getAttributeValueId(item)"
