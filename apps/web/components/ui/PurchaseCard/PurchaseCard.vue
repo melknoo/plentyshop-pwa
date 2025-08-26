@@ -198,7 +198,7 @@ const custom_base_price = computed(() => {
   const number = price / u;
 
   return new Intl.NumberFormat("de-DE", {
-    minimumFractionDigits: 4,
+    minimumFractionDigits: 0,
     maximumFractionDigits: 4,
   }).format(number) + ' EUR / '+ (productGetters.getUnitName(product) || '');
 });
