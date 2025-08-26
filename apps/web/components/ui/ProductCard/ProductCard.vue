@@ -60,7 +60,6 @@
       </div>
       <LowestPrice :product="product" />
       <div v-if="showBasePrice" class="mb-2">
-        {{ console.log(custom_base_price) }}
         <BasePriceInLine :base-price="custom_base_price" :unit-content="unitContent" :unit-name="unitName" />
       </div>
       <div class="flex flex-col-reverse items-start md:flex-row md:items-center mt-auto">
