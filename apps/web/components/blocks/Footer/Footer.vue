@@ -1,29 +1,27 @@
 <template>
   <footer
     v-if="resolvedContent"
-    class="pt-10"
+    class="pt-10 text-white bg-black"
     :style="{
-      backgroundColor: resolvedContent.colors?.background || FOOTER_COLORS.background,
-      color: resolvedContent.colors?.text || FOOTER_COLORS.text,
     }"
     data-testid="footer"
   >
     <div class="px-4 md:px-6 pb-10 max-w-screen-3xl mx-auto">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div class="max-w-[280px] break-words">
-          <div class="ml-4 text-lg font-medium leading-7">
+          <!-- <div class="text-lg font-medium leading-7">
             {{ resolvedContent.column1?.title }}
-          </div>
+          </div> -->
           <ul>
             <SfListItem
               v-for="({ key: subcategoryKey, link }, idx) in categories[0]?.subcategories || []"
               :key="subcategoryKey || idx"
-              class="py-2 !bg-transparent typography-text-sm"
+              class="py-2  !bg-transparent typography-text-sm"
             >
               <SfLink
                 :tag="NuxtLink"
-                :style="{ color: resolvedContent.colors?.text || undefined }"
-                class="no-underline text-neutral-600 hover:underline active:underline"
+                
+                class="no-underline text-white text-lg font-medium hover:underline active:underline"
                 variant="secondary"
                 :to="localePath(link)"
               >
@@ -38,17 +36,16 @@
           :key="i"
           class="max-w-[280px] break-words"
         >
-          <div class="ml-4 text-lg font-medium leading-7">
+          <!-- <div class="ml-4 text-lg font-medium leading-7">
             {{ column?.title }}
-          </div>
+          </div> -->
           <div v-if="column?.showContactLink" class="text-sm">
             <li
               class="inline-flex items-center gap-2 w-full hover:bg-neutral-100 active:bg-neutral-200 cursor-pointer focus-visible:outline focus-visible:outline-offset focus-visible:relative focus-visible:z-10 px-4 py-2 !bg-transparent typography-text-sm"
             >
               <SfLink
-                :style="{ color: resolvedContent.colors?.text || '#1c1c1c' }"
                 :tag="NuxtLink"
-                class="no-underline text-neutral-900 hover:cursor-pointer hover:underline active:underline"
+                class="no-underline text-white text-lg font-medium hover:cursor-pointer hover:underline active:underline"
                 variant="secondary"
                 :to="localePath('/contact')"
               >
@@ -93,7 +90,7 @@ const localePath = useLocalePath();
 const NuxtLink = resolveComponent('NuxtLink');
 
 const FOOTER_COLORS = {
-  background: '#cfe4ec',
+  background: '#000',
   text: '#1c1c1c',
   footnoteBackground: '#161a16',
   footnoteText: '#959795',
