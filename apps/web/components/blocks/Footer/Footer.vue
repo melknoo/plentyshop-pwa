@@ -64,15 +64,11 @@
     <div>
       <div
         v-if="resolvedContent.footnote && resolvedContent.footnote.trim() !== ''"
-        class="text-sm py-10 md:py-6 px-10"
+        class="text-sm py-10 md:py-6 px-10 bg-black"
         :class="{
           'text-left': resolvedContent.footnoteAlign === 'left',
           'text-center': resolvedContent.footnoteAlign === 'center',
           'text-right': resolvedContent.footnoteAlign === 'right',
-        }"
-        :style="{
-          color: resolvedContent.colors?.footnoteText || FOOTER_COLORS.footnoteText,
-          backgroundColor: resolvedContent.colors?.footnoteBackground || FOOTER_COLORS.footnoteBackground,
         }"
         v-html="resolvedContent.footnote"
       />
