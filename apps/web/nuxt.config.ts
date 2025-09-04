@@ -82,13 +82,13 @@ export default defineNuxtConfig({
       showConfigurationDrawer: process.env.SHOW_CONFIGURATION_DRAWER === '1',
       defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
       favicon: process.env.NUXT_PUBLIC_FAVICON || '/_nuxt-plenty/favicon.ico',
-      ogTitle: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'PlentyONE Shop',
+      ogTitle: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'Suck my Straw | Umweltfreundliche Papier- und Metallstrohhalme',
       ogImg: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/_nuxt-plenty/images/logo.svg',
       ogType: process.env.NUXT_PUBLIC_OG_TYPE || process.env.OG_TYPE || 'website',
-      metaTitle: process.env.NUXT_PUBLIC_META_TITLE || process.env.METATITLE || 'PlentyONE Shop',
+      metaTitle: process.env.NUXT_PUBLIC_META_TITLE || process.env.METATITLE || 'Suck my Straw | Umweltfreundliche Papier- und Metallstrohhalme',
       metaDescription:
-        process.env.NUXT_PUBLIC_META_DESCRIPTION || process.env.METADESC || 'Demo shop for PlentyONE Shop',
-      metaKeywords: process.env.NUXT_PUBLIC_META_KEYWORDS || process.env.METAKEYWORDS || 'PlentyONE, plentyshop, pwa',
+        process.env.NUXT_PUBLIC_META_DESCRIPTION || process.env.METADESC || 'Der härteste Papierstrohhal | Hält länger als dein Drink | Umweltfreundliche Alternative zu Plastik',
+      metaKeywords: process.env.NUXT_PUBLIC_META_KEYWORDS || process.env.METAKEYWORDS || 'suck, my, straw, papierstrohhalme, buubletea, cocktails',
       robots: process.env.NUXT_PUBLIC_ROBOTS || 'all',
       themeColor: process.env.NUXT_PUBLIC_PRIMARY_COLOR || '#062633',
       headerLogo:
@@ -96,7 +96,7 @@ export default defineNuxtConfig({
         process.env.NUXT_PUBLIC_HEADER_LOGO || '/images/logo.svg',
       homepageCategoryId: Number(process.env.HOMEPAGE) ?? null,
       shippingTextCategoryId: Number(process.env.SHIPPINGTEXT) ?? null,
-      storename: process.env.STORENAME || 'PlentyONE GmbH',
+      storename: process.env.STORENAME || 'Suck my Straw',
       noCache: process.env.NO_CACHE || '',
       configId: process.env.CONFIG_ID || '',
       isHero: true,
@@ -264,8 +264,8 @@ export default defineNuxtConfig({
       cleanupOutdatedCaches: true,
     },
     manifest: {
-      name: process.env.STORENAME || 'PlentyONE GmbH',
-      short_name: 'PlentyONEShop',
+      name: process.env.STORENAME || 'Suck my Straw',
+      short_name: 'Suck my Straw',
       theme_color: '#0C7992',
       icons: [
         {
