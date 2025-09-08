@@ -76,8 +76,6 @@ const robots = ref(getRobots());
 const fav = ref(getFavicon());
 const themeColor = ref(getPrimaryColor());
 
-console.log(ogImage);
-console.log(ogTitle);
 
 watchEffect(() => {
   title.value = getMetaTitle();
