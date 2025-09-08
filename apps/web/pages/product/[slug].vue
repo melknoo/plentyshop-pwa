@@ -75,8 +75,29 @@ const RecommendedProductsAsync = defineAsyncComponent(
 const showRecommended = ref(false);
 const recommendedSection = ref<HTMLElement | null>(null);
 const productName = computed(() => productGetters.getName(product.value));
+
+const firstImageUrl = computed(() => {
+  if (!product.value) return '';
+
+  const gallery = productGetters.getGallery(product.value) || [];
+  if (!gallery.length) return '';
+
+  // nur wenn clientseitig verfügbar → Modern Image Helper verwenden
+  if (import.meta.client) {
+    const modernGallery = addModernImageExtensionForGallery(gallery);
+    return modernGallery[0]?.url || '';
+  }
+
+  // Fallback (Server-Side Rendering)
+  return gallery[0]?.url || '';
+});
+
 const icon = 'sell';
 setPageMeta(productName.value, icon);
+useSeoMeta({
+  ogTitle: () => productName.value,
+  ogImage: () => firstImageUrl.value
+});
 
 const countsProductReviews = computed(() => reviewGetters.getReviewCounts(productReviews.value));
 

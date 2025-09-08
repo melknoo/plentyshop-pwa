@@ -78,7 +78,9 @@ const { setPageMeta } = usePageMeta();
 const categoryName = computed(() => categoryGetters.getCategoryName(productsCatalog.value.category));
 const icon = 'sell';
 setPageMeta(categoryName.value, icon);
-
+useSeoMeta({
+  ogTitle: () => categoryName.value
+});
 watch(
   () => locale.value,
   (changedLocale: string) => {
