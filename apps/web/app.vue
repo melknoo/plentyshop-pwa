@@ -92,6 +92,7 @@ useSeoMeta({
   title: () => title.value,
   ogTitle: () => ogTitle.value,
   ogImage: () => "/images/sms-og-shareimg.jpg",
+  ogDescription: () => description.value,
   description: () => description.value,
   keywords: () => keywords.value,
   robots: () => robots.value,
