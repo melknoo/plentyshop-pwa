@@ -76,6 +76,9 @@ const robots = ref(getRobots());
 const fav = ref(getFavicon());
 const themeColor = ref(getPrimaryColor());
 
+console.log(ogImage);
+console.log(ogTitle);
+
 watchEffect(() => {
   title.value = getMetaTitle();
   ogTitle.value = getOgTitle();
@@ -90,7 +93,7 @@ watchEffect(() => {
 useSeoMeta({
   title: () => title.value,
   ogTitle: () => ogTitle.value,
-  ogImage: () => ogImage.value,
+  ogImage: () => "/images/sms-og-shareimg.jpg",
   description: () => description.value,
   keywords: () => keywords.value,
   robots: () => robots.value,
