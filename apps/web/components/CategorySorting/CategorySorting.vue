@@ -6,7 +6,7 @@
       {{ t('sortBy') }}
     </h6>
     <div class="px-4">
-      <SfSelect id="sortBy" class="text-white" v-model="selected" :aria-label="t('sortBy')">
+      <SfSelect id="sortBy" class="text-white" v-model="selected" :aria-label="t('sortBy')" data-testid="select-sort-by">
         <option class="text-black" v-for="option in options" :key="option" :value="option">
           {{ t(`sortType.${option}`) }}
         </option>

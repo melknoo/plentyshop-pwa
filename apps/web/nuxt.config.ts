@@ -33,7 +33,23 @@ export default defineNuxtConfig({
       },
     },
     optimizeDeps: {
-      include: ['dotenv', 'validator', 'js-sha256'],
+      include: [
+        '@paypal/paypal-js',
+        '@storefront-ui/shared',
+        '@vueuse/shared',
+        'country-flag-icons/string/3x2',
+        'dotenv',
+        'drift-zoom',
+        'js-sha256',
+        'swiper/modules',
+        'swiper/vue',
+        'uuid',
+        'validator',
+        'vue-multiselect',
+        'vue3-lazy-hydration',
+        'vue-tel-input',
+        'vuedraggable/src/vuedraggable',
+      ],
     },
     build: {
       rollupOptions: {
@@ -238,7 +254,7 @@ export default defineNuxtConfig({
     },
   },
   pwa: {
-    registerType: 'autoUpdate',
+    registerType: 'prompt',
     workbox: {
       navigateFallback: null,
       globPatterns: ['**/*.{js,json,css,html,ico,svg,png,webp,ico,woff,woff2,ttf,eit,otf}', '_nuxt-plenty/icons/*'],
