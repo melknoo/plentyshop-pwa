@@ -41,14 +41,16 @@
       </SfLink>
       <div v-if="!orderGetters.isBundleComponents(props.orderItem)" class="my-2">
         <ul class="text-xs font-normal leading-5 sm:typography-text-sm text-neutral-700">
-          <li v-for="(attribute, index) in orderGetters.getOrderAttributes(props.orderItem)" :key="index">
-            <span v-if="orderGetters.getOrderItemAttributeName(attribute)" class="mr-1">
-              {{ orderGetters.getOrderItemAttributeName(attribute) }}:
-            </span>
-            <span v-if="orderGetters.getOrderItemAttributeValue(attribute)" class="font-medium">
-              {{ orderGetters.getOrderItemAttributeValue(attribute) }}
-            </span>
-          </li>
+          <template v-for="(attribute, index) in orderGetters.getOrderAttributes(props.orderItem)" :key="index">
+            <li v-if="orderGetters.getOrderItemAttributeName(attribute) && orderGetters.getOrderItemAttributeValue(attribute)">
+              <span class="mr-1">
+                {{ orderGetters.getOrderItemAttributeName(attribute) }}:
+              </span>
+              <span class="font-medium">
+                {{ orderGetters.getOrderItemAttributeValue(attribute) }}
+              </span>
+            </li>
+          </template>
         </ul>
         <ul class="text-xs font-normal leading-5 sm:typography-text-sm text-neutral-700">
           <li v-for="(property, index) in orderGetters.getItemOrderProperties(props.orderItem)" :key="index">

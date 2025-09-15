@@ -15,19 +15,19 @@
       <UiButton
         variant="tertiary"
         size="sm"
-        class="self-start"
+        class="self-start mr-5 sms-button--secondary"
         @click.stop="emit('on-edit', userAddressGetters.getId(address))"
       >
         {{ t('account.accountSettings.edit') }}
       </UiButton>
-      <UiButton variant="tertiary" size="sm" class="self-start" @click.stop="emit('on-delete')">
+      <UiButton variant="tertiary" size="sm" class="self-start sms-button--secondary" @click.stop="emit('on-delete')">
         {{ t('account.accountSettings.delete') }}
       </UiButton>
       <UiButton
         v-if="!isDefault && !isGuest"
         variant="tertiary"
         size="sm"
-        class="self-start"
+        class="self-start sms-button--secondary"
         @click.stop="emit('make-default')"
       >
         {{ t('account.accountSettings.makeDefault') }}
