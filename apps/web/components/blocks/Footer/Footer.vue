@@ -45,9 +45,8 @@
                 class="inline-flex items-center gap-2 w-full hover:bg-neutral-100 active:bg-neutral-200 cursor-pointer focus-visible:outline focus-visible:outline-offset focus-visible:relative focus-visible:z-10 px-4 py-2 !bg-transparent typography-text-sm"
               >
                 <SfLink
-                  :style="{ color: resolvedContent.colors?.text || '#1c1c1c' }"
                   :tag="NuxtLink"
-                  class="no-underline text-neutral-900 hover:cursor-pointer hover:underline active:underline"
+                  class="no-underline text-white text-lg font-medium hover:cursor-pointer hover:underline active:underline"
                   variant="secondary"
                   :to="localePath('/contact')"
                 >
