@@ -30,6 +30,7 @@ export const useCoupon: UseCouponReturn = () => {
     const { send } = useNotification();
     const { getCart } = useCart();
     state.value.loading = true;
+    console.log(params.couponCode);
     if (params.couponCode.trim() === '') {
       send({ message: $i18n.t('coupon.pleaseProvideCoupon'), type: 'warning' });
       state.value.loading = false;
@@ -41,7 +42,8 @@ export const useCoupon: UseCouponReturn = () => {
       await getCart();
       send({ message: $i18n.t('coupon.couponApplied'), type: 'positive' });
     } catch (error) {
-      useHandleError(error as ApiError);
+      send({ message: $i18n.t('coupon.pleaseProvideCoupon'), type: 'warning' });
+      //useHandleError(error as ApiError);
     } finally {
       state.value.loading = false;
     }
