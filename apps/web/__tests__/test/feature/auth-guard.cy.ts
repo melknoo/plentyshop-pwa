@@ -1,5 +1,5 @@
 import { MyAccountPageObject } from '../../support/pageObjects/MyAccountPageObject';
-import { paths } from '../../../utils/paths';
+import { paths } from '../../../app/utils/paths';
 
 const guardedRoutes = [
   paths.accountPersonalData,
@@ -69,7 +69,7 @@ describe('Auth Guard', () => {
   it('should redirect back to protected page after successful login', () => {
     const myAccount = new MyAccountPageObject();
 
-    cy.visit(paths.accountPersonalData);
+    cy.visitAndHydrate(paths.accountPersonalData);
     cy.url().should('include', `${paths.authLogin}?redirect=${paths.accountPersonalData}`);
 
     cy.intercept('/plentysystems/doLogin').as('doLogin');
