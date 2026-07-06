@@ -9,10 +9,9 @@ import { toTypedSchema } from '@vee-validate/yup';
 import { object, string } from 'yup';
 
 export const usePackstationFinder = () => {
-  const { $i18n } = useNuxtApp();
   const { countryHasDelivery } = useCheckoutAddress(AddressType.Shipping);
   const { data: cartData } = useCart();
-  const genericMessage = $i18n.t('PreferredDelivery.packstation.noResult2');
+  const genericMessage = t('PreferredDelivery.packstation.noResult2');
 
   const state = useState('usePackstationFinder', () => ({
     loading: false,
@@ -32,7 +31,7 @@ export const usePackstationFinder = () => {
   const getShippingProfilesData = async () => {
     try {
       const { data } = await useSdk().plentysystems.getPreferredDeliveryLocationShippingProfiles();
-      state.value.data.preferredProfilesData = data;
+      state.value.data.preferredProfilesData = data ?? state.value.data.preferredProfilesData;
     } catch (error: unknown) {
       useHandleError(error as ApiError);
     }
@@ -70,7 +69,7 @@ export const usePackstationFinder = () => {
     try {
       state.value.loading = true;
       const { data } = await useSdk().plentysystems.getPackstations(state.value.data.searchParams);
-      state.value.data.packstations = data;
+      state.value.data.packstations = data ?? state.value.data.packstations;
       state.value.loading = false;
     } catch (error: unknown) {
       useHandleError(error as ApiError);

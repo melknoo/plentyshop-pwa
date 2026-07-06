@@ -16,7 +16,7 @@
       @click="downloadPropertyFile"
     >
       <span>: {{ value }}</span>
-      <SfLoaderCircular v-if="loading" class="absolute ml-2 z-[999]" size="sm" />
+      <SfLoaderCircular v-if="loading" class="absolute ml-2 z-loader" size="sm" />
     </span>
     <span v-else-if="!productPropertyGetters.isOrderPropertyCheckbox(property)">: {{ value }}</span>
   </div>
@@ -27,7 +27,6 @@ import type { CartOrderPropertyProps } from '~/components/CartOrderProperty/type
 import { cartGetters, productPropertyGetters } from '@plentymarkets/shop-api';
 import { SfLoaderCircular } from '@storefront-ui/vue';
 
-const { t } = useI18n();
 const { format } = usePriceFormatter();
 const { downloadFile } = useProductOrderProperties();
 const loading = ref(false);

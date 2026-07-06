@@ -1,7 +1,7 @@
 <template>
   <form
     novalidate
-    class="grid grid-cols-1 md:grid-cols-[50%_1fr_120px] gap-4"
+    class="grid grid-cols-1 @md:grid-cols-[50%_1fr_120px] gap-4"
     data-testid="billing-address-form"
     @submit.prevent="validateAndSubmitForm"
   >
@@ -22,7 +22,7 @@
       <ErrorMessage as="span" name="firstName" class="flex text-negative-700 text-sm mt-2" />
     </label>
 
-    <label class="md:col-span-2">
+    <label class="@md:col-span-2">
       <UiFormLabel class="flex">
         <span class="mr-1">
           {{ lastNameLabel }}
@@ -39,8 +39,8 @@
       <ErrorMessage as="span" name="lastName" class="flex text-negative-700 text-sm mt-2" />
     </label>
 
-    <div class="md:col-span-3">
-      <SfLink
+    <div class="@md:col-span-3">
+      <UiLink
         class="select-none hover:cursor-pointer"
         role="button"
         tabindex="0"
@@ -50,7 +50,7 @@
         @keydown.enter.space="hasCompany = !hasCompany"
       >
         {{ !hasCompany ? t('form.addCompany') : t('form.removeCompany') }}
-      </SfLink>
+      </UiLink>
     </div>
 
     <label v-if="hasCompany" for="billingCompanyName">
@@ -67,7 +67,7 @@
       <ErrorMessage as="span" name="companyName" class="flex text-negative-700 text-sm mt-2" />
     </label>
 
-    <label v-if="hasCompany" class="md:col-span-2" for="billingVatNumber">
+    <label v-if="hasCompany" class="@md:col-span-2" for="billingVatNumber">
       <UiFormLabel class="flex">
         <span class="mr-1">
           {{ t('form.vatIdLabel') }}
@@ -89,7 +89,7 @@
       </span>
     </label>
 
-    <label class="md:col-span-2">
+    <label class="@md:col-span-2">
       <UiFormLabel>{{ t('form.streetNameLabel') }} {{ t('form.required') }}</UiFormLabel>
       <SfInput
         v-model="streetName"
@@ -125,7 +125,7 @@
       <ErrorMessage id="billingZipCodeError" as="span" name="zipCode" class="flex text-negative-700 text-sm mt-2" />
     </label>
 
-    <label class="md:col-span-2">
+    <label class="@md:col-span-2">
       <UiFormLabel>{{ t('form.cityLabel') }} {{ t('form.required') }}</UiFormLabel>
       <SfInput
         v-model="city"
@@ -137,7 +137,7 @@
       <ErrorMessage as="span" name="city" class="flex text-negative-700 text-sm mt-2" />
     </label>
 
-    <label class="md:col-span-3">
+    <label class="@md:col-span-3">
       <UiFormLabel>{{ t('form.countryLabel') }} {{ t('form.required') }}</UiFormLabel>
       <SfSelect
         v-model="country"
@@ -162,7 +162,7 @@
 
     <div
       v-if="!restrictedAddresses || showAddressSaveButton"
-      class="md:col-span-3 flex flex-col sm:flex-row sm:justify-end sm:items-center"
+      class="@md:col-span-3 flex flex-col @sm:flex-row @sm:justify-end @sm:items-center"
     >
       <div v-if="showAddressSaveButton" class="flex items-center">
         <UiButton
@@ -171,7 +171,7 @@
           variant="secondary"
           type="submit"
         >
-          {{ t('saveAddress') }}
+          {{ t('common.actions.saveAddress') }}
         </UiButton>
 
         <UiButton
@@ -180,7 +180,7 @@
           variant="secondary"
           class="ml-2"
           :data-testid="`close-address-${AddressType.Billing}`"
-          :aria-label="t('closeAddressForm')"
+          :aria-label="t('common.navigation.closeAddressForm')"
           @click="edit"
         >
           <SfIconClose />
@@ -192,7 +192,7 @@
 
 <script setup lang="ts">
 import { type Address, AddressType, ApiError, userAddressGetters } from '@plentymarkets/shop-api';
-import { SfIconClose, SfInput, SfLink, SfSelect } from '@storefront-ui/vue';
+import { SfIconClose, SfInput, SfSelect } from '@storefront-ui/vue';
 import { ErrorMessage, useForm } from 'vee-validate';
 import type { AddressFormBillingProps } from './types';
 
@@ -214,7 +214,6 @@ const {
   refreshAddressDependencies,
 } = useAddressForm(AddressType.Billing);
 const { invalidVAT, clearInvalidVAT, vatServerError } = useCreateAddress(AddressType.Billing);
-const { t } = useI18n();
 const { addresses: billingAddresses } = useAddressStore(AddressType.Billing);
 const { set: setCheckoutAddress, hasCheckoutAddress } = useCheckoutAddress(AddressType.Billing);
 const { defineField, errors, setValues, validate, handleSubmit } = useForm({ validationSchema: billingSchema });

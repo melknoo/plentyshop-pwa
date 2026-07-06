@@ -1,22 +1,8 @@
 import { PageObject } from './PageObject';
 
-export const firstBannerBlockUuid = 'a7b3c1d9-2e6f-4a5b-8c7d-1e2f3b4c5a6d';
-
 export class EditorObject extends PageObject {
-  get pretitle() {
-    return cy.getByTestId(`banner-pretitle-${firstBannerBlockUuid}`);
-  }
-
-  get title() {
-    return cy.getByTestId(`banner-title-${firstBannerBlockUuid}`);
-  }
-
-  get subtitle() {
-    return cy.getByTestId(`banner-subtitle-${firstBannerBlockUuid}`);
-  }
-
   get description() {
-    return cy.getByTestId(`banner-description-${firstBannerBlockUuid}`);
+    return cy.get('[data-testid^="text-html"]').first();
   }
 
   get editorToolbar() {
@@ -31,6 +17,10 @@ export class EditorObject extends PageObject {
     return cy.getByTestId('edit-block-actions');
   }
 
+  get multiGridEditButton() {
+    return cy.getByTestId('MultiGrid-open-editor-button');
+  }
+
   get openEditorButton() {
     return cy.getByTestId('open-editor-button');
   }
@@ -40,15 +30,23 @@ export class EditorObject extends PageObject {
   }
 
   get exitEditorButton() {
-    return cy.get('#close');
+    return cy.getByTestId('close-editor-button');
   }
 
   get blockWrappers() {
     return cy.get('[data-testid*="block-wrapper"]');
   }
 
-  get blocksAccordionImage() {
-    return cy.get('[data-testid="block-category-image"]');
+  get contentBlockWrappers() {
+    return cy.get('[data-testid*="block-wrapper"]').not('.header-blocks [data-testid*="block-wrapper"]');
+  }
+
+  get addBlockPopover() {
+    return cy.getByTestId('add-block-popover');
+  }
+
+  get addLayoutPresetButton() {
+    return cy.getByTestId('block-add-layout-preset-2-equal');
   }
 
   get topBlockButton() {
@@ -57,6 +55,14 @@ export class EditorObject extends PageObject {
 
   get bottomBlockButton() {
     return cy.getByTestId('bottom-add-block');
+  }
+
+  get inlineBlockButton() {
+    return cy.getByTestId('inactive-empty-multicolumn');
+  }
+
+  get deleteFormBlockButton() {
+    return cy.getByTestId('delete-form-block-button');
   }
 
   get deleteBlockButton() {
@@ -79,7 +85,19 @@ export class EditorObject extends PageObject {
     return cy.getByTestId('editor-language-select');
   }
 
-  get addBlockButton() {
+  get languageList() {
+    return cy.getByTestId('editor-language-list');
+  }
+
+  get languageOptionGerman() {
+    return cy.getByTestId('language-option-de');
+  }
+
+  get multiGridColumns() {
+    return cy.getByTestId('multi-grid-column');
+  }
+
+  get addImageBlockButton() {
     return cy.getByTestId('block-add-image-0');
   }
 
@@ -97,6 +115,10 @@ export class EditorObject extends PageObject {
 
   get generalSettingsButton() {
     return cy.getByTestId('open-general-settings-drawer');
+  }
+
+  get seoSettingsButton() {
+    return cy.getByTestId('open-seo-settings-drawer');
   }
 
   blockIsBanner(el: JQuery<HTMLElement>) {
@@ -141,12 +163,25 @@ export class EditorObject extends PageObject {
   }
 
   toggleCategorySettings() {
-    this.categorySettingsButton.should('be.visible').click();
+    this.categorySettingsButton
+      .should('be.visible')
+      .click()
+      .trigger('mouseout', { force: true })
+      .trigger('mouseleave', { force: true });
+    return this;
+  }
+
+  toggleSeoSettings() {
+    this.seoSettingsButton.should('be.visible').click();
     return this;
   }
 
   toggleGeneralSettings() {
-    this.generalSettingsButton.should('be.visible').click();
+    this.generalSettingsButton
+      .should('be.visible')
+      .click()
+      .trigger('mouseout', { force: true })
+      .trigger('mouseleave', { force: true });
     return this;
   }
 
@@ -201,37 +236,32 @@ export class EditorObject extends PageObject {
 
   checkEditorChanges() {
     this.exitEditorButton.get('#close').click({ force: true });
-    this.pretitle.should('have.text', 'New pretitle from cypress');
-    this.title.should('have.text', 'New title from cypress');
-    this.subtitle.should('not.exist');
     this.description.should('have.text', 'Description from cypress.');
   }
 
   buttonsExistWithGroupClasses() {
-    this.blockWrappers.first().should('exist').and('have.class', 'group').and('not.have.css', 'outline-style', 'solid');
-    this.blockWrappers.first().within(() => {
+    this.contentBlockWrappers
+      .first()
+      .should('exist')
+      .and('have.class', 'group')
+      .and('not.have.css', 'outline-style', 'solid');
+    this.contentBlockWrappers.first().within(() => {
       this.topBlockButton
         .should('exist')
-        .and('have.class', 'group-hover:opacity-100')
-        .and('have.class', 'group-focus:opacity-100');
-      this.bottomBlockButton
-        .should('exist')
-        .and('have.class', 'group-hover:opacity-100')
-        .and('have.class', 'group-focus:opacity-100');
-      this.editBlockActions
-        .should('exist')
-        .and('have.class', 'group-hover:opacity-100')
-        .and('have.class', 'group-focus:opacity-100');
+        .and('have.class', 'group-hover/block:opacity-100')
+        .and('have.class', 'focus-visible:opacity-100');
+      this.bottomBlockButton.should('exist').and('have.class', 'group-hover/block:opacity-100');
+      this.editBlockActions.should('exist').and('have.class', 'group-hover/block:opacity-100');
     });
   }
 
   deleteBlock() {
-    this.blockWrappers.then((initialBlocks) => {
+    this.contentBlockWrappers.then((initialBlocks) => {
       const initialLength = initialBlocks.length;
-      this.blockWrappers.first().should('exist');
-      this.deleteBlockButton.eq(1).click();
+      this.contentBlockWrappers.first().should('exist');
+      this.contentBlockWrappers.first().find('[data-testid="delete-block-button"]').click();
       cy.wait(1000);
-      this.blockWrappers.should('have.length', initialLength - 1);
+      this.contentBlockWrappers.should('have.length', initialLength - 1);
     });
   }
 
@@ -251,48 +281,50 @@ export class EditorObject extends PageObject {
   }
 
   switchLanguage() {
-    cy.intercept('/plentysystems/getBlocks').as('getBlocks');
+    cy.intercept('/plentysystems/getBlocksWithGlobalBlocks').as('getBlocks');
     cy.intercept('/plentysystems/getCategoryTree').as('getCategoryTree');
     cy.intercept('/plentysystems/getSession').as('getSession');
 
     this.editPreviewButton.click();
-    this.languageSwitcher.should('exist');
-    this.languageSwitcher.select('de');
+    this.languageSwitcher.should('be.visible').click();
+    this.languageList.should('be.visible');
+    this.languageList.children().should('have.length', 2);
+    this.languageOptionGerman.should('be.visible').click();
     cy.wait(['@getSession', '@getCategoryTree', '@getBlocks']);
-    this.title.first().should('have.text', 'Ihr Sound');
+    this.description.should('contain.text', 'Ihr Sound');
   }
 
   addBlockTop() {
-    this.blockWrappers.then((initialBlocks) => {
+    this.contentBlockWrappers.then((initialBlocks) => {
       const initialLength = initialBlocks.length;
-      this.topBlockButton.invoke('removeClass', 'opacity-0');
-      this.topBlockButton.first().should('exist').click();
+      this.contentBlockWrappers.first().find('[data-testid="top-add-block"]').invoke('removeClass', 'opacity-0');
+      this.contentBlockWrappers.first().find('[data-testid="top-add-block"]').should('exist').click();
+      this.addBlockPopover.should('be.visible');
+      this.addImageBlockButton.first().should('exist').click({ force: true });
       cy.wait(1000);
-      this.blocksAccordionImage.should('exist').click();
-      cy.wait(1000);
-      this.addBlockButton.first().should('exist').click();
-      cy.wait(1000);
-      this.blockWrappers.should('have.length', initialLength + 1);
+      this.contentBlockWrappers.should('have.length', initialLength + 1);
     });
   }
 
   addBlockBottom() {
-    this.blockWrappers.then((initialBlocks) => {
+    this.contentBlockWrappers.then((initialBlocks) => {
       const initialLength = initialBlocks.length;
-      this.bottomBlockButton.invoke('removeClass', 'opacity-0');
-      this.bottomBlockButton.first().should('exist').click();
+      this.contentBlockWrappers.first().find('[data-testid="bottom-add-block"]').invoke('removeClass', 'opacity-0');
+      this.contentBlockWrappers.first().find('[data-testid="bottom-add-block"]').should('exist').click();
+      this.addBlockPopover.should('be.visible');
+      this.addImageBlockButton.click({ force: true });
       cy.wait(1000);
-      this.blocksAccordionImage.should('exist').click();
-      cy.wait(1000);
-      this.addBlockButton.click();
-      cy.wait(1000);
-      this.blockWrappers.should('have.length', initialLength + 1);
+      this.contentBlockWrappers.should('have.length', initialLength + 1);
     });
   }
 
   checkFirstBlock() {
-    this.blockWrappers.first().within(() => {
-      this.topMoveBlockButton.first().should('exist').and('be.disabled').and('have.class', 'cursor-not-allowed');
+    this.contentBlockWrappers.first().within(() => {
+      this.topMoveBlockButton
+        .first()
+        .should('exist')
+        .and('be.disabled')
+        .and('have.class', 'disabled:cursor-not-allowed');
     });
   }
 
@@ -305,7 +337,11 @@ export class EditorObject extends PageObject {
         }
       });
       cy.wrap($blocks[lastNonFooterIndex]).within(() => {
-        this.bottomMoveBlockButton.first().should('exist').and('be.disabled').and('have.class', 'cursor-not-allowed');
+        this.bottomMoveBlockButton
+          .first()
+          .should('exist')
+          .and('be.disabled')
+          .and('have.class', 'disabled:cursor-not-allowed');
       });
     });
   }
@@ -319,39 +355,61 @@ export class EditorObject extends PageObject {
   }
 
   assertDefaultBlockOrder() {
-    this.blockWrappers.then(($blocks) => {
+    this.contentBlockWrappers.then(($blocks) => {
       cy.wrap($blocks.eq(0)).should('contain.text', 'Feel the music');
       cy.wrap($blocks.eq(1)).should('contain.text', 'Discover Tech');
     });
   }
 
   moveBlock() {
-    this.blockWrappers.first().within(() => {
+    this.contentBlockWrappers.first().within(() => {
       this.bottomMoveBlockButton.first().should('exist').click();
     });
   }
 
   assertChangedBlockOrder() {
-    this.blockWrappers.then(($blocks) => {
+    this.contentBlockWrappers.then(($blocks) => {
       cy.wrap($blocks.eq(0)).should('contain.text', 'Discover Tech');
       cy.wrap($blocks.eq(1)).should('contain.text', 'Feel the music');
     });
   }
 
   checkWrapperSpacings() {
-    this.blockWrappers.each((el) => {
-      if (
-        this.blockIsBanner(el) ||
-        this.isMultiGrid(el) ||
-        this.isInnerBlock(el) ||
-        this.blockIsNewsletter(el) ||
-        this.blockIsFooter(el.get(0))
-      ) {
-        cy.wrap(el).should('not.have.class', 'px-4').and('not.have.class', 'md:px-6');
-        cy.wrap(el).should('not.have.class', 'px-4').and('not.have.class', 'md:px-6');
+    this.contentBlockWrappers.each((el) => {
+      if (this.blockIsBanner(el) || this.isMultiGrid(el) || this.isInnerBlock(el) || this.blockIsFooter(el.get(0))) {
+        cy.wrap(el).should('not.have.class', 'p-4');
       } else {
-        cy.wrap(el).should('have.class', 'px-4').and('have.class', 'md:px-6');
+        cy.wrap(el).should('have.class', 'p-4');
       }
     });
+  }
+
+  addMultiGridTop() {
+    this.contentBlockWrappers.first().find('[data-testid="top-add-block"]').should('exist').click();
+    this.addBlockPopover.should('be.visible');
+    this.addLayoutPresetButton.should('exist').click({ force: true });
+    cy.wait(1000);
+  }
+
+  addBlockInGridColumn(column: number) {
+    this.inlineBlockButton.eq(column).should('exist').click();
+    this.addBlockPopover.should('be.visible');
+    this.addImageBlockButton.click({ force: true });
+    cy.wait(1000);
+  }
+
+  closeEditor() {
+    this.exitEditorButton.should('exist').click();
+  }
+
+  deleteBlockInGridColumn(column: number) {
+    this.multiGridEditButton.first().should('exist').click({ force: true });
+    cy.wait(1000);
+    cy.get(`[data-testid="actions-edit-item-${column}"]`).should('exist').click({ force: true });
+    cy.wait(1000);
+    this.deleteFormBlockButton.should('exist').click();
+    cy.wait(1000);
+    this.inlineBlockButton.eq(column).should('exist');
+    this.inlineBlockButton.should('have.length', 2);
   }
 }

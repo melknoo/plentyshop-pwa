@@ -29,8 +29,8 @@ describe('ItemGrid.vue', () => {
     expect(grid.exists()).toBe(true);
     expect(grid.classes()).toContain('mb-10');
     expect(grid.classes()).toContain('gap-4');
-    expect(grid.classes()).toContain('md:gap-6');
-    expect(grid.classes()).toContain('md:mb-5');
+    expect(grid.classes()).toContain('@md:gap-6');
+    expect(grid.classes()).toContain('@md:mb-5');
   });
 
   it('should position product count correctly (left, center, right)', async () => {
@@ -162,15 +162,15 @@ describe('ItemGrid.vue', () => {
     });
 
     expect(wrapper.find('[data-testid="category-grid"]').classes()).toContain('grid-cols-2');
-    expect(wrapper.find('[data-testid="category-grid"]').classes()).toContain('md:grid-cols-3');
-    expect(wrapper.find('[data-testid="category-grid"]').classes()).toContain('lg:grid-cols-4');
+    expect(wrapper.find('[data-testid="category-grid"]').classes()).toContain('@md:grid-cols-3');
+    expect(wrapper.find('[data-testid="category-grid"]').classes()).toContain('@lg:grid-cols-4');
   });
   it('should show VAT ', async () => {
     const wrapper = mount(ItemGrid, {
       props: { ...ItemGridMock },
     });
 
-    expect(wrapper.text()).toContain('itemInclVAT');
+    expect(wrapper.text()).toContain('Incl. VAT');
   });
 
   it('should render the correct number of products per row based on viewport', async () => {
@@ -188,8 +188,8 @@ describe('ItemGrid.vue', () => {
 
     const grid = wrapper.find('[data-testid="category-grid"]');
     expect(grid.classes()).toContain('grid-cols-1');
-    expect(grid.classes()).toContain('md:grid-cols-2');
-    expect(grid.classes()).toContain('lg:grid-cols-3');
+    expect(grid.classes()).toContain('@md:grid-cols-2');
+    expect(grid.classes()).toContain('@lg:grid-cols-3');
   });
 
   it('should render shipping information with a link', async () => {
@@ -213,7 +213,7 @@ describe('ItemGrid.vue', () => {
 
     const shippingInfo = wrapper.find('[data-testid="shipping-link"]');
     expect(shippingInfo.exists()).toBe(true);
-    expect(shippingInfo.text()).toContain('delivery');
+    expect(shippingInfo.text()).toContain('Shipping');
     expect(shippingInfo.attributes('href')).toBe('/shipping');
   });
 
@@ -229,6 +229,6 @@ describe('ItemGrid.vue', () => {
 
     const itemCount = wrapper.find('[data-testid="item-count"]');
     expect(itemCount.exists()).toBe(true);
-    expect(itemCount.text()).toContain(`numberOfProducts`);
+    expect(itemCount.text()).toContain(`items out of`);
   });
 });

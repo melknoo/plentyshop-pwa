@@ -1,6 +1,56 @@
-import type { Product, ReviewCounts } from '@plentymarkets/shop-api';
+import type { Product } from '@plentymarkets/shop-api';
+
+export interface PriceCardTextBlockItem {
+  type: 'textBlock';
+  uuid: string;
+  content: string;
+  visible: boolean;
+}
+
+export type PriceCardOrderItem = PriceCardFieldKey | PriceCardTextBlockItem;
+
+export type PriceCardFieldKey =
+  | 'itemName'
+  | 'price'
+  | 'tags'
+  | 'availability'
+  | 'starRating'
+  | 'variationProperties'
+  | 'orderProperties'
+  | 'previewText'
+  | 'attributes'
+  | 'itemBundle'
+  | 'graduatedPrices'
+  | 'addToWishlist'
+  | 'quantityAndAddToCart'
+  | 'itemText'
+  | 'technicalData';
+
+export type WishlistSize = 'small' | 'large';
+
+export type PriceCardFieldsVisibility = Record<PriceCardFieldKey, boolean>;
+
+export type PriceCardPadding = {
+  paddingTop: number;
+  paddingBottom: number;
+  paddingRight: number;
+  paddingLeft: number;
+  fullWidth: boolean;
+};
+
+export interface PriceCardContent {
+  fields: PriceCardFieldsVisibility;
+  fieldsOrder: PriceCardOrderItem[];
+  fieldsDisabled: PriceCardFieldKey[];
+  wishlistSize: WishlistSize;
+
+  dropShadow: boolean;
+  borders: boolean;
+  borderColor: string;
+  layout: PriceCardPadding;
+}
 
 export type PurchaseCardProps = {
   product: Product;
-  reviewAverage: ReviewCounts;
+  configuration?: PriceCardContent;
 };

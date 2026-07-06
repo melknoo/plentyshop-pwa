@@ -47,7 +47,6 @@ const emit = defineEmits<{
   (e: 'validPhoneNumber', validation: PhoneValidationResult): void;
 }>();
 
-const { t } = useI18n();
 const localValue = ref(props.modelValue);
 
 watch(
@@ -64,7 +63,7 @@ const dropdownOptions = {
   showDialCodeInSelection: false,
   showFlags: true,
   showSearchBox: true,
-  searchBoxPlaceholder: t('checkoutPayment.countrySearch'),
+  searchBoxPlaceholder: t('checkout.payment.countrySearch'),
 };
 
 const inputOptions = {
@@ -99,7 +98,7 @@ const styleClasses = computed(() =>
 }
 
 :deep(.vti__dropdown-list) {
-  @apply absolute z-50 mt-[8px] max-h-60 w-max left-[-5px] overflow-y-auto overflow-x-hidden rounded border border-gray-200;
+  @apply absolute z-dropdown mt-[8px] max-h-60 w-max left-[-5px] overflow-y-auto overflow-x-hidden rounded border border-gray-200;
 }
 
 :deep(.vti__dropdown-item) {

@@ -1,5 +1,5 @@
 <template>
-  <li :ref="setRef" class="mr-0 sm:mr-3">
+  <li :ref="setRef" class="mr-0 @sm:mr-3">
     <template v-if="isActive">
       <div class="w-full text-left p-3 rounded-md border border-[rgb(255,204,0)] bg-[rgb(255,204,0)] space-y-3">
         <div class="p-3 rounded bg-yellow-300 select-none space-y-3">
@@ -98,7 +98,6 @@ const { station, index, isActive, setRef } = defineProps<PackstationProps>();
 
 defineEmits(['on-station-select']);
 
-const { t } = useI18n();
 const { postNumber, postNumberRequired, savePackstationAddress } = usePackstationAddress();
 
 const stationBadgeClass = computed(() =>

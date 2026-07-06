@@ -1,5 +1,6 @@
 <template>
   <div
+    :key="`${$route.meta?.identifier ?? ''}:${$route.meta?.type ?? ''}`"
     class="mb-3 font-editor"
     :class="['sticky top-0 bg-white h-[52px] shadow-[0px_15px_20px_-15px_#111]', drawerZIndexClass]"
     data-testid="edit-mode-toolbar"
@@ -9,6 +10,7 @@
       <div class="absolute left-1/2 transform -translate-x-1/2 flex space-x-2">
         <UiLanguageEditor />
         <UiPageSelector />
+        <UiToolbarDeviceToggle />
       </div>
       <div class="ml-auto flex space-x-2">
         <button
@@ -72,16 +74,21 @@ import { deepEqual } from '~/utils/jsonHelper';
 const previewLabel = 'Switch to Preview mode to see how your site will appear to visitors.';
 const editLabel = 'Switch to Edit mode to modify your page content and layout.';
 
+const { hasChanges: localizationHasChanges } = useEditorLocalizationKeys();
 const { isEditing, isEditingEnabled, disableActions } = useEditor();
 const { isDrawerOpen } = useDrawerState();
 
-const { data, loading, cleanData } = useCategoryTemplate();
+const { data, cleanData, loading, isSettling } = useBlocks();
+
 const { closeDrawer } = useSiteConfiguration();
 const { settingsIsDirty, loading: settingsLoading } = useSiteSettings();
+const { assetsIsDirty } = useCustomAssets();
 
 const { save } = useToolbar();
 
-const isTouched = computed(() => settingsIsDirty.value || isEditingEnabled.value);
+const isTouched = computed(
+  () => assetsIsDirty.value || settingsIsDirty.value || isEditingEnabled.value || localizationHasChanges.value,
+);
 
 const toggleEdit = () => {
   disableActions.value = !disableActions.value;
@@ -91,11 +98,14 @@ const toggleEdit = () => {
   }
 };
 
-const drawerZIndexClass = computed(() => (isDrawerOpen.value ? 'lg:z-20 md:z-10' : 'md:z-20'));
+const drawerZIndexClass = computed(() =>
+  isDrawerOpen.value ? 'lg:z-editor-drawer md:z-editor-toolbar' : 'md:z-editor-drawer',
+);
 
 watch(
   () => data.value,
-  async () => {
+  () => {
+    if (isSettling.value) return;
     isEditingEnabled.value = !deepEqual(cleanData.value, data.value);
   },
   { deep: true },

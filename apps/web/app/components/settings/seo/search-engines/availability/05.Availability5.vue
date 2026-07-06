@@ -1,5 +1,5 @@
 <template>
-  <div v-if="runtimeConfig.public.isDev" class="py-2">
+  <div class="py-2">
     <div class="flex justify-between mb-2">
       <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
     </div>
@@ -19,11 +19,9 @@
 </template>
 <script setup lang="ts">
 import Multiselect from 'vue-multiselect';
-import type { SettingOption } from '~/utils/editorSettings';
 import { getSeoAvailabilityOptions } from '~/utils/editorSettings';
 
 const { updateSetting, getSetting } = useSiteSettings('seoAvailability5');
-const runtimeConfig = useRuntimeConfig();
 
 const availabilityOptions = computed(() => getSeoAvailabilityOptions());
 

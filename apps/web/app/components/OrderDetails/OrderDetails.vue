@@ -7,7 +7,7 @@
       {{ t('returns.detailsHeading') }}
     </span>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 mb-2">
+  <div class="grid @md:grid-cols-2 @lg:grid-cols-3 mb-2">
     <p class="font-medium text-base">
       <span v-if="!orderGetters.isReturn(order)">
         {{ t('account.ordersAndReturns.orderNumber') }}
@@ -18,11 +18,11 @@
     </p>
     <p>{{ orderGetters.getId(order) }}</p>
   </div>
-  <div v-if="orderGetters.isReturn(order)" class="grid md:grid-cols-2 lg:grid-cols-3 mb-2">
+  <div v-if="orderGetters.isReturn(order)" class="grid @md:grid-cols-2 @lg:grid-cols-3 mb-2">
     <p class="font-medium text-base">{{ t('account.ordersAndReturns.orderNumber') }}</p>
     <p>{{ orderGetters.getOrderReferenceOriginId(order) }}</p>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 mb-2">
+  <div class="grid @md:grid-cols-2 @lg:grid-cols-3 mb-2">
     <p class="font-medium text-base">
       <span v-if="!orderGetters.isReturn(order)">
         {{ t('account.ordersAndReturns.orderDate') }}
@@ -33,7 +33,7 @@
     </p>
     <p>{{ orderGetters.getDate(order, locale) }}</p>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 mb-2">
+  <div class="grid @md:grid-cols-2 @lg:grid-cols-3 mb-2">
     <p class="font-medium text-base">
       {{ t('account.ordersAndReturns.status') }}
     </p>
@@ -45,7 +45,7 @@
 import { orderGetters } from '@plentymarkets/shop-api';
 import type { OrderDetailsProps } from './types';
 
-const { locale, t } = useI18n();
+const { locale } = useI18n();
 
 defineProps<OrderDetailsProps>();
 </script>

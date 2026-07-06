@@ -1,313 +1,109 @@
 <template>
-  <div data-testid="banner-carousel-form" class="block-slider-edit sticky top-[52px] h-[80vh] overflow-y-auto">
-    <div class="mb-6">
-      <div class="flex item-center justify-between mb-4 p-4 pr-2">
-        <h2>{{ getEditorTranslation('slides-group-label') }}</h2>
-        <div class="flex item-center">
-          <button
-            data-testid="quick-add-slide-button"
-            class="p-2 text-gray-600 hover:bg-gray-100 rounded-full shrink-0"
-            @click="addSlide"
-          >
-            <SfIconAdd class="text-neutral-500" />
-          </button>
-          <div class="relative">
-            <button
-              v-if="slides.length >= 2"
-              data-testid="open-slide-actions"
-              class="p-2 text-gray-600 hover:bg-gray-100 rounded-full"
-              @click="open"
-            >
-              <SfIconMoreHoriz class="text-neutral-500" />
-            </button>
+  <div data-testid="banner-carousel-form" class="block-slider-edit sticky h-[80vh] overflow-y-auto">
+    <div v-if="!editingBlock" class="space-y-0">
+      <EditorGridElementsPanel
+        v-model="elementsOpen"
+        :uuid="resolvedUuid"
+        :min-items="1"
+        :custom-add="true"
+        @edit-element="editSlide"
+        @add-element="addSlide"
+      />
 
-            <div
-              v-if="isOpen && slides.length >= 2"
-              class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border z-50"
-            >
-              <div class="flex justify-end p-2">
-                <SfIconClose class="cursor-pointer" @click="close" />
-              </div>
-              <hr />
-              <div class="p-2">
-                <draggable
-                  v-if="slides.length"
-                  v-model="slides"
-                  item-key="meta.uuid"
-                  handle=".drag-slides-handle"
-                  class="p-2 rounded"
-                  :filter="'.no-drag'"
-                >
-                  <template #item="{ element: slide, index }">
-                    <div
-                      :key="slide.meta.uuid"
-                      class="flex items-center justify-between drag-slides-handle cursor-move"
-                    >
-                      <div class="flex items-center">
-                        <div v-if="false" class="flex flex-col no-drag">
-                          <SfIconExpandLess
-                            v-if="index !== 0"
-                            :data-testid="`actions-move-slide-up-${index}`"
-                            class="cursor-pointer text-neutral-500 mr-2"
-                            size="sm"
-                            @click.stop="moveSlideUp(index)"
-                          />
-                          <SfIconExpandLess
-                            v-else
-                            class="cursor-pointer text-neutral-500 mr-2 pointer-events-none opacity-50"
-                            size="sm"
-                          />
-
-                          <SfIconExpandMore
-                            v-if="index + 1 !== slides.length"
-                            :data-testid="`actions-move-slide-down-${slide.meta.uuid}`"
-                            class="cursor-pointer text-neutral-500 mr-2"
-                            size="sm"
-                            @click.stop="moveSlideDown(index)"
-                          />
-                          <SfIconExpandMore
-                            v-else
-                            class="cursor-pointer text-neutral-500 mr-2 pointer-events-none opacity-50"
-                            size="sm"
-                          />
-                        </div>
-                        <button
-                          class="drag-slides-handle top-2 left-2 z-50 cursor-grab p-2 hover:bg-gray-100 rounded-full"
-                          :aria-label="getEditorTranslation('drag-reorder-aria')"
-                          :data-testid="`actions-drag-slide-handle-${index}`"
-                        >
-                          <NuxtImg width="18" height="18" :src="dragIcon" />
-                        </button>
-                        <span>{{ getEditorTranslation('slide-label') }} {{ index + 1 }}</span>
-                      </div>
-
-                      <button
-                        :data-testid="`actions-delete-slide-${index}`"
-                        class="text-red-500 hover:text-red-700"
-                        :disabled="slides.length === 1"
-                        @click="deleteSlide(index)"
-                      >
-                        <SfIconDelete class="text-neutral-500" />
-                      </button>
-                    </div>
-                  </template>
-                </draggable>
-                <hr />
-                <div class="pl-2 pr-2 pt-2 flex justify-between items-center">
-                  <p>{{ getEditorTranslation('add-slide-label') }}</p>
-                  <button
-                    data-testid="actions-add-slide-button"
-                    class="p-2 text-gray-600 hover:bg-gray-100 rounded-full shrink-0"
-                    @click="addSlide"
-                  >
-                    <SfIconAdd class="text-neutral-500" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <SfScrollable
-        :key="slides.length"
-        class="items-center w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-      >
-        <template #previousButton="defaultProps">
-          <button
-            v-bind="defaultProps"
-            class="p-1 text-gray-500 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <SfIconChevronLeft class="text-neutral-500" />
-          </button>
-        </template>
-
-        <template #nextButton="defaultProps">
-          <button
-            v-bind="defaultProps"
-            class="p-1 text-gray-500 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <SfIconChevronRight class="text-neutral-500" />
-          </button>
-        </template>
-
-        <div class="flex items-center gap-2 flex-nowrap">
-          <button
-            v-for="(slide, index) in slides"
-            :key="slide.meta.uuid"
-            :data-testid="`slide-settings-${index}`"
-            class="px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 shrink-0"
-            :class="activeSlide === index ? 'bg-editor-button text-white' : ''"
-            @click="slideClick(index)"
-          >
-            {{ getEditorTranslation('slide-label') }} {{ index + 1 }}
-          </button>
-        </div>
-      </SfScrollable>
-    </div>
-
-    <div v-if="activeSlide !== undefined && slides[activeSlide]" :data-testid="`slide-settings-${activeSlide}`">
-      <BlocksBannerCarouselBannerForm :uuid="slides[activeSlide]!.meta.uuid" />
-      <UiAccordionItem
-        v-model="controlsOpen"
-        summary-active-class="bg-neutral-100"
-        summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between items-center select-none border-b"
-      >
-        <template #summary>
-          <h2>{{ getEditorTranslation('controls-group-label') }}</h2>
-        </template>
-
+      <EditorFormPanel v-model="controlsOpen" :title="getEditorTranslation('controls-group-label')">
         <div class="controls">
           <div class="mb-6 mt-4">
             <UiFormLabel class="mb-1">{{ getEditorTranslation('controls-color-label') }}</UiFormLabel>
-
-            <SfInput v-model="controls.color" type="text">
-              <template #suffix>
-                <label
-                  for="controls-color"
-                  :style="{ backgroundColor: controls.color }"
-                  class="border border-[#a0a0a0] rounded-lg cursor-pointer"
-                >
-                  <input id="controls-color" v-model="controls.color" type="color" class="invisible w-8" />
-                </label>
+            <EditorColorPicker v-model="controls.color" class="w-full">
+              <template #trigger="{ color, toggle }">
+                <SfInput v-model="controls.color" type="text">
+                  <template #suffix>
+                    <button
+                      type="button"
+                      class="border border-[#a0a0a0] rounded-lg cursor-pointer w-10 h-8"
+                      :style="{ backgroundColor: color }"
+                      @mousedown.stop
+                      @click.stop="toggle"
+                    />
+                  </template>
+                </SfInput>
               </template>
-            </SfInput>
+            </EditorColorPicker>
           </div>
         </div>
-      </UiAccordionItem>
+      </EditorFormPanel>
+
+      <EditorFormPanel
+        v-model="layoutOpen"
+        :title="getEditorTranslation('layout-label')"
+        data-testid="slider-button-group-title"
+      >
+        <EditorFullWidthToggle v-model="isFullWidth" :block-uuid="resolvedUuid" />
+      </EditorFormPanel>
+    </div>
+
+    <div v-else class="space-y-0">
+      <component :is="blockForm" :uuid="editingBlock.meta.uuid" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  SfScrollable,
-  SfIconChevronLeft,
-  SfIconChevronRight,
-  SfIconDelete,
-  SfInput,
-  SfIconMoreHoriz,
-  SfIconAdd,
-  useDisclosure,
-  SfIconClose,
-  SfIconExpandMore,
-  SfIconExpandLess,
-} from '@storefront-ui/vue';
-import type { CarouselStructureProps } from './types';
-import { v4 as uuid } from 'uuid';
-import type { BannerProps } from '~/components/blocks/BannerCarousel/types';
-import draggable from 'vuedraggable/src/vuedraggable';
-import dragIcon from '~/assets/icons/paths/drag.svg';
+import { SfInput } from '@storefront-ui/vue';
+import type { CarouselStructureProps, SlideBlock } from './types';
+import type { Block } from '@plentymarkets/shop-api';
 
-const { isOpen, open, close } = useDisclosure();
+const props = defineProps<{ uuid?: string }>();
+
 const { blockUuid } = useSiteConfiguration();
-const { updateBannerItems, setIndex, activeSlideIndex } = useCarousel();
-const { data } = useCategoryTemplate();
+const resolvedUuid = computed(() => props.uuid || blockUuid.value);
+const { updateCarouselItems, setIndex, createSlide } = useCarousel();
+const { allBlocks: data } = useBlocks();
 const { findOrDeleteBlockByUuid } = useBlockManager();
-setIndex(blockUuid.value, 0);
 
-const activeSlide = computed(() => activeSlideIndex.value[blockUuid.value]);
+const elementsOpen = ref(true);
+const layoutOpen = ref(true);
+const controlsOpen = ref(true);
+const { editingBlock, blockForm } = useNestedBlockForm(resolvedUuid);
+const { pushEdit } = useBlockEditStack();
+
 const carouselStructure = computed(
-  () => (findOrDeleteBlockByUuid(data.value, blockUuid.value) || {}) as CarouselStructureProps,
+  () => (findOrDeleteBlockByUuid(data.value, resolvedUuid.value) || {}) as CarouselStructureProps,
 );
-const controls = computed(() => carouselStructure.value.configuration.controls);
+
+const { isFullWidth } = useFullWidthToggleForConfig(
+  computed(() => carouselStructure.value.configuration),
+  { fullWidth: true },
+);
+
+const controls = computed(() => carouselStructure.value.configuration?.controls ?? { color: '', displayArrows: true });
 
 const slides = computed({
   get: () => {
-    return (carouselStructure.value?.content || []) as BannerProps[];
+    const content = (carouselStructure.value?.content || []) as SlideBlock[];
+    return content.map((slide) => ({
+      ...slide,
+      configuration: {
+        ...slide.configuration,
+        visible: slide.configuration?.visible !== false,
+      },
+    }));
   },
-  set: (value: BannerProps[]) => updateBannerItems(value, blockUuid.value),
+  set: (value: SlideBlock[]) => updateCarouselItems(value, resolvedUuid.value),
 });
 
-const controlsOpen = ref(true);
-
-const slideClick = (index: number) => {
-  setIndex(blockUuid.value, index);
+const editSlide = (block: Block) => {
+  const idx = slides.value.findIndex((s) => s.meta.uuid === block.meta.uuid);
+  if (idx >= 0) setIndex(resolvedUuid.value, idx);
+  pushEdit(block);
 };
 
 const addSlide = async () => {
-  const newSlide: BannerProps = {
-    name: 'Banner',
-    type: 'content',
-    content: {
-      image: {
-        wideScreen: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-        desktop: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-        tablet: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-        mobile: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-        brightness: 0.5,
-        alt: '',
-      },
-      text: {
-        pretitle: 'PreTitle',
-        title: 'Title',
-        subtitle: 'SubTitle',
-        htmlDescription: 'Text that supports HTML formatting',
-        color: '#000',
-        bgcolor: '#fff',
-        bgopacity: 1,
-        textAlignment: 'left',
-        justify: 'center',
-        align: 'left',
-        background: false,
-      },
-      button: {
-        label: 'Button',
-        link: '/',
-        variant: 'primary',
-      },
-    },
-    meta: {
-      uuid: uuid(),
-    },
-    lazyLoading: 'eager',
-    index: slides.value.length,
-  };
-
-  slides.value = [...slides.value, newSlide] as BannerProps[];
-
+  const slideType = slides.value[0]?.name ?? 'Banner';
+  const newSlide = await createSlide(slideType, slides.value.length);
+  slides.value = [...slides.value, newSlide];
   await nextTick();
-
-  setIndex(blockUuid.value, slides.value.length - 1);
-  close();
-};
-
-const deleteSlide = async (index: number) => {
-  if (slides.value.length <= 1) return;
-  slides.value = slides.value.filter((_: BannerProps, i: number) => i !== index);
-  setIndex(blockUuid.value, 0);
-  await nextTick();
-  close();
-};
-
-const moveSlideUp = async (index: number) => {
-  if (index <= 0) return;
-
-  const newSlides = [...slides.value] as BannerProps[];
-  const current = newSlides[index];
-  const previous = newSlides[index - 1];
-  if (!current || !previous) return;
-
-  [newSlides[index - 1], newSlides[index]] = [current, previous];
-  slides.value = newSlides;
-
-  setIndex(blockUuid.value, index - 1);
-  await nextTick();
-};
-
-const moveSlideDown = async (index: number) => {
-  if (index >= slides.value.length - 1) return;
-
-  const newSlides = [...slides.value] as BannerProps[];
-  const current = newSlides[index];
-  const next = newSlides[index + 1];
-  if (!current || !next) return;
-
-  [newSlides[index], newSlides[index + 1]] = [next, current];
-  slides.value = newSlides;
-
-  await nextTick();
-
-  setIndex(blockUuid.value, index + 1);
+  setIndex(resolvedUuid.value, slides.value.length - 1);
 };
 </script>
 
@@ -319,27 +115,19 @@ input::-webkit-inner-spin-button {
 }
 
 input[type='number'] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 </style>
 
 <i18n lang="json">
 {
   "en": {
-    "slides-group-label": "Slides",
-    "slide-label": "Slide",
-    "add-slide-label": "Add Slide",
-    "drag-reorder-aria": "Drag to reorder slide",
-
+    "layout-label": "Layout",
     "controls-group-label": "Controls",
     "controls-color-label": "Slider Controls Colour"
   },
   "de": {
-    "slides-group-label": "Slides",
-    "slide-label": "Slide",
-    "add-slide-label": "Add Slide",
-    "drag-reorder-aria": "Drag to reorder slide",
-
+    "layout-label": "Layout",
     "controls-group-label": "Controls",
     "controls-color-label": "Slider Controls Colour"
   }

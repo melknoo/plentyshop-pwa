@@ -1,30 +1,35 @@
+import type { Block } from '@plentymarkets/shop-api';
+
 export const useUpdatePageTemplate = () => {
   const updatePageTemplate = async (): Promise<boolean> => {
     const { isEditingEnabled } = useEditor();
     const { send } = useNotification();
-    const { saveBlocks, data } = useCategoryTemplate();
+    const route = useRoute();
+
+    const { saveBlocks, data } = useBlocks();
 
     const { data: dataProducts } = useProducts();
-    const route = useRoute();
+
     try {
-      const cleanedData = JSON.stringify(data.value);
-      const identifier = ref(route.meta.identifier as string | number);
+      const { HeaderContainer, blocks: pageBlocks, Footer } = data.value ?? {};
+      const flat = [HeaderContainer, ...(pageBlocks ?? []), Footer].filter(
+        (block): block is Block => block !== undefined && block !== null,
+      );
+      const cleanedData = JSON.stringify(flat);
 
-      if (dataProducts.value.category?.type === 'content') {
-        identifier.value = dataProducts.value.category?.id;
+      let identifier: string | number = route.meta.identifier as string | number;
+
+      if (dataProducts.value?.category?.type === 'content' && dataProducts.value.category.id) {
+        identifier = dataProducts.value.category.id;
       }
 
-      await saveBlocks(identifier.value, route.meta.type as string, cleanedData);
-
-      return true;
+      return await saveBlocks(identifier, route.meta.type as string, cleanedData);
     } catch (error) {
-      if (error) {
-        send({
-          message: error.toString(),
-          type: 'negative',
-        });
-        console.error(error);
-      }
+      send({
+        message: `Failed to update page template: ${error instanceof Error ? error.toString() : String(error)}`,
+        type: 'negative',
+      });
+      console.error(error);
       return false;
     } finally {
       isEditingEnabled.value = false;

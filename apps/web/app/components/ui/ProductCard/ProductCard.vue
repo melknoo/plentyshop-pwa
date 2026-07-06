@@ -12,42 +12,64 @@
         :use-availability="isFromWishlist"
       />
 
-      <SfLink
-        :tag="NuxtLink"
-        rel="preload"
-        :to="productPath"
-        :class="[{ 'size-48': isFromSlider }, 'relative group/image flex items-center justify-center']"
-        as="image"
-      >
-        <NuxtImg
-          :src="imageUrl"
-          :alt="imageAlt"
-          :title="imageTitle ? imageTitle : null"
-          :loading="lazy && !priority ? 'lazy' : 'eager'"
-          :fetchpriority="priority ? 'high' : 'auto'"
-          :preload="priority || false"
-          :width="getWidth()"
-          :height="getHeight()"
-          :class="[
-            'object-contain rounded-md aspect-square w-full transition-opacity duration-300',
-            effectiveHoverImageUrl ? 'group-hover/image:opacity-0' : '',
-          ]"
-          data-testid="image-slot"
-        />
-        <NuxtImg
-          v-if="effectiveHoverImageUrl"
-          :src="effectiveHoverImageUrl"
-          :alt="imageAlt"
-          :title="imageTitle ? imageTitle : null"
-          :loading="lazy && !priority ? 'lazy' : 'eager'"
-          fetchpriority="auto"
-          :preload="false"
-          :width="getWidth()"
-          :height="getHeight()"
-          class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/image:opacity-100 object-contain rounded-md w-full h-full"
-          data-testid="hover-image-slot"
-        />
-      </SfLink>
+      <div ref="imageContainerRef" :class="[{ 'size-48': isFromSlider }, 'relative']">
+        <UiLink
+          :tag="NuxtLink"
+          :to="productPath"
+          :aria-label="ariaLabelContent"
+          class="relative group/image flex items-center justify-center"
+          data-testid="product-card-link"
+        >
+          <div class="relative w-full aspect-square">
+            <div
+              v-if="!mainImageLoaded"
+              class="absolute inset-0 rounded-md bg-neutral-100 animate-pulse"
+              aria-hidden="true"
+            />
+
+            <NuxtImg
+              v-if="canLoadMainImage"
+              ref="mainImageRef"
+              :src="imageUrl"
+              :alt="imageAlt"
+              :title="imageTitle || null"
+              :loading="priority || lazy === false ? 'eager' : 'lazy'"
+              :fetchpriority="priority ? 'high' : 'auto'"
+              :preload="priority"
+              :width="getWidth()"
+              :height="getHeight()"
+              :class="[
+                'object-contain rounded-md aspect-square w-full h-full transition-opacity duration-300',
+                mainImageLoaded ? 'opacity-100' : 'opacity-0',
+                effectiveHoverImageUrl && hoverImageLoaded ? 'group-hover/image:opacity-0' : '',
+              ]"
+              data-testid="image-slot"
+              @load="onMainImageLoad"
+              @error="onMainImageError"
+            />
+
+            <NuxtImg
+              v-if="canLoadHoverImage && effectiveHoverImageUrl"
+              ref="hoverImageRef"
+              :src="effectiveHoverImageUrl"
+              :alt="imageAlt"
+              :title="imageTitle || null"
+              :loading="lazy === false ? 'eager' : 'lazy'"
+              fetchpriority="auto"
+              :preload="false"
+              :width="getWidth()"
+              :height="getHeight()"
+              :class="[
+                'absolute inset-0 object-contain rounded-md w-full h-full opacity-0 transition-opacity duration-300',
+                hoverImageLoaded ? 'group-hover/image:opacity-100' : '',
+              ]"
+              data-testid="hover-image-slot"
+              @load="onHoverImageLoad"
+              @error="onHoverImageError"
+            />
+          </div>
+        </UiLink>
+      </div>
 
       <template v-if="configuration?.showWishlistButton">
         <slot name="wishlistButton">
@@ -70,7 +92,7 @@
     >
       <template v-for="key in configuration?.fieldsOrder" :key="key">
         <template v-if="key === 'title' && configuration?.fields?.title">
-          <SfLink
+          <UiLink
             :tag="NuxtLink"
             :to="productPath"
             class="no-underline"
@@ -78,48 +100,50 @@
             data-testid="productcard-name"
           >
             {{ name }}
-          </SfLink>
+          </UiLink>
         </template>
-
+        <template v-if="key === 'manufacturer' && configuration?.fields?.manufacturer">
+          <div
+            v-if="manufacturer"
+            class="mb-1 typography-text-xs text-neutral-500"
+            data-testid="productcard-manufacturer"
+          >
+            {{ manufacturer.externalName }}
+          </div>
+        </template>
         <template v-if="key === 'rating' && configuration?.fields?.rating">
-          <div class="flex items-center pt-1 gap-1" :class="{ 'mb-2': !shortDescription }">
+          <div class="flex items-center pt-1 gap-1 mb-2">
             <SfRating size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
             <SfCounter size="xs">{{ ratingCount }}</SfCounter>
           </div>
         </template>
-
         <template v-if="key === 'previewText' && configuration?.fields?.previewText">
           <div
             v-if="shortDescription"
             class="block py-2 font-normal typography-text-xs text-neutral-700 text-justify whitespace-pre-line break-words"
           >
-            <div class="line-clamp-3" v-html="shortDescription" />
+            <div class="line-clamp-3 no-preflight" v-html="shortDescription" />
           </div>
         </template>
-
         <template v-if="key === 'price' && configuration?.fields?.price">
           <LowestPrice :product="product" />
           <div v-if="showBasePrice" class="mb-2">
             <BasePriceInLine :base-price="basePrice" :unit-content="unitContent" :unit-name="unitName" />
           </div>
-
-          <div class="flex flex-col-reverse items-start md:flex-row md:items-center mt-auto">
+          <div class="flex flex-col-reverse items-start @md:flex-row @md:items-center mt-auto">
             <span class="block pb-2 font-bold typography-text-sm" data-testid="product-card-vertical-price">
-              <span v-if="!canAddFromCategory" class="mr-1">{{
-                t('account.ordersAndReturns.orderDetails.priceFrom')
-              }}</span>
+              <span v-if="showFromText" class="mr-1">{{ t('account.ordersAndReturns.orderDetails.priceFrom') }}</span>
               <span>{{ format(price) }}</span>
-              <span>{{ t('asterisk') }}</span>
+              <span>{{ t('common.labels.asterisk') }}</span>
             </span>
             <span
               v-if="crossedPrice && differentPrices(price, crossedPrice)"
-              class="typography-text-sm text-neutral-500 line-through md:ml-3 md:pb-2"
+              class="typography-text-sm text-neutral-500 line-through @md:ml-3 @md:pb-2"
             >
               {{ format(crossedPrice) }}
             </span>
           </div>
         </template>
-
         <template v-if="key === 'addToCart' && configuration?.fields?.addToCart">
           <UiButton
             v-if="canAddFromCategory"
@@ -134,9 +158,8 @@
               <SfIconShoppingCart size="sm" />
             </template>
             <SfLoaderCircular v-if="loading" class="flex justify-center items-center" size="sm" />
-            <span v-else>{{ t('addToCartShort') }}</span>
+            <span v-else>{{ t('common.actions.add') }}</span>
           </UiButton>
-
           <UiButton
             v-else
             :variant="configuration?.addToCartStyle || 'primary'"
@@ -146,7 +169,7 @@
             size="sm"
             class="w-fit"
           >
-            <span>{{ t('showOptions') }}</span>
+            <span>{{ t('common.actions.showOptions') }}</span>
           </UiButton>
         </template>
       </template>
@@ -156,10 +179,11 @@
 
 <script setup lang="ts">
 import { productGetters, productImageGetters } from '@plentymarkets/shop-api';
-import { SfLink, SfIconShoppingCart, SfLoaderCircular, SfRating, SfCounter } from '@storefront-ui/vue';
+import { SfIconShoppingCart, SfLoaderCircular, SfRating, SfCounter } from '@storefront-ui/vue';
 import type { ProductCardProps } from '~/components/ui/ProductCard/types';
 import { defaults } from '~/composables';
 import type { ItemGridContent } from '~/components/blocks/ItemGrid/types';
+import type { BasketItemOrderParamsProperty, Product, DoAddItemParams } from '@plentymarkets/shop-api';
 
 const props = withDefaults(defineProps<ProductCardProps>(), {
   configuration: () => ({
@@ -171,8 +195,9 @@ const props = withDefaults(defineProps<ProductCardProps>(), {
       previewText: false,
       price: true,
       addToCart: true,
+      manufacturer: false,
     },
-    fieldsOrder: ['title', 'rating', 'previewText', 'price', 'addToCart'],
+    fieldsOrder: ['title', 'manufacturer', 'rating', 'previewText', 'price', 'addToCart'],
     showWishlistButton: false,
     showSecondImageOnHover: false,
     addToCartStyle: 'primary',
@@ -183,6 +208,9 @@ const props = withDefaults(defineProps<ProductCardProps>(), {
     itemCountPosition: 'center',
     fieldsDisabled: [],
     paginationPosition: 'bottom',
+    layout: {
+      fullWidth: false,
+    },
   }),
 });
 
@@ -191,9 +219,7 @@ const product = computed(() => props.product);
 const configuration = computed(() => props.configuration || ({} as ItemGridContent));
 
 const { addModernImageExtension } = useModernImage();
-const localePath = useLocalePath();
 const { format } = usePriceFormatter();
-const { t } = useI18n();
 const { openQuickCheckout } = useQuickCheckout();
 const { addToCart } = useCart();
 const { price, crossedPrice } = useProductPrice(product.value);
@@ -201,12 +227,24 @@ const { send } = useNotification();
 const loading = ref(false);
 const config = useRuntimeConfig();
 const useTagsOnCategoryPage = config.public.useTagsOnCategoryPage;
-
-const name = computed(() => productGetters.getName(product.value) ?? '');
+const name = computed(
+  () => productGetters.getName(product.value) + productGetters.getGroupedAttributesString(product.value),
+);
+const manufacturer = computed(() => productGetters.getManufacturer(product.value));
 const ratingCount = computed(() => productGetters.getTotalReviews(product.value));
 const rating = computed(() => productGetters.getAverageRating(product.value, 'half'));
 const shortDescription = computed(() => productGetters.getShortDescription(product.value) || '');
-const canAddFromCategory = computed(() => productGetters.canBeAddedToCartFromCategoryPage(product.value));
+const autoOrderParams = computed(() => {
+  return productGetters.hasOrderPropertiesRequiredAndPreselected(product.value)
+    ? buildAutoBasketItemOrderParams(product.value)
+    : undefined;
+});
+const canAddFromCategory = computed(
+  () =>
+    productGetters.canBeAddedToCartFromCategoryPage(product.value) ||
+    productGetters.hasOrderPropertiesRequiredAndPreselected(product.value),
+);
+const showFromText = computed(() => productGetters.showFromText(product.value));
 
 const cover = computed(() => productGetters.getCoverImage(product.value));
 const secondCover = computed(() => productGetters.getSecondCoverImage(product.value));
@@ -232,16 +270,73 @@ const showBasePrice = computed(() => productGetters.showPricePerUnit(product.val
 
 const variationId = computed(() => productGetters.getVariationId(product.value));
 
+const isGlobalProductCategoryTemplate = computed(() => {
+  const route = useRoute();
+  const slugParam = route.params.slug;
+
+  if (slugParam === undefined) {
+    return false;
+  }
+
+  const slug = Array.isArray(slugParam) ? slugParam.join('/') : slugParam;
+  return `/${slug}` === paths.globalItemCategory;
+});
+
+const localePath = useLocalizedPath();
+
 const productPath = computed(() => {
+  if (isGlobalProductCategoryTemplate?.value) {
+    return localePath(paths.globalItemDetails);
+  }
+  if (useCallisto().isEnabled) {
+    return localePath(`/${productGetters.getUrlPath(product.value)}/a-${productGetters.getItemId(product.value)}`);
+  }
   const basePath = `/${productGetters.getUrlPath(product.value)}_${productGetters.getItemId(product.value)}`;
-  const shouldAppendVariation = variationId.value && productGetters.getSalableVariationCount(product.value) === 1;
+  const shouldAppendVariation = productGetters.shouldAppendVariationToLink(product.value);
   return localePath(shouldAppendVariation ? `${basePath}_${variationId.value}` : basePath);
 });
 
-const priority = ref((props.index || 0) < 5);
-const lazy = ref(props.lazy || false);
-const isFromWishlist = ref(props.isFromWishlist || false);
-const isFromSlider = ref(props.isFromSlider || false);
+const priority = computed(() => !props.isFromSlider && (props.index ?? 0) < 5);
+const {
+  imageContainerRef,
+  mainImageRef,
+  hoverImageRef,
+  shouldLoadMainImage,
+  shouldLoadHoverImage,
+  mainImageLoaded,
+  hoverImageLoaded,
+  onMainImageLoad,
+  onMainImageError,
+  onHoverImageLoad,
+  onHoverImageError,
+} = useLazyProductImage({
+  priority,
+  hoverImageUrl: effectiveHoverImageUrl,
+});
+
+const externalImagePermission = computed(() => {
+  if (!props.isFromSlider) return true;
+  return props.shouldLoadImage ?? true;
+});
+const canLoadMainImage = computed(() => {
+  if (!externalImagePermission.value) return false;
+
+  if (props.isFromSlider) return true;
+
+  return shouldLoadMainImage.value;
+});
+
+const canLoadHoverImage = computed(() => {
+  if (!externalImagePermission.value || !effectiveHoverImageUrl.value) return false;
+
+  if (props.isFromSlider) return true;
+
+  return shouldLoadHoverImage.value;
+});
+
+const ariaLabelContent = computed(() => {
+  return t('common.accessibility.viewDetails', { name: name.value ?? '' });
+});
 
 const getWidth = () => {
   if (imageWidth.value && imageWidth.value > 0 && imageUrl.value.includes(defaults.IMAGE_LINK_SUFIX)) {
@@ -257,15 +352,58 @@ const getHeight = () => {
   return '';
 };
 
+/**
+ * Builds basket order parameters for products that have
+ * required and preselected order properties.
+ *
+ * This helper extracts only order properties that are marked as required
+ * and converts them into the structure expected by the basket API.
+ *
+ * It is intended to be used only when the product is already validated
+ * by `hasOrderPropertiesRequiredAndPreselected`, meaning no user input
+ * is needed before adding the product to the basket.
+ *
+ * @param product - The product from which order properties are extracted.
+ * @returns An array of basket order parameter objects if required order
+ *          properties exist, otherwise `undefined`.
+ */
+const buildAutoBasketItemOrderParams = (product: Product): BasketItemOrderParamsProperty[] | undefined =>
+  product.properties
+    ?.filter((p) => p?.property?.isOderProperty && p.property.isRequired)
+    .map((p) => {
+      const pr = p.property;
+
+      return {
+        property: {
+          id: p.propertyId ?? pr.id,
+          names: { name: pr.names?.name ?? '' },
+          valueType: pr.valueType,
+          value: '1',
+        },
+      };
+    }) || undefined;
+
 const addWithLoader = async (productId: number, quickCheckout = true) => {
   loading.value = true;
   try {
-    await addToCart({ productId, quantity: 1 });
-    if (quickCheckout) {
-      openQuickCheckout(product.value, 1);
-    } else {
-      send({ message: t('addedToCart'), type: 'positive' });
+    const isRequiredAndPreselected = productGetters.hasOrderPropertiesRequiredAndPreselected(product.value);
+    const params = isRequiredAndPreselected ? autoOrderParams.value : undefined;
+
+    if (isRequiredAndPreselected && !params) {
+      await navigateTo(productPath.value);
+      return;
     }
+
+    const addToCartObject: DoAddItemParams = {
+      productId,
+      quantity: 1,
+      ...(params ? { basketItemOrderParams: params } : {}),
+    };
+
+    await addToCart(addToCartObject);
+
+    if (quickCheckout) openQuickCheckout(product.value, 1);
+    else send({ message: t('cart.itemAdded'), type: 'positive' });
   } finally {
     loading.value = false;
   }

@@ -3,11 +3,11 @@
     <UiAccordionItem
       v-if="productGetters.getDescription(product)?.length"
       v-model="productDetailsOpen"
-      summary-class="md:rounded-md w-full hover:bg-neutral-100 py-2 pl-4 pr-3 flex justify-between items-center select-none"
+      summary-class="@md:rounded-md w-full hover:bg-neutral-100 py-2 pl-4 pr-3 flex justify-between items-center select-none"
     >
       <template #summary>
-        <h2 class="font-bold text-lg leading-6 md:text-2xl">
-          {{ t('productDetails') }}
+        <h2 class="font-bold text-lg leading-6 @md:text-2xl">
+          {{ t('product.details') }}
         </h2>
       </template>
       <div class="no-preflight" v-html="productGetters.getDescription(product)" />
@@ -16,11 +16,11 @@
     <UiAccordionItem
       v-if="productGetters.getTechnicalData(product)?.length"
       v-model="technicalDataOpen"
-      summary-class="md:rounded-md w-full hover:bg-neutral-100 py-2 pl-4 pr-3 flex justify-between items-center select-none"
+      summary-class="@md:rounded-md w-full hover:bg-neutral-100 py-2 pl-4 pr-3 flex justify-between items-center select-none"
     >
       <template #summary>
-        <h2 class="font-bold text-lg leading-6 md:text-2xl">
-          {{ t('technicalData') }}
+        <h2 class="font-bold text-lg leading-6 @md:text-2xl">
+          {{ t('common.labels.technicalData') }}
         </h2>
       </template>
       <div class="no-preflight" v-html="productGetters.getTechnicalData(product)" />
@@ -36,7 +36,6 @@ import type { ProductAccordionPropsType } from '~/components/ProductAccordion/ty
 const props = defineProps<ProductAccordionPropsType>();
 
 const { product } = toRefs(props);
-const { t } = useI18n();
 
 const productDetailsOpen = ref(true);
 const technicalDataOpen = ref(false);

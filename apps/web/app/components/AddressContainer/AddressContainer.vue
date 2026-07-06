@@ -1,6 +1,6 @@
 <template>
-  <div data-testid="checkout-address" class="md:px-4 py-6">
-    <div v-if="isLoading" class="flex flex-col sm:flex-row sm:items-center justify-between">
+  <div data-testid="checkout-address" class="@md:px-4 py-6">
+    <div v-if="isLoading" class="flex flex-col @sm:flex-row @sm:items-center justify-between">
       <div class="relative w-full">
         <h2 class="text-neutral-900 text-lg font-bold mb-5 mt-2">
           {{ isShipping ? t('shipping.heading') : t('billing.heading') }}
@@ -9,28 +9,28 @@
       </div>
     </div>
     <div v-else>
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
+      <div class="flex flex-col @sm:flex-row @sm:items-center justify-between mb-4">
         <h2 class="text-neutral-900 text-lg font-bold">
           {{ isShipping ? t('shipping.heading') : t('billing.heading') }}
         </h2>
 
-        <div class="flex mt-4 sm:justify-center sm:mt-0">
+        <div class="flex mt-4 @sm:justify-center @sm:mt-0">
           <AddressSelect
-            v-if="showAdressSelection"
+            v-if="showAddressSelection"
             :type="type"
             :disabled="disabled"
             @new="showNewForm = true"
             @edit="edit"
           />
 
-          <SfTooltip v-if="showEditAddressTooltip" :class="{ 'ml-2': showAdressSelection }" :label="t('editAddress')">
+          <SfTooltip v-if="showEditAddressTooltip" :class="{ 'ml-2': showAddressSelection }" :label="t('address.edit')">
             <UiButton
               :disabled="!hasCheckoutAddress || saveAddressLoading || disabled"
               variant="secondary"
               :data-testid="'edit-address-' + type"
               @click="edit(checkoutAddress)"
             >
-              {{ t('contactInfo.edit') }}
+              {{ t('common.actions.edit') }}
             </UiButton>
           </SfTooltip>
         </div>
@@ -74,7 +74,6 @@ import { type Address, AddressType } from '@plentymarkets/shop-api';
 
 const { disabled = false, type } = defineProps<AddressContainerProps>();
 
-const { t } = useI18n();
 const isBilling = type === AddressType.Billing;
 const isShipping = type === AddressType.Shipping;
 const { checkoutAddress, hasCheckoutAddress } = useCheckoutAddress(type);
@@ -85,7 +84,7 @@ const { billingSkeleton, shippingSkeleton } = useCheckout();
 
 const isLoading = computed(() => (billingSkeleton.value && isBilling) || (shippingSkeleton.value && isShipping));
 
-const showAdressSelection = computed(() => isAuthorized.value && !editing.value && !showNewForm.value);
+const showAddressSelection = computed(() => isAuthorized.value && !editing.value && !showNewForm.value);
 
 const sameAsShippingAddress = computed(() =>
   isBilling
@@ -108,7 +107,7 @@ const showEditAddressTooltip = computed(
 );
 
 const dynamicAddressText = computed(() =>
-  t(showSameAsShippingText.value ? 'addressContainer.sameAsShippingAddress' : 'account.accountSettings.noAddresses'),
+  t(showSameAsShippingText.value ? 'address.sameAsShippingAddress' : 'account.accountSettings.noAddresses'),
 );
 
 const edit = (address: Address) => {
@@ -118,6 +117,7 @@ const edit = (address: Address) => {
   showNewForm.value = false;
 };
 
+if (isBilling && !hasCheckoutAddress.value) showNewForm.value = !shippingAsBilling.value;
 watch(shippingAsBilling, () => {
   if (isBilling && !hasCheckoutAddress.value) showNewForm.value = !shippingAsBilling.value;
 });

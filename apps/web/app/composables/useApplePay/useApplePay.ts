@@ -1,9 +1,6 @@
-import { cartGetters } from '@plentymarkets/shop-api';
-import type { ApplepayType, ConfigResponse, PayPalAddToCartCallback } from '~/components/PayPal/types';
-
-type ButtonClickedEmits = {
-  (event: 'button-clicked', callback: PayPalAddToCartCallback): Promise<void>;
-};
+import type { Order, PayPalApplePayTransactionInfo } from '@plentymarkets/shop-api';
+import type { ApplepayType, ConfigResponse } from '#paypal/types';
+import type { ButtonClickedEmits } from './types';
 
 const loadExternalScript = async () => {
   return new Promise((resolve, reject) => {
@@ -28,13 +25,12 @@ export const useApplePay = () => {
     scriptLoaded: false,
     script: {} as ApplepayType,
     config: {} as ConfigResponse,
+    transactionData: null as PayPalApplePayTransactionInfo | null,
   }));
 
   const initialize = async () => {
-    const { data: cart } = useCart();
-    const currency = computed(() => cartGetters.getCurrency(cart.value) || (useAppConfig().fallbackCurrency as string));
-    const { getScript } = usePayPal();
-    const script = await getScript(currency.value, true);
+    const { getCurrentScript } = usePayPal();
+    const script = getCurrentScript();
 
     if (!script) return false;
 
@@ -50,8 +46,25 @@ export const useApplePay = () => {
     return true;
   };
 
+  const getTransactionInfo = async (orderId: number | undefined) => {
+    const { data: transaction } = await useSdk().plentysystems.getPayPalApplePayTransactionInfo({
+      orderId,
+    });
+    state.value.transactionData = transaction;
+  };
+
   const createPaymentRequest = () => {
-    const { data: cart } = useCart();
+    const lineItems: ApplePayJS.ApplePayLineItem[] =
+      state.value.transactionData?.lineItems.map((item) => ({
+        label: item.label,
+        amount: item.amount.toString(),
+      })) ?? [];
+    const total = {
+      amount: state.value.transactionData?.total.amount.toString() ?? '0',
+      label: state.value.transactionData?.total.label ?? 'Total',
+      type: state.value.transactionData?.total.type ?? 'final',
+    };
+
     return {
       countryCode: state.value.config.countryCode,
       merchantCapabilities: state.value.config.merchantCapabilities,
@@ -59,21 +72,18 @@ export const useApplePay = () => {
       currencyCode: state.value.config.currencyCode,
       requiredShippingContactFields: [],
       requiredBillingContactFields: ['postalAddress'],
-      total: {
-        type: 'final',
-        label: useRuntimeConfig().public.storename ?? 'PlentyONE Shop',
-        amount: cartGetters.getTotals(cart.value).total.toString(),
-      },
+      lineItems: lineItems,
+      total: total,
     } as ApplePayJS.ApplePayPaymentRequest;
   };
 
-  const processPayment = (emits: ButtonClickedEmits) => {
-    const { processingOrder } = useProcessingOrder();
+  const processPayment = async (emits: ButtonClickedEmits, order?: Order) => {
+    const { createOrderLoading: processingOrder } = useDynamicPaymentButtons();
     const { createTransaction, captureOrder, createPlentyOrder, createPlentyPaymentFromPayPalOrder } = usePayPal();
     const { clearCartItems } = useCart();
-    const localePath = useLocalePath();
-    const { $i18n } = useNuxtApp();
+    const localePath = useLocalizedPath();
     const { emit } = usePlentyEvent();
+    const reservation = useCartStockReservation();
 
     try {
       const paymentRequest = createPaymentRequest();
@@ -98,28 +108,34 @@ export const useApplePay = () => {
       };
 
       paymentSession.onpaymentauthorized = async (event: ApplePayJS.ApplePayPaymentAuthorizedEvent) => {
+        let plentyOrder = order;
         try {
-          if (!(await useCartStockReservation().reserve())) {
+          if (!plentyOrder && !(await reservation.reserve())) {
             paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
             return;
           }
 
           const transaction = await createTransaction({
-            type: 'basket',
+            type: plentyOrder ? 'order' : 'basket',
+            plentyOrderId: plentyOrder?.order?.id,
           });
-          if (!transaction || !transaction.id) {
-            await useCartStockReservation().unreserve();
+
+          if (!transaction?.id) {
+            if (!plentyOrder) await reservation.unreserve();
             paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
-            showErrorNotification($i18n.t('storefrontError.order.createFailed'));
+            showErrorNotification(t('storefrontError.order.createFailed'));
             return;
           }
 
-          const order = await createPlentyOrder();
-          if (!order || !order.order || !order.order.id) {
-            await useCartStockReservation().unreserve();
-            paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
-            showErrorNotification($i18n.t('storefrontError.order.createFailed'));
-            return;
+          if (!plentyOrder) {
+            const newOrder = await createPlentyOrder();
+            if (!newOrder?.order?.id) {
+              await reservation.unreserve();
+              paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
+              showErrorNotification(t('storefrontError.order.createFailed'));
+              return;
+            }
+            plentyOrder = newOrder;
           }
 
           try {
@@ -129,25 +145,33 @@ export const useApplePay = () => {
               billingContact: event.payment.billingContact,
             });
           } catch (error) {
-            await useCartStockReservation().unreserve();
+            if (!order) await reservation.unreserve();
             paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
-            showErrorNotification(error?.toString() ?? $i18n.t('errorMessages.paymentFailed'));
+            showErrorNotification(error instanceof Error ? error.message : t('error.paymentFailed'));
             return;
           }
 
           await captureOrder(transaction.id);
-          await createPlentyPaymentFromPayPalOrder(transaction.id, order.order.id);
+          await createPlentyPaymentFromPayPalOrder(transaction.id, plentyOrder!.order.id);
 
-          processingOrder.value = true;
+          if (order) {
+            emits('on-payed');
+          } else {
+            processingOrder.value = true;
+            emit('module:clearCart', null);
+            clearCartItems();
+            emit('frontend:orderCreated', plentyOrder!);
+          }
+
           paymentSession.completePayment(ApplePaySession.STATUS_SUCCESS);
-          emit('module:clearCart', null);
-          clearCartItems();
-
-          emit('frontend:orderCreated', order);
-          return navigateTo(localePath(paths.confirmation + '/' + order.order.id + '/' + order.order.accessKey));
-        } catch (error: unknown) {
-          await useCartStockReservation().unreserve();
-          showErrorNotification(error?.toString() ?? $i18n.t('errorMessages.paymentFailed'));
+          if (!order) {
+            return navigateTo(
+              localePath(paths.confirmation + '/' + plentyOrder!.order.id + '/' + plentyOrder!.order.accessKey),
+            );
+          }
+        } catch (error) {
+          if (!order) await reservation.unreserve();
+          showErrorNotification(error instanceof Error ? error.message : t('error.paymentFailed'));
           paymentSession.completePayment(ApplePaySession.STATUS_FAILURE);
         }
       };
@@ -159,26 +183,20 @@ export const useApplePay = () => {
 
       paymentSession.begin();
     } catch {
-      showErrorNotification($i18n.t('storefrontError.unknownError'));
+      showErrorNotification(t('storefrontError.unknownError'));
     }
   };
 
   const checkIsEligible = async () => {
     try {
-      if (
+      return (
         (await initialize()) &&
         typeof ApplePaySession !== 'undefined' &&
-        state.value.script &&
+        !!state.value.script &&
         ApplePaySession &&
         ApplePaySession.canMakePayments() &&
         state.value.config.isEligible
-      ) {
-        await useSdk().plentysystems.doHandleAllowPaymentApplePay({
-          canMakePayments: true,
-        });
-        return true;
-      }
-      return false;
+      );
     } catch {
       return false;
     }
@@ -188,6 +206,7 @@ export const useApplePay = () => {
     initialize,
     checkIsEligible,
     processPayment,
+    getTransactionInfo,
     ...toRefs(state.value),
   };
 };

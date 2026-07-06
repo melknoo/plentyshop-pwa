@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(group, groupIndex) in orderPropertiesGroups" :key="`group-${groupIndex}`" class="mt-5">
+  <div v-for="(group, groupIndex) in orderPropertiesGroups" :key="`group-${groupIndex}`" class="mt-5 mb-4">
     <div class="font-semibold">
       {{ productPropertyGetters.getOrderPropertyGroupName(group) }}
     </div>
@@ -25,7 +25,7 @@
             :label="productPropertyGetters.getOrderPropertyDescription(productProperty)"
             :placement="'bottom'"
             :show-arrow="true"
-            class="ml-2 z-10"
+            class="ml-2 z-dropdown"
           >
             <SfIconInfo :size="'sm'" />
           </SfTooltip>
@@ -45,9 +45,8 @@ import OrderPropertyFileUpload from '~/components/OrderPropertyFileUpload/OrderP
 import { SfIconInfo, SfTooltip } from '@storefront-ui/vue';
 
 const props = defineProps<OrderPropertiesProps>();
-const product = props.product;
-const orderPropertiesGroups = productPropertyGetters.getOrderPropertiesGroups(product);
-const hasTooltip = productPropertyGetters.hasOrderPropertiesGroupsTooltips(orderPropertiesGroups);
+const orderPropertiesGroups = computed(() => productPropertyGetters.getOrderPropertiesGroups(props.product));
+const hasTooltip = productPropertyGetters.hasOrderPropertiesGroupsTooltips(orderPropertiesGroups.value);
 const componentsMapper: ComponentsMapper = {
   empty: OrderPropertyCheckbox,
   int: OrderPropertyInput,

@@ -10,7 +10,7 @@
         </template>
       </h3>
       <UiButton
-        :aria-label="t('closeDialog')"
+        :aria-label="t('common.navigation.closeDialog')"
         square
         variant="tertiary"
         class="absolute right-2 top-2"
@@ -19,7 +19,7 @@
         <SfIconClose />
       </UiButton>
     </header>
-    <div class="max-w-[450px] md:max-w-[768px]">
+    <div class="max-w-[450px] @md:max-w-[768px]">
       <form class="col-span-2" @submit.prevent="onSubmit">
         <div v-if="isCreateReviewModal || isUpdateReviewModal" data-testid="rating-section">
           <div class="flex items-center justify-between">
@@ -64,7 +64,7 @@
         <UiFormLabel for="review-message" class="mt-4">
           <template v-if="isReplyUpdateModal">
             {{ t('review.yourAnswer') }}
-            {{ t('asterisk') }}
+            {{ t('common.labels.asterisk') }}
           </template>
           <template v-else-if="isCreateReviewModal || isUpdateReviewModal">
             {{ t('review.reviewText') }}
@@ -85,10 +85,10 @@
         <p class="text-sm text-neutral-500 mt-4 mb-2">* {{ t('contact.form.asterixHint') }}</p>
 
         <div class="flex justify-end gap-x-4 mt-6">
-          <UiButton type="button" variant="secondary" class="flex-1 md:flex-initial" @click="closeReviewModal">
+          <UiButton type="button" variant="secondary" class="flex-1 @md:flex-initial" @click="closeReviewModal">
             {{ t('review.cancel') }}
           </UiButton>
-          <UiButton type="submit" class="flex-1 md:flex-initial">
+          <UiButton type="submit" class="flex-1 @md:flex-initial">
             {{ t('review.submitReview') }}
           </UiButton>
         </div>
@@ -108,7 +108,6 @@ import type { ReviewItem } from '@plentymarkets/shop-api';
 import { defaults } from '~/composables';
 
 const { reviewItem = null } = defineProps<ReviewFormProps>();
-const { t } = useI18n();
 const { currentProduct } = useProducts();
 const { createProductReview, setProductReview, closeReviewModal, modalType } = useProductReviews(
   Number(productGetters.getItemId(currentProduct.value)),

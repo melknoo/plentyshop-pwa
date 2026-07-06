@@ -5,32 +5,35 @@
     class="relative"
     :class="{ 'pointer-events-none opacity-50': loading }"
   >
-    <SfLoaderCircular v-if="loading" class="fixed top-[50%] right-0 left-0 m-auto z-[99999]" size="2xl" />
-
-    <EditablePage
-      v-else
-      :has-enabled-actions="!!config.enableCategoryEditing || productsCatalog.category?.type === 'content'"
+    <SfLoaderCircular v-if="loading" class="fixed top-[50%] right-0 left-0 m-auto z-max" size="2xl" />
+    <EditableBlocks
       :identifier="identifier"
       :type="'category'"
       data-testid="category-page-content"
+      :prevent-blocks-request="productsCatalog.category?.type === 'item'"
     />
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { categoryGetters, categoryTreeGetters } from '@plentymarkets/shop-api';
+import { breadcrumbGetters, categoryGetters } from '@plentymarkets/shop-api';
+import type { Locale } from '#i18n';
 import { SfLoaderCircular } from '@storefront-ui/vue';
 
-const { t, locale } = useI18n();
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
+
+const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const { setCategoriesPageMeta } = useCanonical();
-const { setBlocksListContext } = useBlockManager();
-const { getFacetsFromURL, checkFiltersInURL } = useCategoryFilter();
-const { fetchProducts, data: productsCatalog, loading } = useProducts();
-const { data: categoryTree } = useCategoryTree();
-const { buildCategoryLanguagePath } = useLocalization();
-const config = useRuntimeConfig().public;
+const { setItemListMetaData } = useStructuredData();
+const { setCategoriesPageMeta, getCategoryRobotsContent } = useUrlPageMeta();
+const { setBlocksListContext } = useBlocksList();
+const { getFacetsFromURL } = useCategoryFilter();
+const { data: productsCatalog, loading } = useProducts();
+const localePath = useLocalizedPath();
+const isItemCategoryPage = computed(() => productsCatalog.value.category?.type === 'item');
 
 const identifier = computed(() =>
   productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0,
@@ -42,27 +45,19 @@ definePageMeta({
   type: 'category',
   isBlockified: true,
   identifier: 0,
+  cacheControl: getCacheControl(),
 });
 
 const breadcrumbs = computed(() => {
-  if (productsCatalog.value.category) {
-    const breadcrumb = categoryTreeGetters.generateBreadcrumbFromCategory(
-      categoryTree.value,
-      categoryGetters.getId(productsCatalog.value.category),
-    );
-    breadcrumb.unshift({ name: t('home'), link: '/' });
+  const breadcrumb = breadcrumbGetters.mapFromCategoryBreadcrumbs(productsCatalog.value.breadcrumbs ?? []);
+  breadcrumb.unshift({ name: t('common.labels.home'), link: '/' });
 
-    return breadcrumb;
-  }
-
-  return [];
+  return breadcrumb;
 });
 
 const canonicalDb = productsCatalog.value.category?.details?.[0]?.canonicalLink;
 
 const handleQueryUpdate = async () => {
-  await fetchProducts(getFacetsFromURL()).then(() => checkFiltersInURL());
-
   if (!productsCatalog.value.category) {
     throw createError({
       statusCode: 404,
@@ -73,12 +68,10 @@ const handleQueryUpdate = async () => {
 
 await handleQueryUpdate().then(() => {
   setCategoriesPageMeta(productsCatalog.value, getFacetsFromURL(), canonicalDb);
-  setBlocksListContext(
-    categoryTreeGetters.findCategoryById(categoryTree.value, categoryGetters.getId(productsCatalog.value.category))
-      ?.type === 'item'
-      ? 'productCategory'
-      : 'content',
-  );
+  setBlocksListContext(isItemCategoryPage.value ? 'productCategory' : 'content');
+  if (isItemCategoryPage.value) {
+    setItemListMetaData(productsCatalog.value.products || []);
+  }
 });
 
 const { setPageMeta } = usePageMeta();
@@ -92,7 +85,7 @@ watch(
   () => locale.value,
   (changedLocale: string) => {
     router.push({
-      path: buildCategoryLanguagePath(`${productsCatalog.value.languageUrls[changedLocale]}`),
+      path: localePath(`${productsCatalog.value.languageUrls[changedLocale]}`),
       query: route.query,
     });
   },
@@ -116,23 +109,30 @@ const keywordsContent = computed((): string =>
     : (process.env.METAKEYWORDS ?? ''),
 );
 
-const robotsContent = computed((): string =>
-  productsCatalog.value?.category ? categoryGetters.getCategoryRobots(productsCatalog.value.category) : '',
-);
+const robotsContent = computed(() => getCategoryRobotsContent(productsCatalog));
 
 watch(
   () => route.query,
   async () => {
-    await handleQueryUpdate().then(() => setCategoriesPageMeta(productsCatalog.value, getFacetsFromURL()));
+    await handleQueryUpdate().then(() => {
+      setCategoriesPageMeta(productsCatalog.value, getFacetsFromURL());
+      if (isItemCategoryPage.value) {
+        setItemListMetaData(productsCatalog.value.products || []);
+      }
+    });
   },
 );
+
+watchEffect(() => {
+  route.meta.identifier = productsCatalog.value.category?.type === 'content' ? productsCatalog.value.category?.id : 0;
+});
 
 useHead({
   title: headTitle,
   meta: [
     { name: 'description', content: descriptionContent },
     { name: 'keywords', content: keywordsContent },
-    { name: 'robots', content: robotsContent },
+    { name: 'robots', content: robotsContent.value },
   ],
 });
 </script>

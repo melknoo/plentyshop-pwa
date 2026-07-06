@@ -1,8 +1,14 @@
-import type { AddressFixtureOverride } from '~/__tests__/types';
+import type { AddressFixtureOverride } from '../../types';
 import { PageObject } from './PageObject';
 import { paths } from '../../../app/utils/paths';
 
 export class CheckoutPageObject extends PageObject {
+  visit() {
+    cy.visit(paths.checkout);
+    cy.get('body.hydrated');
+    return this;
+  }
+
   get goToCheckoutButton() {
     return cy.getByTestId('checkout-button');
   }
@@ -29,6 +35,10 @@ export class CheckoutPageObject extends PageObject {
 
   get billingAddressForm() {
     return cy.getByTestId('billing-address-form');
+  }
+
+  get billingAddressSection() {
+    return cy.get('#billing-address');
   }
 
   get contactInformationForm() {
@@ -220,6 +230,16 @@ export class CheckoutPageObject extends PageObject {
     return this;
   }
 
+  checkSameAsBilling() {
+    this.useShippingAsBilling.check();
+    return this;
+  }
+
+  uncheckSameAsBilling() {
+    this.useShippingAsBilling.uncheck();
+    return this;
+  }
+
   waitForUiToRender(milliseconds = 1000) {
     cy.wait(milliseconds);
     return this;
@@ -288,10 +308,18 @@ export class CheckoutPageObject extends PageObject {
       .intercept('/plentysystems/doCapturePayPalOrderV2')
       .as('doCapturePayPalOrderV2')
       .intercept('/plentysystems/doCreatePlentyPaymentFromPayPalOrder')
-      .as('doCreatePlentyPaymentFromPayPalOrder');
+      .as('doCreatePlentyPaymentFromPayPalOrder')
+      .intercept('/plentysystems/doPreparePayment')
+      .as('doPreparePayment')
+      .intercept('/plentysystems/doCreatePayPalOrder')
+      .as('doCreatePayPalOrder');
 
     cy.getByTestId('pay-creditcard-button').click();
-    cy.wait('@doPlaceOrder').wait('@doCapturePayPalOrderV2').wait('@doCreatePlentyPaymentFromPayPalOrder');
+    cy.wait('@doPreparePayment', { timeout: 20000 })
+      .wait('@doCreatePayPalOrder', { timeout: 20000 })
+      .wait('@doPlaceOrder', { timeout: 20000 })
+      .wait('@doCapturePayPalOrderV2', { timeout: 20000 })
+      .wait('@doCreatePlentyPaymentFromPayPalOrder', { timeout: 20000 });
     return this;
   }
 
@@ -323,8 +351,10 @@ export class CheckoutPageObject extends PageObject {
 
   checkPayPal() {
     cy.intercept('/plentysystems/setPaymentProvider').as('setPaymentProvider');
+    cy.intercept('/plentysystems/getSession').as('getSession');
+    cy.intercept('/plentysystems/getShippingProvider').as('getShippingProvider');
     cy.getByTestId('payment-method-6001').check({ force: true });
-    cy.wait('@setPaymentProvider');
+    cy.wait(['@setPaymentProvider', '@getSession', '@getShippingProvider']);
     return this;
   }
 

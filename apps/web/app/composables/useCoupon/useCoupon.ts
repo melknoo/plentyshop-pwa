@@ -1,5 +1,5 @@
 import type { UseCouponReturn, UseCouponState, AddCoupon, DeleteCoupon } from './types';
-import type { ApiError, Cart, DoAddCouponParams } from '@plentymarkets/shop-api';
+import type { ApiError, Cart, DoAddCouponParams, PlentyEvents } from '@plentymarkets/shop-api';
 
 /**
  * @description Composable for managing coupons.
@@ -10,6 +10,7 @@ import type { ApiError, Cart, DoAddCouponParams } from '@plentymarkets/shop-api'
  * ```
  */
 export const useCoupon: UseCouponReturn = () => {
+  const { emit } = usePlentyEvent();
   const state = useState<UseCouponState>('coupon', () => ({
     loading: false,
   }));
@@ -26,22 +27,35 @@ export const useCoupon: UseCouponReturn = () => {
    * ```
    */
   const addCoupon: AddCoupon = async (params: DoAddCouponParams) => {
-    const { $i18n } = useNuxtApp();
     const { send } = useNotification();
     const { fetchSession } = useFetchSession();
     state.value.loading = true;
     if (params.couponCode.trim() === '') {
-      send({ message: $i18n.t('coupon.pleaseProvideCoupon'), type: 'warning' });
+      send({ message: t('coupon.pleaseProvideCoupon'), type: 'warning' });
       state.value.loading = false;
       return {} as Cart;
     }
 
     try {
-      await useSdk().plentysystems.doAddCoupon(params);
+      const { data } = await useSdk().plentysystems.doAddCoupon(params);
+
+      if (data?.apiEvents) {
+        Object.entries(data.apiEvents as PlentyEvents).forEach(([event, data]) =>
+          // @ts-expect-error The type of `backend:${event}` is not assignable
+          emit(`backend:${event}`, data),
+        );
+      }
+
       await fetchSession();
-      send({ message: $i18n.t('coupon.couponApplied'), type: 'positive' });
-    } catch (error) {
-      useHandleError(error as ApiError);
+      send({ message: t('coupon.couponApplied'), type: 'positive' });
+    } catch (err) {
+      const error = err as ApiError;
+      if (error.warn?.code !== undefined) {
+        const key = getErrorCode(error.warn.code.toString()) ?? 'couponAlreadyUsedOrInvalidCouponCode';
+        send({ message: t('error.' + key), type: 'negative' });
+      } else {
+        useHandleError(error);
+      }
     } finally {
       state.value.loading = false;
     }
@@ -49,7 +63,6 @@ export const useCoupon: UseCouponReturn = () => {
   };
 
   const deleteCoupon: DeleteCoupon = async (params: DoAddCouponParams) => {
-    const { $i18n } = useNuxtApp();
     const { send } = useNotification();
     const { fetchSession } = useFetchSession();
 
@@ -58,8 +71,14 @@ export const useCoupon: UseCouponReturn = () => {
       const { data } = await useSdk().plentysystems.deleteCoupon(params);
 
       if (data) {
+        if (data?.apiEvents) {
+          Object.entries(data.apiEvents as PlentyEvents).forEach(([event, data]) =>
+            // @ts-expect-error The type of `backend:${event}` is not assignable
+            emit(`backend:${event}`, data),
+          );
+        }
         await fetchSession();
-        send({ message: $i18n.t('coupon.couponRemoved'), type: 'positive' });
+        send({ message: t('coupon.couponRemoved'), type: 'positive' });
       }
     } catch (error) {
       useHandleError(error as ApiError);

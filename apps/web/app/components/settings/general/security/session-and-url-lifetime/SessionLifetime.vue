@@ -1,12 +1,12 @@
 <template>
-  <div v-if="runtimeConfig.public.isDev" class="mt-4">
+  <div class="mt-4">
     <div class="flex justify-between mb-2">
       <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
       <SfTooltip
         :label="getEditorTranslation('tooltip')"
         :placement="'top'"
         :show-arrow="true"
-        class="ml-2 z-10"
+        class="ml-2 z-dropdown"
         data-testid="session-lifetime-tooltip"
       >
         <SfIconInfo :size="'sm'" />
@@ -32,17 +32,15 @@
 import 'vue-multiselect/dist/vue-multiselect.min.css';
 import Multiselect from 'vue-multiselect';
 import { SfIconInfo, SfTooltip } from '@storefront-ui/vue';
-import type { SettingOption } from '~/utils/editorSettings';
 import { getSessionLifetimeOptions } from '~/utils/editorSettings';
 
 const { updateSetting, getSetting } = useSiteSettings('sessionLifetime');
-const runtimeConfig = useRuntimeConfig();
 
 const options = computed(() => getSessionLifetimeOptions());
 
 const sessionLifetime = computed({
   get: () => {
-    return options.value.find((o: SettingOption) => o.value === getSetting());
+    return options.value.find((o: SettingOption) => o.value === getSetting().toString());
   },
   set: (option) => {
     updateSetting(option?.value ?? '');

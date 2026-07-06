@@ -1,20 +1,22 @@
 <template>
-  <div class="pages-view sticky top-[52px] z-[2]" data-testid="pages-management-drawer">
+  <div class="pages-view sticky z-overlap" data-testid="pages-management-drawer">
     <header class="flex items-center justify-between px-4 py-5 border-b">
       <div class="flex items-center text-xl font-bold">
         {{ getEditorTranslation('label') }}
+      </div>
+      <div class="flex items-center gap-2">
         <SfTooltip
           :label="getEditorTranslation('open-manual-tooltip')"
           placement="right"
           :show-arrow="true"
           class="flex"
         >
-          <SfIconHelp class="ml-2 cursor-pointer" @click="openHelpPage" />
+          <SfIconHelp class="cursor-pointer" @click="openHelpPage" />
         </SfTooltip>
+        <button data-testid="pages-view-close" class="!p-0" @click="closeSiteConfigurationDrawer">
+          <SfIconClose />
+        </button>
       </div>
-      <button data-testid="pages-view-close" class="!p-0" @click="closeDrawer">
-        <SfIconClose />
-      </button>
     </header>
     <div class="h-[80vh] overflow-y-auto">
       <div v-if="isDefaultLocale" class="mx-4 mb-4 mt-4">
@@ -68,65 +70,61 @@
         <span class="italic">{{ getEditorTranslation('reload-hint') }}</span>
       </div>
 
-      <UiAccordionItem
+      <EditorFormPanel
         v-model="contentPagesOpen"
+        :title="getEditorTranslation('content-pages-label')"
         data-testid="content-pages-section"
-        summary-active-class="bg-neutral-100 border-t-0"
-        summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between select-none border-b"
       >
-        <template #summary>
-          <h2>{{ getEditorTranslation('content-pages-label') }}</h2>
-        </template>
-
         <div
           :class="['mb-6 mt-4 overflow-auto', limitAccordionHeight ? 'max-h-[400px]' : 'max-h-[500px]']"
           @scroll="(e: Event) => handleScroll(e, 'content')"
         >
           <ul class="rounded-lg">
-            <PagesItem
+            <PagesViewPagesItem
               :key="locale"
               :item="homepageItem"
               :parent-id="undefined"
               :icon="SfIconHome"
               :hide-settings="true"
             />
-            <PagesItem v-for="item in contentItems" :key="`${item.id}-${locale}`" :item="item" :parent-id="item.id" />
+            <PagesViewPagesItem
+              v-for="item in contentItems"
+              :key="`${item.id}-${locale}`"
+              :item="item"
+              :parent-id="item.id"
+            />
             <li v-if="loadingContent" class="flex justify-center items-center py-4">
               <SfLoaderCircular size="sm" />
             </li>
           </ul>
         </div>
-      </UiAccordionItem>
+      </EditorFormPanel>
 
-      <UiAccordionItem
+      <EditorFormPanel
         v-model="productPagesOpen"
+        :title="getEditorTranslation('product-categories-label')"
         data-testid="product-pages-section"
-        summary-active-class="bg-neutral-100 border-t-0"
-        summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between select-none border-b"
       >
-        <template #summary>
-          <h2>{{ getEditorTranslation('product-categories-label') }}</h2>
-        </template>
-
         <div
           :class="['mb-6 mt-4 overflow-auto', limitAccordionHeight ? 'max-h-[400px]' : 'max-h-[500px]']"
           @scroll="(e: Event) => handleScroll(e, 'item')"
         >
           <ul class="rounded-lg">
-            <PagesItem v-for="item in itemItems" :key="item.id" :item="item" :parent-id="item.id" />
+            <PagesViewPagesItem v-for="item in itemItems" :key="item.id" :item="item" :parent-id="item.id" />
             <li v-if="loadingItem" class="flex justify-center items-center py-4">
               <SfLoaderCircular size="sm" />
             </li>
           </ul>
         </div>
-      </UiAccordionItem>
+      </EditorFormPanel>
+
+      <PagesViewGlobalPagesSection />
     </div>
   </div>
   <CategorySettingsDrawer v-if="settingsCategory" />
 </template>
 
 <script setup lang="ts">
-import PagesItem from '~/components/PagesView/PagesItem.vue';
 import {
   SfIconClose,
   SfIconHelp,
@@ -138,8 +136,7 @@ import {
 } from '@storefront-ui/vue';
 import type { CategoryEntry } from '@plentymarkets/shop-api';
 const { locale, defaultLocale } = useI18n();
-
-const { closeDrawer, togglePageModal, settingsCategory } = useSiteConfiguration();
+const { closeSiteConfigurationDrawer, togglePageModal, settingsCategory } = useSiteConfiguration();
 const { loading, hasChanges, save } = useCategorySettingsCollection();
 
 const { contentItems, itemItems, loadingContent, loadingItem, fetchCategories, resetCategories } =
@@ -147,10 +144,11 @@ const { contentItems, itemItems, loadingContent, loadingItem, fetchCategories, r
 
 const contentPagesOpen = ref(false);
 const productPagesOpen = ref(false);
+const globalPagesOpen = ref(false);
 
 const isDefaultLocale = computed(() => locale.value === defaultLocale);
 
-const limitAccordionHeight = computed(() => contentPagesOpen.value && productPagesOpen.value);
+const limitAccordionHeight = computed(() => contentPagesOpen.value && productPagesOpen.value && globalPagesOpen.value);
 
 const handleScroll = async (e: Event, type: 'content' | 'item') => {
   const el = e.target as HTMLElement;
@@ -251,7 +249,13 @@ const homepageItem = computed<CategoryEntry>(() => ({
     "save-settings-label": "Save Settings",
     "reload-hint": "Changes to page settings are only reflected on reload.",
     "content-pages-label": "Content Pages",
-    "product-categories-label": "Product Categories"
+    "product-categories-label": "Product Categories",
+    "global-pages-label": "Page Layouts",
+    "global-pages-description": "Quick access to edit page layout, or reset to the default.",
+    "global-pages-product-category": "Product category page",
+    "global-pages-product-detail": "Product detail page",
+    "global-pages-edit-label": "Edit page",
+    "global-pages-reset-label": "Reset to default"
   },
   "de": {
     "label": "Pages",
@@ -261,7 +265,13 @@ const homepageItem = computed<CategoryEntry>(() => ({
     "save-settings-label": "Save Settings",
     "reload-hint": "Changes to page settings are only reflected on reload.",
     "content-pages-label": "Content Pages",
-    "product-categories-label": "Product Categories"
+    "product-categories-label": "Product Categories",
+    "global-pages-label": "Page Layouts",
+    "global-pages-description": "Quick access to edit page layout, or reset to the default.",
+    "global-pages-product-category": "Product category page",
+    "global-pages-product-detail": "Product detail page",
+    "global-pages-edit-label": "Edit page",
+    "global-pages-reset-label": "Reset to default"
   }
 }
 </i18n>

@@ -1,173 +1,298 @@
 <template>
 
   <form
-    class="md:border md:border-neutral-100 md:shadow-lg md:rounded-md md:sticky md:top-40"
+    :class="{ '@md:shadow-lg': configuration?.dropShadow, '@md:border @md:border-neutral-100': configuration?.borders }"
+    :style="inlineStyle"
+    class="@md:rounded-md"
     data-testid="purchase-card"
     @submit.prevent="handleAddToCart()"
   >
     <div class="relative">
       <div class="drift-zoom-image">
-        <section class="p-4 xl:p-6">
-          <div class="grid grid-cols-[2fr_1fr] mt-4">
-            <div class="flex flex-col justify-start">
-            <h1 class="font-bold !text-2xl typography-headline-4" data-testid="product-name">
-              {{ productGetters.getName(product) }}
-            </h1>
-            <h2 v-if="hasOneOrZeroVariations"  class="typography-headline-3" data-testid="product-name">
-              {{ product.variation.name }}
-            </h2>
-            <h2 class="typography-headline-3" data-testid="product-name">
-              Artikelnummer: {{ product.variation.externalId }}
-            </h2>
-            </div>
-            <div class="flex items-center justify-center">
-              <WishlistButton
-                :product="product"
-                :quantity="quantitySelectorValue"
-                :square="viewport.isLessThan('lg')"
-                :class="{
-                  'bottom-0 right-0 mr-2 mb-2 bg-white ring-1 ring-inset ring-neutral-200 !rounded-full':
-                    viewport.isLessThan('lg'),
-                }"
-              >
-                <template v-if="viewport.isGreaterOrEquals('lg')">
-                  {{
-                    !isWishlistItem(productGetters.getVariationId(product))
-                      ? t('addToWishlist')
-                      : t('removeFromWishlist')
-                  }}
-                </template>
-              </WishlistButton>
-            </div>
-          </div>
-          <div class="flex space-x-2">
-            <Price :price="priceWithProperties" :crossed-price="crossedPrice" />
-            <div
-              v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0 "
-              class="m-auto"
-            >
-              <UiTag :size="'sm'" :variant="'secondary'">{{
-                t('procentageSavings', { percent: productBundleGetters.getBundleDiscount(product) })
-              }}</UiTag>
-            </div>
-          </div>
-          <LowestPrice :product="product" />
-          <BasePrice
-            
-            :base-price="custom_base_price"
-            :unit-content="productGetters.getUnitContent(product)"
-            :unit-name="productGetters.getUnitName(product)"
-          />
-          <UiBadges class="mt-4" :product="product" :use-availability="true" />
-          <div class="mt-2 variation-properties">
-            <VariationProperties :product="product" />
-          </div>
-          <div class="inline-flex items-center mt-4 mb-2">
-            <SfRating
-              size="xs"
-              :half-increment="true"
-              :value="reviewGetters.getAverageRating(reviewAverage, 'half')"
-              :max="5"
-            />
-            <SfCounter class="ml-1" size="xs">{{ reviewGetters.getTotalReviews(reviewAverage) }}</SfCounter>
-            <UiButton
-              variant="tertiary"
-              class="ml-2 text-xs text-neutral-500 cursor-pointer"
-              data-testid="show-reviews"
-              @click="scrollToReviews"
-            >
-              {{ t('showAllReviews') }}
-            </UiButton>
-          </div>
-          <div
-            v-if="productGetters.getShortDescription(product).length > 0"
-            class="mb-4 font-normal typography-text-sm whitespace-pre-line break-words"
-            data-testid="product-description"
-            v-html="productGetters.getShortDescription(product)"
-          />
-
-          <ProductAttributes
-            :product="product"
-            :class="{ 'sms--attributes-hidden': hasOneOrZeroVariations }"
-          />
-          <!-- <ProductAttributes :product="product" /> -->
-          <BundleOrderItems v-if="product.bundleComponents" :product="product" />
-          <OrderProperties :product="product" />
-          <GraduatedPriceList :product="product" :count="quantitySelectorValue" />
-
-          <UnitContentSelect
-            v-if="product && productGetters.possibleUnitCombination(product).length > 1"
-            :product="product"
-          />
-
-          <div class="mt-4">
-            <div class="flex flex-col md:flex-row flex-wrap gap-4">
-              <UiQuantitySelector
-                :min-value="productGetters.getMinimumOrderQuantity(product)"
-                :value="quantitySelectorValue"
-                class="min-w-[145px] flex-grow-0 flex-shrink-0 basis-0"
-                @change-quantity="changeQuantity"
+        <section class="@md:p-4">
+          <template v-for="key in configuration?.fieldsOrder" :key="isTextBlock(key) ? key.uuid : key">
+            <template v-if="isTextBlock(key) && key.visible">
+              <div
+                :class="{ 'ring-2 ring-blue-500 ring-offset-1 rounded': highlightedUuid === key.uuid }"
+                :data-uuid="key.uuid"
+                class="mb-2 font-normal typography-text-sm break-words no-preflight rte-prose rte-prose--render transition-all duration-300"
+                v-html="replacePropertyPlaceholdersInHtml(key.content, props.product)"
               />
-              <SfTooltip
-                show-arrow
-                placement="top"
-                :label="isNotValidVariation || isSalableText"
-                class="flex-grow-[2] flex-shrink basis-auto whitespace-nowrap"
-              >
-                <UiButton
-                  type="submit"
-                  data-testid="add-to-cart"
-                  size="lg"
-                  class="w-full h-full"
-                  :disabled="loading || !productGetters.isSalable(product)"
-                >
-                  <template #prefix>
-                    <div v-if="!loading" class="flex row items-center">
-                      <SfIconShoppingCart size="sm" />
-                      {{ t('addToCart') }}
-                    </div>
-                    <div v-else>
-                      <SfLoaderCircular size="sm" />
-                    </div>
-                  </template>
-                </UiButton>
-              </SfTooltip>
-            </div>
-
-            <div class="mt-4 typography-text-xs flex gap-1">
-              <span>{{ t('asterisk') }}</span>
-              <span>{{ showNetPrices ? t('itemExclVAT') : t('itemInclVAT') }}</span>
-              <i18n-t keypath="excludedShipping" scope="global">
-                <template #shipping>
-                  <SfLink
-                    :href="localePath(paths.shipping)"
-                    target="_blank"
-                    class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
-                  >
-                    {{ t('delivery') }}
-                  </SfLink>
-                </template>
-              </i18n-t>
-            </div>
-            <template v-if="showPayPalButtons">
-              <PayPalExpressButton type="SingleItem" class="mt-4" @validation-callback="paypalHandleAddToCart" />
-              <PayPalPayLaterBanner placement="product" :amount="priceWithProperties * quantitySelectorValue" />
             </template>
-          </div>
+            <template v-if="key === 'itemName' && configuration?.fields.itemName">
+              <h1 class="font-bold typography-headline-4 break-word" data-testid="product-name">
+                {{ productGetters.getName(product) }}
+              </h1>
+            </template>
+            <template v-if="key === 'price' && configuration?.fields.price">
+              <div class="flex space-x-2">
+                <Price :crossed-price="crossedPrice" :price="priceWithProperties" />
+                <div
+                  v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0 && showBundleComponents"
+                  class="m-auto"
+                >
+                  <UiTag :size="'sm'" :variant="'secondary'">{{
+                    t('product.bundleSavings', { percent: productBundleGetters.getBundleDiscount(product) })
+                  }}</UiTag>
+                </div>
+              </div>
+              <LowestPrice :product="product" />
+              <BasePrice
+                v-if="productGetters.showPricePerUnit(product)"
+                :base-price="basePriceSingleValue"
+                :unit-content="productGetters.getUnitContent(product)"
+                :unit-name="productGetters.getUnitName(product)"
+              />
+            </template>
+            <template v-if="key === 'tags' && configuration?.fields.tags">
+              <UiBadges :product="product" :use-availability="false" :use-tags="true" class="mb-2" />
+            </template>
+            <template v-if="key === 'availability' && configuration?.fields.availability">
+              <UiBadges :product="product" :use-availability="true" :use-tags="false" class="mb-2" />
+            </template>
+            <template v-if="key === 'variationProperties' && configuration?.fields.variationProperties">
+              <div class="mb-2 variation-properties">
+                <VariationProperties :product="product" />
+              </div>
+            </template>
+            <template v-if="key === 'starRating' && configuration?.fields.starRating">
+              <div class="inline-flex items-center mb-2">
+                <SfRating
+                  :half-increment="true"
+                  :max="5"
+                  :value="reviewGetters.getAverageRating(reviewAverage, 'half')"
+                  size="xs"
+                />
+                <SfCounter class="ml-1" size="xs">{{ reviewGetters.getTotalReviews(reviewAverage) }}</SfCounter>
+                <UiButton
+                  class="ml-2 text-xs text-neutral-500 cursor-pointer"
+                  data-testid="show-reviews"
+                  variant="tertiary"
+                  @click="scrollToReviews"
+                >
+                  {{ t('product.showAllReviews') }}
+                </UiButton>
+              </div>
+            </template>
+            <template v-if="key === 'previewText' && configuration?.fields.previewText">
+              <div
+                v-if="productGetters.getShortDescription(product).length > 0"
+                class="mb-2 font-normal typography-text-sm whitespace-pre-line break-words no-preflight"
+                data-testid="product-description"
+                v-html="productGetters.getShortDescription(product)"
+              />
+            </template>
+
+            <template v-if="key === 'addToWishlist' && configuration?.fields.addToWishlist">
+              <div
+                :class="{ 'justify-center': configuration?.wishlistSize === 'large' }"
+                class="flex items-center mt-2"
+              >
+                <WishlistButton
+                  :class="{
+                    'mr-2 mb-2 bg-white': viewport.isLessThan('lg'),
+                    'w-full': configuration?.wishlistSize === 'large',
+                    '!p-0 hover:bg-transparent active:bg-transparent': configuration?.wishlistSize === 'small',
+                  }"
+                  :product="product"
+                  :quantity="quantitySelectorValue"
+                  :square="viewport.isLessThan('lg')"
+                  :variant="wishlistButtonVariant"
+                  class="!m-0 !mb-2"
+                >
+                  <div>
+                    {{
+                      !isWishlistItem(productGetters.getVariationId(product))
+                        ? t('common.actions.addToWishlist')
+                        : t('common.actions.removeFromWishlist')
+                    }}
+                  </div>
+                </WishlistButton>
+              </div>
+            </template>
+
+            <template v-if="key === 'attributes' && configuration?.fields.attributes">
+              <ProductAttributes :product="product" />
+            </template>
+
+            <template v-if="key === 'itemBundle'">
+              <BundleOrderItems v-if="product.bundleComponents && showBundleComponents" :product="product" />
+            </template>
+            <template v-if="key === 'orderProperties' && configuration?.fields.orderProperties">
+              <OrderProperties :product="product" />
+            </template>
+            <template v-if="key === 'graduatedPrices' && configuration?.fields.graduatedPrices">
+              <GraduatedPriceList :count="quantitySelectorValue" :product="product" />
+            </template>
+
+            <template v-if="key === 'quantityAndAddToCart' && configuration?.fields.quantityAndAddToCart">
+              <UnitContentSelect
+                v-if="product && productGetters.possibleUnitCombination(product).length > 1"
+                :product="product"
+              />
+              <div class="mt-4">
+                <div class="flex flex-col @md:flex-row flex-wrap gap-4">
+                  <UiQuantitySelector
+                    :min-value="productGetters.getMinimumOrderQuantity(product)"
+                    :value="quantitySelectorValue"
+                    class="min-w-[145px] flex-grow-0 flex-shrink-0 basis-0"
+                    @change-quantity="changeQuantity"
+                  />
+                  <div
+                    v-if="showNotifyMe && !productGetters.isActiveVariationSalable(product)"
+                    class="flex-grow-[2] flex-shrink basis-auto whitespace-nowrap"
+                  >
+                    <NotifyMe :variation-id="Number(productGetters.getVariationId(product))" />
+                  </div>
+                  <SfTooltip
+                    v-else
+                    :label="isNotValidVariation || isSalableText"
+                    class="flex-grow-[2] flex-shrink basis-auto whitespace-nowrap"
+                    placement="top"
+                    show-arrow
+                  >
+                    <UiButton
+                      :disabled="loading || !productGetters.isSalable(product)"
+                      class="w-full h-full"
+                      data-testid="add-to-cart"
+                      size="lg"
+                      type="submit"
+                    >
+                      <template #prefix>
+                        <div v-if="!loading" class="flex row items-center">
+                          <SfIconShoppingCart size="sm" />
+                          {{ t('common.actions.addToCart') }}
+                        </div>
+                        <div v-else>
+                          <SfLoaderCircular size="sm" />
+                        </div>
+                      </template>
+                    </UiButton>
+                  </SfTooltip>
+                </div>
+
+                <div class="mt-4 typography-text-xs flex gap-1">
+                  <span>{{ t('common.labels.asterisk') }}</span>
+                  <span>{{ showNetPrices ? t('product.priceExclVAT') : t('product.priceInclVAT') }}</span>
+                  <i18n-t keypath="shipping.excludedLabel" scope="global">
+                    <template #shipping>
+                      <UiLink
+                        :href="localePath(paths.shipping)"
+                        class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
+                        target="_blank"
+                      >
+                        {{ t('common.labels.delivery') }}
+                      </UiLink>
+                    </template>
+                  </i18n-t>
+                </div>
+                <template v-if="showPayPalButtons">
+                  <PayPalExpressButton
+                    class="mt-4"
+                    location="itemPage"
+                    type="SingleItem"
+                    @validation-callback="paypalHandleAddToCart"
+                  />
+                  <PayPalPayLaterBanner
+                    :amount="priceWithProperties * quantitySelectorValue"
+                    location="itemPage"
+                    placement="product"
+                  />
+                </template>
+              </div>
+            </template>
+
+            <template v-if="key === 'itemText' && configuration?.fields.itemText">
+              <div
+                v-if="productGetters.getDescription(product)"
+                class="mb-4 font-normal typography-text-sm whitespace-pre-line break-words no-preflight"
+                data-testid="product-description"
+                v-html="productGetters.getDescription(product)"
+              />
+            </template>
+            <template v-if="key === 'technicalData' && configuration?.fields.technicalData">
+              <div
+                v-if="productGetters.getTechnicalData(product)"
+                class="mb-4 font-normal typography-text-sm whitespace-pre-line break-words no-preflight"
+                data-testid="product-description"
+                v-html="productGetters.getTechnicalData(product)"
+              />
+            </template>
+          </template>
         </section>
       </div>
     </div>
   </form>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { productGetters, reviewGetters, productBundleGetters } from '@plentymarkets/shop-api';
-import { SfCounter, SfRating, SfIconShoppingCart, SfLoaderCircular, SfTooltip, SfLink } from '@storefront-ui/vue';
-import type { PurchaseCardProps } from '~/components/ui/PurchaseCard/types';
-import type { PayPalAddToCartCallback } from '~/components/PayPal/types';
+import { SfCounter, SfRating, SfIconShoppingCart, SfLoaderCircular, SfTooltip } from '@storefront-ui/vue';
+import type { PriceCardPadding, PriceCardTextBlockItem, PurchaseCardProps } from '~/components/ui/PurchaseCard/types';
+import type { PayPalAddToCartCallback } from '#paypal/types';
 import { paths } from '~/utils/paths';
 
-const { product, reviewAverage } = defineProps<PurchaseCardProps>();
+const isTextBlock = (item: unknown): item is PriceCardTextBlockItem =>
+  typeof item === 'object' && item !== null && (item as PriceCardTextBlockItem).type === 'textBlock';
+
+const highlightedUuid = useState<string>('toc-highlighted-uuid', () => '');
+
+const props = withDefaults(defineProps<PurchaseCardProps>(), {
+  configuration: () => ({
+    fields: {
+      itemName: true,
+      price: true,
+      tags: true,
+      availability: true,
+      starRating: true,
+      orderProperties: true,
+      variationProperties: true,
+      previewText: true,
+      attributes: true,
+      itemBundle: false,
+      graduatedPrices: true,
+      addToWishlist: true,
+      quantityAndAddToCart: true,
+      itemText: false,
+      technicalData: false,
+    },
+    fieldsOrder: [
+      'itemName',
+      'price',
+      'tags',
+      'availability',
+      'starRating',
+      'variationProperties',
+      'orderProperties',
+      'previewText',
+      'attributes',
+      'itemBundle',
+      'graduatedPrices',
+      'addToWishlist',
+      'quantityAndAddToCart',
+      'itemText',
+      'technicalData',
+    ],
+    fieldsDisabled: ['quantityAndAddToCart', 'price', 'itemBundle', 'attributes'],
+    wishlistSize: 'small',
+
+    dropShadow: true,
+    borders: true,
+    borderColor: '#EFF4F1',
+    layout: {
+      paddingTop: 0,
+      paddingBottom: 0,
+      paddingRight: 0,
+      paddingLeft: 0,
+      fullWidth: false,
+    },
+  }),
+});
+
+const { currentProduct } = useProducts();
+
+const { data: productReviews } = useProductReviews(Number(productGetters.getItemId(currentProduct.value)));
+const reviewAverage = computed(() => reviewGetters.getReviewCounts(productReviews.value));
 
 const { getSetting } = useSiteSettings('dontSplitItemBundle');
 const showBundleComponents = computed(() => {
@@ -186,12 +311,13 @@ const {
 } = useValidatorAggregator('attributes');
 const { clear, send } = useNotification();
 const { addToCart, loading } = useCart();
-const { t } = useI18n();
-const quantitySelectorValue = ref(productGetters.getMinimumOrderQuantity(product));
+const quantitySelectorValue = ref(productGetters.getMinimumOrderQuantity(props?.product));
 const { isWishlistItem } = useWishlist();
 const { openQuickCheckout } = useQuickCheckout();
-const { crossedPrice } = useProductPrice(product);
-const { reviewArea } = useProductReviews(Number(productGetters.getId(product)));
+const { crossedPrice } = useProductPrice(props?.product);
+const { reviewArea } = useProductReviews(Number(productGetters.getId(props?.product)));
+const { getSetting: getNotifyMeSetting } = useSiteSettings('showNotifyMe');
+const showNotifyMe = computed(() => getNotifyMeSetting().toString() === 'true');
 const localePath = useLocalePath();
 
 const unitContent = computed(() => {
@@ -202,22 +328,23 @@ const unitContent = computed(() => {
 const custom_base_price = computed(() => {
   const price = priceWithProperties.value || 0;
   const u = unitContent.value || 1;
-
   const number = price / u;
-
   return new Intl.NumberFormat("de-DE", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 4,
-  }).format(number) + ' EUR / '+ (productGetters.getUnitName(product) || '');
+  }).format(number) + ' EUR / ' + (productGetters.getUnitName(product) || '');
 });
-  
 
-
-
-
-const variationCount = computed(() => product.variationAttributeMap?.variations?.length ?? 0);
-const hasOneOrZeroVariations = computed(() => variationCount.value <= 1);
-
+const inlineStyle = computed(() => {
+  const layout = props?.configuration?.layout || ({} as PriceCardPadding);
+  return {
+    paddingTop: layout.paddingTop ? `${layout.paddingTop}px` : 0,
+    paddingBottom: layout.paddingBottom ? `${layout.paddingBottom}px` : 0,
+    paddingLeft: layout.paddingLeft ? `${layout.paddingLeft}px` : 0,
+    paddingRight: layout.paddingRight ? `${layout.paddingRight}px` : 0,
+    borderColor: props?.configuration?.borderColor || 'transparent',
+  };
+});
 onMounted(() => {
   resetInvalidFields();
   resetAttributeFields();
@@ -229,28 +356,32 @@ onBeforeRouteLeave(() => {
   resetAttributeFields();
 });
 
+const wishlistButtonVariant = computed(() => {
+  return props.configuration?.wishlistSize === 'small' ? 'tertiary' : 'secondary';
+});
 const priceWithProperties = computed(
   () =>
-    (productGetters.getSpecialOffer(product) ||
-      productGetters.getGraduatedPriceByQuantity(product, quantitySelectorValue.value)?.unitPrice.value ||
-      0) + getPropertiesPrice(product),
+    (productGetters.getSpecialOffer(props?.product) ||
+      productGetters.getGraduatedPriceByQuantity(props?.product, quantitySelectorValue.value)?.unitPrice.value ||
+      productGetters.getPrice(props?.product) ||
+      0) + getPropertiesPrice(props?.product),
 );
 
 const basePriceSingleValue = computed(
   () =>
-    productGetters.getGraduatedPriceByQuantity(product, quantitySelectorValue.value)?.basePrice ??
-    productGetters.getDefaultBasePrice(product),
+    productGetters.getGraduatedPriceByQuantity(props?.product, quantitySelectorValue.value)?.basePrice ??
+    productGetters.getDefaultBasePrice(props?.product),
 );
 
 const handleValidationErrors = (): boolean => {
   send({
     message: [
-      t('errorMessages.missingOrWrongProperties'),
+      t('error.missingOrWrongProperties'),
       '',
       ...invalidAttributeFields.value.map((field) => field.name),
       ...invalidFields.value.map((field) => field.name),
       '',
-      t('errorMessages.pleaseFillOutAllFields'),
+      t('error.pleaseFillOutAllFields'),
     ],
     type: 'negative',
   });
@@ -267,20 +398,20 @@ const handleAddToCart = async (quickCheckout = true) => {
   }
 
   if (!getCombination()) {
-    send({ message: t('productAttributes.notValidVariation'), type: 'negative' });
+    send({ message: t('product.attributes.notValidVariation'), type: 'negative' });
     return false;
   }
 
   const addedToCart = await addToCart({
-    productId: Number(productGetters.getId(product)),
+    productId: Number(productGetters.getId(props?.product)),
     quantity: Number(quantitySelectorValue.value),
     basketItemOrderParams: getPropertiesForCart(),
   });
 
   if (addedToCart) {
     quickCheckout
-      ? openQuickCheckout(product, quantitySelectorValue.value)
-      : send({ message: t('addedToCart'), type: 'positive' });
+      ? openQuickCheckout(props?.product, quantitySelectorValue.value)
+      : send({ message: t('cart.itemAdded'), type: 'positive' });
 
     // if (getSetting() === '0') {
     //   send({ message: t('error.notificationsItemBundleSplitted'), type: 'warning' });
@@ -312,9 +443,9 @@ const openReviewsAccordion = () => {
   customerReviewsClickElement?.click();
 };
 
-const isSalableText = computed(() => (productGetters.isSalable(product) ? '' : t('itemNotAvailable')));
-const isNotValidVariation = computed(() => (getCombination() ? '' : t('productAttributes.notValidVariation')));
-const showPayPalButtons = computed(() => Boolean(getCombination()) && productGetters.isSalable(product));
+const isSalableText = computed(() => (productGetters.isSalable(props?.product) ? '' : t('product.notAvailable')));
+const isNotValidVariation = computed(() => (getCombination() ? '' : t('product.attributes.notValidVariation')));
+const showPayPalButtons = computed(() => Boolean(getCombination()) && productGetters.isSalable(props?.product));
 
 const scrollToReviews = () => {
   if (!isReviewsAccordionOpen()) {

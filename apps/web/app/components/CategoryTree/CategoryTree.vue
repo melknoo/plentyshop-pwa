@@ -1,52 +1,61 @@
 <template>
-  <div
-    v-if="parent || (categoryTreeItem && categoryTreeGetters.getItems(categoryTreeItem)?.length)"
-    class="category-tree"
-  >
-    <h6
-      class="py-2 px-4 mb-4 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest rounded-none select-none"
+  <div v-if="parentCategory || categoryItems?.length" class="category-tree">
+    <div
+      class="py-2 px-4 mb-4 bg-primary-50/50 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest rounded-none select-none"
       data-testid="category-tree"
     >
-      {{ t('category') }}
-    </h6>
-    <template v-if="parent">
+      {{ t('common.labels.category') }}
+    </div>
+    <template v-if="parentCategory">
       <CategoryTreeItem
-        :name="categoryTreeGetters.getName(parent)"
-        :href="localePath(buildCategoryMenuLink(parent, categoryTree))"
-        :count="categoryTreeGetters.getCount(parent)"
+        data-testid="category-parent-link"
+        :name="breadcrumbGetters.getName(parentCategory)"
+        :href="parentCategoryHref"
+        :count="breadcrumbGetters.getItemCount(parentCategory)"
       >
         <SfIconArrowBack size="sm" class="text-neutral-500 mr-2" />
       </CategoryTreeItem>
     </template>
-    <ul v-if="categoryTreeItem" class="mt-4 mb-6 md:mt-2" data-testid="categories">
+    <ul v-if="categoryItems?.length" class="mb-4 @md:mt-2" data-testid="categories">
       <CategoryTreeItem
-        v-for="(categoryItem, index) in categoryTreeGetters.getItems(categoryTreeItem)"
-        :key="index"
-        :name="categoryTreeGetters.getName(categoryItem)"
-        :href="localePath(buildCategoryMenuLink(categoryItem, categoryTree))"
-        :count="categoryTreeGetters.getCount(categoryItem)"
+        v-for="categoryItem in categoryItems"
+        :key="categoryGetters.getSubCategoryId(categoryItem)"
+        :name="categoryGetters.getSubCategoryName(categoryItem)"
+        :href="buildSubcategoryHref(categoryItem)"
+        :count="categoryGetters.getSubCategoryItemCount(categoryItem)"
       />
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { categoryGetters, categoryTreeGetters } from '@plentymarkets/shop-api';
-import { SfIconArrowBack } from '@storefront-ui/vue';
+import type { SubCategory } from '@plentymarkets/shop-api';
+import { categoryGetters, breadcrumbGetters } from '@plentymarkets/shop-api';
 import type { CategoryTreeProps } from '~/components/CategoryTree/types';
+import { SfIconArrowBack } from '@storefront-ui/vue';
 
 const props = defineProps<CategoryTreeProps>();
-
-const { data: categoryTree } = useCategoryTree();
-const { buildCategoryMenuLink } = useLocalization();
-
-const localePath = useLocalePath();
 const { t } = useI18n();
+const { resolvePathTrailingSlash } = useUrlTrailingSlash();
 
-const categoryTreeItem = computed(() =>
-  categoryTreeGetters.findCategoryById(categoryTree.value, categoryGetters.getId(props.category)),
-);
-const parent = computed(() =>
-  categoryTreeGetters.findCategoryById(categoryTree.value, categoryGetters.getParentId(props.category)),
-);
+const categoryItems = computed(() => categoryGetters.getSubCategories(props.category));
+
+const currentCategoryPath = computed(() => {
+  const current = breadcrumbGetters.getCurrent(props.breadcrumbs ?? []);
+  return current ? breadcrumbGetters.getUrl(current) : '';
+});
+
+const parentCategory = computed(() => breadcrumbGetters.getParent(props.breadcrumbs ?? []));
+
+const parentCategoryHref = computed(() => {
+  const url = parentCategory.value ? breadcrumbGetters.getUrl(parentCategory.value) : '';
+  return url ? resolvePathTrailingSlash(url) : '';
+});
+
+const buildSubcategoryHref = (subcategory: SubCategory): string => {
+  const base = (currentCategoryPath.value ?? '').replace(/\/$/, '');
+  const slug = categoryGetters.getSubCategoryNameUrl(subcategory);
+  const path = `${base}/${slug}`;
+  return resolvePathTrailingSlash(path);
+};
 </script>

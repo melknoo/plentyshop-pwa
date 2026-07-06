@@ -1,10 +1,10 @@
 <template>
-  <UiDivider class="col-span-3 -mx-4 !w-auto md:mx-0" />
+  <UiDivider class="col-span-3 -mx-4 !w-auto @md:mx-0" />
   <h2
-    class="hidden md:block col-span-3 typography-headline-4 font-bold mx-4 capitalize"
+    class="hidden @md:block col-span-3 typography-headline-4 font-bold mx-4 capitalize"
     data-testid="account-orders-heading"
   >
-    {{ t('wishlist') }}
+    {{ t('common.labels.wishlist') }}
   </h2>
   <ClientOnly>
     <div class="relative col-span-4">
@@ -14,10 +14,15 @@
 </template>
 
 <script setup lang="ts">
+import type { Locale } from '#i18n';
+
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
+
 definePageMeta({
   layout: 'account',
   pageType: 'static',
   middleware: ['auth-guard'],
 });
-const { t } = useI18n();
 </script>

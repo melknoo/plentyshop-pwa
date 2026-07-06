@@ -1,0 +1,129 @@
+.rte-prose h1 {
+  font-size: 3.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.rte-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 1rem 0 0.45rem;
+}
+
+.rte-prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0.9rem 0 0.4rem;
+}
+
+.rte-prose h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0.85rem 0 0.35rem;
+}
+
+.rte-prose h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0.8rem 0 0.3rem;
+}
+
+.rte-prose h6 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.rte-prose p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.4rem 0;
+}
+.rte-prose--render p {
+  white-space: pre-wrap;
+}
+.rte-prose--render p:empty {
+  min-height: 1.5em;
+}
+.rte-prose blockquote {
+  border-left: 3px solid #dee2e6;
+  padding-left: 12px;
+  margin: 10px 0;
+  color: #495057;
+}
+.rte-prose.rte-prose ul,
+.rte-prose.rte-prose ol {
+  list-style-position: outside;
+  padding-left: 1.25rem;
+  margin: 8px 0;
+}
+.rte-prose.rte-prose ul {
+  list-style-type: disc;
+}
+.rte-prose.rte-prose ol {
+  list-style-type: decimal;
+}
+.rte-prose.rte-prose li {
+  display: list-item;
+}
+
+.rte-prose li > p {
+  margin: 0;
+}
+
+.editor-parent .ProseMirror {
+  padding: 0.25rem;
+}
+.rte__content .ProseMirror {
+  position: relative;
+}
+
+.rte__content .ProseMirror .is-editor-empty::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
+  float: left;
+  height: 0;
+
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.rte-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -0.15em;
+  font-size: 1.25em;
+  line-height: 1;
+}
+
+.ProseMirror-selectednode.rte-icon {
+  outline: 2px solid rgb(100 116 139);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.editor-parent:focus-within .rte-atom-selected {
+  outline: 2px solid rgb(100 116 139);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.editor-parent:focus-within {
+  border-color: #111827;
+  border-width: 2px;
+}
+
+.editor-parent .ProseMirror {
+  width: 100%;
+  min-height: 100%;
+  outline: none;
+}

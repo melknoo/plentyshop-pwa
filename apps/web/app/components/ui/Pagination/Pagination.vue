@@ -2,12 +2,12 @@
   <nav
     class="flex justify-between items-end border-t border-neutral-200"
     role="navigation"
-    :aria-label="t('pagination')"
+    :aria-label="t('common.labels.pagination')"
     data-testid="pagination"
   >
     <UiButton
       size="lg"
-      :aria-label="t('prevAriaLabel')"
+      :aria-label="t('common.navigation.previousAriaLabel')"
       :disabled="pagination.selectedPage <= 1 || disabled"
       variant="tertiary"
       class="gap-3"
@@ -17,7 +17,7 @@
       <template #prefix>
         <SfIconChevronLeft />
       </template>
-      <span class="hidden sm:inline-flex">{{ t('prev') }}</span>
+      <span class="hidden @sm:inline-flex">{{ t('common.actions.previous') }}</span>
     </UiButton>
     <ul class="flex justify-center">
       <li v-if="!pagination.pages.includes(1)">
@@ -30,7 +30,7 @@
           <button
             type="button"
             :class="[
-              'px-4 py-3 md:w-12 rounded-md text-neutral-500',
+              'px-4 py-3 @md:w-12 rounded-md text-neutral-500',
               {
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
@@ -45,7 +45,7 @@
       </li>
       <li v-if="pagination.startPage > 2">
         <div class="flex pt-1 border-t-4 border-transparent">
-          <button type="button" disabled aria-hidden="true" class="px-4 py-3 md:w-12 rounded-md text-neutral-500">
+          <button type="button" disabled aria-hidden="true" class="px-4 py-3 @md:w-12 rounded-md text-neutral-500">
             ...
           </button>
         </div>
@@ -55,7 +55,7 @@
           <button
             type="button"
             :class="[
-              'px-4 py-3 md:w-12 rounded-md text-neutral-500',
+              'px-4 py-3 @md:w-12 rounded-md text-neutral-500',
               {
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
@@ -79,7 +79,7 @@
           <button
             type="button"
             :class="[
-              'px-4 py-3 md:w-12 text-neutral-500 rounded-md',
+              'px-4 py-3 @md:w-12 text-neutral-500 rounded-md',
               {
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
@@ -101,7 +101,7 @@
           <button
             type="button"
             :class="[
-              'px-4 py-3 md:w-12 rounded-md text-neutral-500',
+              'px-4 py-3 @md:w-12 rounded-md text-neutral-500',
               {
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
@@ -116,7 +116,7 @@
       </li>
       <li v-if="pagination.endPage < pagination.totalPages - 1">
         <div class="flex pt-1 border-t-4 border-transparent">
-          <button type="button" disabled aria-hidden="true" class="px-4 py-3 md:w-12 rounded-md text-neutral-500">
+          <button type="button" disabled aria-hidden="true" class="px-4 py-3 @md:w-12 rounded-md text-neutral-500">
             ...
           </button>
         </div>
@@ -131,7 +131,7 @@
           <button
             type="button"
             :class="[
-              'px-4 py-3 md:w-12 rounded-md text-neutral-500',
+              'px-4 py-3 @md:w-12 rounded-md text-neutral-500',
               {
                 'hover:bg-primary-50 hover:text-primary-800 active:bg-primary-50 active:text-primary-700': !disabled,
               },
@@ -148,14 +148,14 @@
     </ul>
     <UiButton
       size="lg"
-      :aria-label="t('nextAriaLabel')"
+      :aria-label="t('common.navigation.nextAriaLabel')"
       :disabled="pagination.selectedPage >= pagination.totalPages || disabled"
       variant="tertiary"
       class="gap-3"
       data-testid="pagination-next"
       @click="nextPage"
     >
-      <span class="hidden sm:inline-flex">{{ t('next') }}</span>
+      <span class="hidden @sm:inline-flex">{{ t('common.actions.next') }}</span>
       <template #suffix>
         <SfIconChevronRight />
       </template>
@@ -168,7 +168,6 @@ import { SfIconChevronLeft, SfIconChevronRight, usePagination } from '@storefron
 import type { PaginationProps } from '~/components/ui/Pagination/types';
 
 const { updatePage } = useCategoryFilter();
-const { t } = useI18n();
 
 const {
   currentPage,
@@ -191,7 +190,7 @@ const pagination = computed(() =>
 );
 
 const getAriaLabel = (isCurrent: boolean, page: number) => {
-  return t(isCurrent ? 'currentPage' : 'goToPage', { page });
+  return t(isCurrent ? 'common.navigation.currentPage' : 'common.navigation.goToPage', { page });
 };
 
 const setPage = (page: number) => {

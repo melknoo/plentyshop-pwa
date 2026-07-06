@@ -10,11 +10,11 @@
       :id="'attribute-' + productAttributeGetters.getAttributeId(attribute)"
       v-model="value"
       size="lg"
-      :placeholder="t('pleaseSelect')"
+      :placeholder="t('form.selectPlaceholder')"
       :invalid="Boolean(errors['selectedValue'])"
       @update:model-value="(event) => doUpdateValue(Number(event))"
     >
-      <!-- <option class="test" :value="undefined">{{ t('pleaseSelect') }}</option> -->
+      <option :value="-1">{{ t('form.selectPlaceholder') }}</option>
       <option
         v-for="item in productAttributeGetters.getAttributeValues(attribute)"
         :key="productAttributeGetters.getAttributeValueId(item)"
@@ -36,7 +36,6 @@ import { number, object } from 'yup';
 import { useForm, ErrorMessage } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 
-const { t } = useI18n();
 const { attribute } = defineProps<AttributeSelectProps>();
 const { updateValue, getValue } = useProductAttributes();
 const { registerValidator, registerInvalidFields } = useValidatorAggregator('attributes');
@@ -47,13 +46,13 @@ const value = ref<string | undefined>(
 watch(
   () => getValue(productAttributeGetters.getAttributeId(attribute)),
   () => {
-    value.value = getValue(productAttributeGetters.getAttributeId(attribute))?.toString() ?? undefined;
+    value.value = getValue(productAttributeGetters.getAttributeId(attribute))?.toString() ?? '-1';
   },
 );
 
 const validationSchema = toTypedSchema(
   object({
-    selectedValue: number().required(t('errorMessages.requiredField')),
+    selectedValue: number().required(t('error.requiredField')),
   }),
 );
 
@@ -66,8 +65,10 @@ registerValidator(validate);
 const [selectedValue] = defineField('selectedValue');
 
 const doUpdateValue = (value: number) => {
-  updateValue(attribute.attributeId, value);
-  selectedValue.value = getValue(attribute.attributeId);
+  if (value > -1) {
+    updateValue(attribute.attributeId, value);
+    selectedValue.value = getValue(attribute.attributeId);
+  }
 };
 
 const setValue = (value: string | undefined) => {

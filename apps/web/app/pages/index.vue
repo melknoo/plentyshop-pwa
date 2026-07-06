@@ -1,18 +1,27 @@
 <template>
   <div>
-    <EditablePage :identifier="'index'" :type="'immutable'" />
+    <EditableBlocks :identifier="'index'" :type="'immutable'" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { Locale } from '#i18n';
+
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
+
 definePageMeta({
   pageType: 'static',
   isBlockified: true,
   type: 'immutable',
   identifier: 'index',
+  middleware: ['newsletter-confirmation-client', 'notifyme-interactions-client'],
+  cacheControl: getCacheControl(),
 });
-const { t } = useI18n();
+
 const { setPageMeta } = usePageMeta();
+
 const icon = 'home';
 setPageMeta(t('homepage.title'), icon);
 
@@ -20,6 +29,6 @@ const { getRobots, setRobotForStaticPage } = useRobots();
 getRobots();
 setRobotForStaticPage('Homepage');
 
-const { setBlocksListContext } = useBlockManager();
+const { setBlocksListContext } = useBlocksList();
 setBlocksListContext('content');
 </script>

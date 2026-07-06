@@ -29,6 +29,10 @@ export class HomePageObject extends PageObject {
     return cy.getByTestId('button').contains('Browse products');
   }
 
+  get safeModeBanner() {
+    return cy.getByTestId('safe-mode-banner');
+  }
+
   get topToolbar() {
     return cy.getByTestId('edit-mode-toolbar');
   }
@@ -39,6 +43,26 @@ export class HomePageObject extends PageObject {
 
   get blockActions() {
     return cy.getByTestId('edit-block-actions');
+  }
+
+  get bannerImages() {
+    return cy.get('[data-testid^="banner-image-"]');
+  }
+
+  get textCard() {
+    return cy.getByTestId('text-card');
+  }
+
+  get imageBlock() {
+    return cy.getByTestId('image-block');
+  }
+
+  get recommendedBlock() {
+    return cy.getByTestId('recommended-block');
+  }
+
+  get newsletterBlock() {
+    return cy.getByTestId('newsletter-block');
   }
 
   get baseUrl() {
@@ -92,6 +116,23 @@ export class HomePageObject extends PageObject {
     cy.getByTestId('category-button').first().click();
     cy.wait('@getFacet');
     cy.getByTestId('category-page-content').should('be.visible');
+    return this;
+  }
+
+  assertBlockTemplate() {
+    this.bannerImages.should('exist');
+    this.multiGridStructure.should('exist');
+    this.multiGridColumn.should('have.length', 2);
+    this.imageBlock.should('exist');
+    this.textCard.should('exist');
+    this.recommendedBlock.should('exist');
+    this.newsletterBlock.should('exist');
+    this.footer.should('have.length', 1);
+    return this;
+  }
+
+  safeModeBannerShouldNotExist() {
+    this.safeModeBanner.should('not.exist');
     return this;
   }
 

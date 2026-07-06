@@ -12,12 +12,17 @@ export interface UseAggregatedCountriesState {
 }
 
 export type FetchAggregatedCountries = () => Promise<void>;
+export type SetCountries = (
+  defaultCountries: ActiveShippingCountry[],
+  geoRegulatedCountries: GeoRegulatedCountry[],
+) => void;
 
 export interface UseAggregatedCountries {
   default: Readonly<Ref<UseAggregatedCountriesState['default']>>;
   geoRegulated: Readonly<Ref<UseAggregatedCountriesState['geoRegulated']>>;
   loading: Readonly<Ref<boolean>>;
   fetchAggregatedCountries: FetchAggregatedCountries;
+  setCountries: SetCountries;
   useGeoRegulatedCountries: boolean;
   billingCountries: ComputedRef<(ActiveShippingCountry | GeoRegulatedCountry)[]>;
   localeCountryName: (countryId: string) => string;

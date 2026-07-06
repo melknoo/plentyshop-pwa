@@ -1,6 +1,13 @@
 import { PageObject } from './PageObject';
 
 export class LanguageSelectObject extends PageObject {
+  switchLocale(locale: string = 'de') {
+    cy.getByTestId('open-languageselect-button').first().click();
+    cy.getByTestId(`languageOption-${locale}`).click();
+    cy.wait('@getBlocks');
+    return this;
+  }
+
   checkOptions() {
     cy.getByTestId('languageOption-en').should('be.visible');
     cy.getByTestId('languageOption-de').should('be.visible');
@@ -15,8 +22,8 @@ export class LanguageSelectObject extends PageObject {
   }
 
   selectOption(option: string) {
-    cy.intercept('/plentysystems/getCart').as('getCart');
-    cy.getByTestId(`languageOption-${option}`).first().click().wait('@getCart');
+    cy.intercept('/plentysystems/getSession').as('getSession');
+    cy.getByTestId(`languageOption-${option}`).first().click().wait('@getSession');
     return this;
   }
 

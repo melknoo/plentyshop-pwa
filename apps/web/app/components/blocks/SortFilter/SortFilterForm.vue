@@ -1,30 +1,10 @@
 <template>
-  <UiAccordionItem
+  <EditorFormPanel
     v-model="sortFilterOpen"
+    :title="getEditorTranslation('display-and-order-label')"
     data-testid="open-sorting-and-filters-settings"
-    summary-active-class="bg-neutral-100 border-t-0"
-    summary-class="w-full hover:bg-neutral-100 px-4 py-5 flex justify-between items-center select-none border-b"
   >
-    <template #summary>
-      <h2>{{ getEditorTranslation('display-and-order-label') }}</h2>
-    </template>
-
     <div data-testid="text-card-form">
-      <div class="py-2">
-        <div class="flex items-center justify-between gap-3">
-          <UiFormLabel for="keep-transparent" class="m-0">
-            {{ getEditorTranslation('enable-filters-label') }}
-          </UiFormLabel>
-
-          <SfSwitch
-            id="keep-transparent"
-            v-model="sortFilterBlock.enableFilters"
-            data-testid="switch-keep-transparent"
-            class="checked:bg-editor-button checked:before:hover:bg-editor-button checked:border-gray-500 checked:hover:border:bg-gray-700 hover:border-gray-700 hover:before:bg-gray-700 checked:hover:bg-gray-300 checked:hover:border-gray-400"
-          />
-        </div>
-      </div>
-
       <div class="py-4">
         <draggable
           v-if="sortFilterBlock.filtersOrder.length"
@@ -38,7 +18,7 @@
             <div :key="elem" class="flex items-center justify-between drag-slides-handle cursor-move">
               <div class="flex items-center gap-3">
                 <button
-                  class="drag-slides-handle top-2 left-2 z-50 cursor-grab p-2 hover:bg-gray-100 rounded-full"
+                  class="drag-slides-handle top-2 left-2 z-dropdown cursor-grab p-2 hover:bg-gray-100 rounded-full"
                   :aria-label="getEditorTranslation('drag-reorder-aria')"
                   :data-testid="`actions-drag-slide-handle-${index}`"
                 >
@@ -57,7 +37,7 @@
         </draggable>
       </div>
 
-      <div class="py-2">
+      <div v-if="sortFilterBlock.fields.customizedFilters" class="py-2">
         <div class="flex items-center justify-between gap-3">
           <UiFormLabel for="keep-transparent" class="m-0">
             {{ getEditorTranslation('show-filters-immediately-label') }}
@@ -72,7 +52,7 @@
         </div>
       </div>
 
-      <div v-if="!sortFilterBlock.showAllFiltersImmediately" class="py-2">
+      <div v-if="sortFilterBlock.fields.customizedFilters && !sortFilterBlock.showAllFiltersImmediately" class="py-2">
         <div class="flex justify-between mb-2">
           <UiFormLabel>{{ getEditorTranslation('number-of-filters-label') }}</UiFormLabel>
         </div>
@@ -96,21 +76,30 @@
         </label>
       </div>
     </div>
-  </UiAccordionItem>
+  </EditorFormPanel>
+
+  <EditorFormPanel
+    v-model="layoutOpen"
+    :title="getEditorTranslation('layout-label')"
+    data-testid="slider-button-group-title"
+  >
+    <EditorFullWidthToggle v-model="isFullWidth" :block-uuid="blockUuid" />
+  </EditorFormPanel>
 </template>
 
 <script setup lang="ts">
 import { SfInput, SfSwitch } from '@storefront-ui/vue';
-import type { SortFilterFormProps, SortFilterContent, SortFilterFieldKey, SortFilterFieldsVisibility } from './types';
+import type { SortFilterFormProps, SortFilterContent, SortFilterFieldKey } from './types';
 import dragIcon from '~/assets/icons/paths/drag.svg';
 import draggable from 'vuedraggable/src/vuedraggable';
 
-const { data } = useCategoryTemplate();
+const { allBlocks: data } = useBlocks();
+
 const { blockUuid } = useSiteConfiguration();
 const { findOrDeleteBlockByUuid } = useBlockManager();
 
 const sortFilterOpen = ref(true);
-
+const layoutOpen = ref(true);
 const props = defineProps<SortFilterFormProps>();
 
 const sortFilterBlock = computed<SortFilterContent>(() => {
@@ -118,12 +107,27 @@ const sortFilterBlock = computed<SortFilterContent>(() => {
 
   const content = rawContent as Partial<SortFilterContent>;
 
-  if (!content.enableFilters) content.enableFilters = false;
-  if (!content.showAllFiltersImmediately) content.showAllFiltersImmediately = false;
-  if (!content.numberOfFiltersToShowInitially) content.numberOfFiltersToShowInitially = 0;
+  if (typeof content.showAllFiltersImmediately === 'undefined') {
+    content.showAllFiltersImmediately = true;
+  }
+
+  if (typeof content.numberOfFiltersToShowInitially === 'undefined') {
+    content.numberOfFiltersToShowInitially = 0;
+  }
 
   return content as SortFilterContent;
 });
+
+const { isFullWidth } = useFullWidthToggleForContent(sortFilterBlock);
+
+watch(
+  () => sortFilterBlock.value.fields?.customizedFilters,
+  (isOn) => {
+    if (!isOn) {
+      sortFilterBlock.value.numberOfFiltersToShowInitially = 0;
+    }
+  },
+);
 
 const fieldLabels: Record<string, string> = {
   category: getEditorTranslation('category'),
@@ -135,19 +139,6 @@ const fieldLabels: Record<string, string> = {
   availability: getEditorTranslation('availability'),
   customizedFilters: getEditorTranslation('customizedFilters'),
 };
-
-const setFieldsValue = (newValue: boolean) => {
-  Object.keys(sortFilterBlock.value.fields as SortFilterFieldsVisibility).forEach((key) => {
-    sortFilterBlock.value.fields[key as SortFilterFieldKey] = newValue;
-  });
-};
-
-watch(
-  () => sortFilterBlock.value.enableFilters,
-  (newValue) => {
-    setFieldsValue(newValue);
-  },
-);
 </script>
 
 <i18n lang="json">
@@ -165,9 +156,10 @@ watch(
     "availability": "Availability",
     "customizedFilters": "Customized filters",
 
-    "show-filters-immediately-label": "Show all filters immediately",
-    "number-of-filters-label": "Number of filters to show initially",
-    "items-per-page-label": "Items per page"
+    "show-filters-immediately-label": "Show all customized filters immediately",
+    "number-of-filters-label": "Number of customized filters to show initially",
+    "items-per-page-label": "Items per page",
+    "layout-label": "Layout"
   },
   "de": {
     "display-and-order-label": "Display and order",
@@ -182,9 +174,10 @@ watch(
     "customizedFilters": "Customized filters",
 
     "enable-filters-label": "Enable filters",
-    "show-filters-immediately-label": "Show all filters immediately",
-    "number-of-filters-label": "Number of filters to show initially",
-    "items-per-page-label": "Items per page"
+    "show-filters-immediately-label": "Show all customized filters immediately",
+    "number-of-filters-label": "Number of customized filters to show initially",
+    "items-per-page-label": "Items per page",
+    "layout-label": "Layout"
   }
 }
 </i18n>

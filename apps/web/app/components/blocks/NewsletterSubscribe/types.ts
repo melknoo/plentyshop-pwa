@@ -11,6 +11,7 @@ export type NewsletterSubscribeContent = {
     bgColor?: string;
     title?: string;
     htmlDescription?: string;
+    textAlignment?: 'left' | 'center' | 'right';
   };
   input: {
     displayNameInput?: boolean;
@@ -18,5 +19,12 @@ export type NewsletterSubscribeContent = {
   };
   button: {
     label?: string;
+  };
+
+  settings: {
+    emailFolderId: number;
+  };
+  layout?: {
+    fullWidth?: boolean;
   };
 };

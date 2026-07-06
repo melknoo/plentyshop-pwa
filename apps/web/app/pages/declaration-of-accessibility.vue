@@ -1,15 +1,20 @@
 <template>
-  <div class="w-full p-5 overflow-x-auto no-preflight" v-html="getHTMLTexts()" />
+  <div class="w-full p-5 overflow-x-auto break-words no-preflight" v-html="getHTMLTexts()" />
 </template>
 
 <script setup lang="ts">
+import type { Locale } from '#i18n';
+
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
+
 const { data, getLegalTexts } = useLegalInformation();
-const { t } = useI18n();
 const { setPageMeta } = usePageMeta();
 const { getRobots, setRobotForStaticPage } = useRobots();
 
 const icon = 'page';
-setPageMeta(t('categories.legal.subcategories.declarationOfAccessibility'), icon);
+setPageMeta(t('legal.declarationOfAccessibility'), icon);
 
 definePageMeta({
   pageType: 'static',

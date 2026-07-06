@@ -1,17 +1,22 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { validateApiUrl } from './app/utils/pathHelper';
-import cookieConfig from './app/configuration/cookie.config';
 import { nuxtI18nOptions } from './app/configuration/i18n.config';
 import { appConfiguration } from './app/configuration/app.config';
+import cookieConfig from './app/configuration/cookie.config';
 import { paths } from './app/utils/paths';
-import { resolve } from 'pathe';
+import settingsConfig from './app/configuration/settings.config';
+import featureFlagsConfig from './app/configuration/feature-flags.config';
+import { FailOnLargeChunksPlugin, FailOnForbiddenDataInPublicFolderPlugin } from './app/configuration/vite.config';
+import { FailOnUnmarkedBlockOverridesPlugin } from './app/configuration/vite.block-overrides';
+import { thirdPartyDeps, localPackageDeps } from './app/configuration/optimize-deps.config';
 
 export default defineNuxtConfig({
   srcDir: 'app/',
   telemetry: false,
   devtools: { enabled: true },
+  css: ['~/assets/richtext.css'],
   typescript: {
-    typeCheck: true,
+    typeCheck: false, // type checking runs via `npm run typecheck`, on build, and in CI (fitness-code-quality)
   },
   app: appConfiguration,
   experimental: {
@@ -29,51 +34,40 @@ export default defineNuxtConfig({
       fs: {
         allow: ['../../..'], // relative to the current nuxt.config.ts
       },
-      watch: {
-        usePolling: process.env.NODE_ENV === 'development', // see apps/web/app/plugins/02.pwa-cookie.ts
-      },
     },
+    plugins: [FailOnLargeChunksPlugin, FailOnForbiddenDataInPublicFolderPlugin, FailOnUnmarkedBlockOverridesPlugin],
     optimizeDeps: {
-      include: [
-        '@intlify/core-base',
-        '@intlify/shared',
-        '@paypal/paypal-js',
-        '@plentymarkets/shop-api',
-        '@plentymarkets/tailwind-colors',
-        '@storefront-ui/shared',
-        '@storefront-ui/vue',
-        '@vee-validate/yup',
-        '@vue/devtools-core',
-        '@vue/devtools-kit',
-        '@vueuse/core',
-        '@vueuse/shared',
-        'country-flag-icons/string/3x2',
-        'dotenv',
-        'drift-zoom',
-        'js-sha256',
-        'swiper/modules',
-        'swiper/vue',
-        'uuid',
-        'validator',
-        'vue-multiselect',
-        'vue3-lazy-hydration',
-        'vue-tel-input',
-        'vuedraggable/src/vuedraggable',
-        'yup',
-      ],
+      include: [...thirdPartyDeps, ...localPackageDeps],
     },
     build: {
+      modulePreload: { polyfill: false },
       rollupOptions: {
         output: {
-          manualChunks: {
-            vuetify: ['vuetify', '@fortawesome/fontawesome-free'],
+          manualChunks(id) {
+            if (id.includes('utils/blocks/blocks-imports')) return 'block-registry';
+            if (/[/\\]blocks[/\\].+[/\\]defaults\.ts$/.test(id)) return 'block-registry';
+
+            const vendorChunks: Record<string, string[]> = {
+              tiptapExtensions: [
+                '@tiptap/extension-color',
+                '@tiptap/extension-emoji',
+                '@tiptap/extension-highlight',
+                '@tiptap/extension-placeholder',
+                '@tiptap/extension-text-align',
+                '@tiptap/extension-text-style',
+              ],
+              tiptap: ['@tiptap/'],
+              vuetify: ['vuetify/', '@mdi/js'],
+            };
+
+            for (const [chunk, packages] of Object.entries(vendorChunks)) {
+              if (packages.some((pkg) => id.includes(pkg))) return chunk;
+            }
           },
         },
       },
     },
   },
-  css: ['~/assets/style.scss'],
-  // TODO: build is consistently failing because of this. check whether we need pre-render check.
   nitro: {
     prerender: {
       crawlLinks: false,
@@ -83,41 +77,20 @@ export default defineNuxtConfig({
   routeRules: {
     '/_ipx/**': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
     '/_nuxt-plenty/icons/**': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
-    '/_nuxt-plenty/favicon.ico': { headers: { 'cache-control': `public, max-age=31536000, immutable` } },
+    '/_nuxt-plenty/favicon.ico': { headers: { 'cache-control': `public, max-age=86400` } },
     '/_nuxt-plenty/images/**': { headers: { 'cache-control': `max-age=604800` } },
+    '/favicon.ico': { redirect: { to: '/_nuxt-plenty/favicon.ico', statusCode: 301 } },
   },
   image: {
     provider: 'none',
-  },
-  site: {
-    url: '',
   },
   pages: true,
   runtimeConfig: {
     public: {
       domain: validateApiUrl(process.env.API_URL) ?? process.env.API_ENDPOINT,
       apiEndpoint: process.env.API_ENDPOINT,
-      isDev: process.env.NODE_ENV === 'development',
       activeLanguages: process.env.LANGUAGELIST || 'en,de',
-      enableCategoryEditing: process.env.NODE_ENV === 'development' || process.env?.ENABLE_CATEGORY_EDITING === '1',
-      enableAllEditorSettings:
-        process.env.NODE_ENV === 'development' || process.env?.ENABLE_ALL_EDITOR_SETTINGS === '1',
-      editorSettingsDevFlag:
-        process.env.NODE_ENV === 'development' || process.env?.ENABLE_ALL_EDITOR_SETTINGS === '1'
-          ? []
-          : [
-              'autogenerated-pages',
-              'other-robots-settings',
-              'robots-meta-tag-for-item-pages',
-              'search-engines',
-              'tracking-and-analytics',
-              'customer-management',
-              'variation-position-based-on-sales',
-              'security',
-              'vat-number-validation',
-              'item-internal-sorting',
-              'contact-form',
-            ],
+      disabledEditorSettings: process.env?.ENABLE_ALL_EDITOR_SETTINGS === '1' ? [] : ['shop-search'],
       cookieGroups: cookieConfig,
       turnstileSiteKey: process.env?.CLOUDFLARETURNSTILEAPISITEKEY ?? '',
       useAvif: process.env?.IMAGEAVIF === 'true' || process.env?.NUXT_PUBLIC_USE_AVIF === 'true',
@@ -184,33 +157,8 @@ export default defineNuxtConfig({
       storename: process.env.STORENAME || 'Suck my Straw',
       noCache: process.env.NO_CACHE || '',
       configId: process.env.CONFIG_ID || '',
-      isHero: true,
-      font: process.env.NUXT_PUBLIC_FONT || 'Red Hat Text',
-      blockSize: process.env.NUXT_PUBLIC_BLOCK_SIZE || 'm',
-      primaryColor: process.env.NUXT_PUBLIC_PRIMARY_COLOR || '#062633',
-      defaultSortingOption: process.env.NUXT_PUBLIC_DEFAULT_SORTING_OPTION ?? 'texts.name1_asc',
-      defaultSortingSearch: process.env.NUXT_PUBLIC_DEFAULT_SORTING_SEARCH ?? 'item.score',
-      availableSortingOptions:
-        process.env.NUXT_PUBLIC_AVAILABLE_SORTING_OPTIONS ||
-        '["item.score","texts.name1_asc","default.recommended_sorting","sorting.price.avg_asc","sorting.price.avg_desc","variation.availability.averageDays_asc","variation.availability.averageDays_desc"]',
-      recommendedFirstSortingOption:
-        process.env.NUXT_PUBLIC_RECOMMENDED_FIRST_SORTING_OPTION ?? 'variation.position_desc',
-      recommendedSecondSortingOption:
-        process.env.NUXT_PUBLIC_RECOMMENDED_SECOND_SORTING_OPTION ?? 'sorting.price.avg_asc',
-      recommendedThirdSortingOption:
-        process.env.NUXT_PUBLIC_RECOMMENDED_THIRD_SORTING_OPTION ?? 'variation.availability.averageDays_asc',
-      secondaryColor: process.env.NUXT_PUBLIC_SECONDARY_COLOR || '#31687d',
-      headerBackgroundColor:
-        process.env.NUXT_PUBLIC_HEADER_BACKGROUND_COLOR || process.env.NUXT_PUBLIC_PRIMARY_COLOR || '#062633',
-      iconColor: process.env.NUXT_PUBLIC_ICON_COLOR || '#ffffff',
-      showCustomerWishComponent: process.env.NUXT_PUBLIC_SHOW_CUSTOMER_WISH_COMPONENT === 'true',
-      bundleItemDisplay: process.env.NUXT_PUBLIC_BUNDLE_ITEM_DISPLAY || '2',
-      externalVatCheckInactive: process.env.NUXT_PUBLIC_EXTERNAL_VAT_CHECK_INACTIVE === 'true',
-      itemSortByMonthlySales: process.env.NUXT_PUBLIC_ITEM_SORT_BY_MONTHLY_SALES || '0',
-      defaultCustomerClassId: process.env.NUXT_PUBLIC_DEFAULT_CUSTOMER_CLASS_ID || '0',
-      defaultB2BCustomerClass: process.env.NUXT_PUBLIC_DEFAULT_B2B_CUSTOMER_CLASS || '0',
-      fetchDynamicTranslations: false,
-      sessionLifetime: process.env.NUXT_PUBLIC_SESSION_LIFETIME || '3600',
+      ...settingsConfig,
+      ...featureFlagsConfig,
     },
   },
   modules: [
@@ -222,7 +170,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/test-utils/module',
     '@nuxtjs/i18n',
-    '@nuxtjs/sitemap',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/turnstile',
     'nuxt-lazy-hydrate',
@@ -230,6 +177,7 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@vite-pwa/nuxt',
     'vuetify-nuxt-module',
+    'nuxt-color-picker',
   ],
   vuetify: {
     moduleOptions: {
@@ -237,12 +185,38 @@ export default defineNuxtConfig({
     },
     vuetifyOptions: {
       icons: {
-        defaultSet: 'fa',
+        defaultSet: 'mdi-svg',
+      },
+      theme: {
+        defaultTheme: 'light',
       },
     },
   },
+  plentySitemap: {
+    locales: (process.env.LANGUAGELIST || 'en,de').split(','),
+    defaultLocale: nuxtI18nOptions.defaultLocale,
+    exclude: [
+      '/search',
+      '/offline',
+      '/my-account**',
+      '/readonly-checkout',
+      '/set-new-password',
+      '/reset-password-success',
+      '/cart',
+      '/checkout',
+      '/confirmation',
+      '/wishlist',
+      '/login',
+      '/register',
+      '/reset-password',
+      '/favicon.ico',
+    ],
+  },
   shopCore: {
     apiUrl: validateApiUrl(process.env.API_URL) ?? 'http://localhost:8181',
+    apiEndpoint: process.env.API_ENDPOINT,
+    configId: Number(process.env.CONFIG_ID) || 1,
+    middlewareSSRUrl: 'http://localhost:8181',
   },
   shopModuleMollie: {
     checkoutUrl: paths.checkout,
@@ -252,42 +226,13 @@ export default defineNuxtConfig({
   fonts: {
     defaults: {
       weights: [300, 400, 500, 700],
+      preload: true,
     },
     assets: {
       prefix: '/_nuxt-plenty/fonts/',
     },
   },
   i18n: nuxtI18nOptions,
-  sitemap: {
-    autoLastmod: true,
-    xsl: '/sitemap_style.xsl',
-    xslColumns: [
-      // URL column must always be set, no value needed
-      { label: 'URL', width: '75%' },
-      { label: 'Last Modified', select: 'sitemap:lastmod', width: '25%' },
-    ],
-    sitemaps: {
-      'sitemap/content': {
-        exclude: [
-          `/${nuxtI18nOptions.defaultLocale}/**`,
-          '/search',
-          '/offline',
-          '/my-account/**',
-          '/readonly-checkout',
-          '/set-new-password',
-          '/reset-password-success',
-          '/cart',
-          '/checkout',
-          '/confirmation',
-          '/wishlist',
-          '/login',
-          '/signup',
-          '/reset-password',
-        ],
-        includeAppSources: true,
-      },
-    },
-  },
   tailwindcss: {
     configPath: '~/configuration/tailwind.config.ts',
     exposeConfig: true,
@@ -361,34 +306,6 @@ export default defineNuxtConfig({
             },
           },
         },
-        {
-          urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'google-fonts-cache',
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
-        {
-          urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'gstatic-fonts-cache',
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-            },
-            cacheableResponse: {
-              statuses: [0, 200],
-            },
-          },
-        },
       ],
       cleanupOutdatedCaches: true,
     },
@@ -421,16 +338,5 @@ export default defineNuxtConfig({
       ],
     },
     registerWebManifestInRouteRules: true,
-  },
-  hooks: {
-    'pages:extend'(pages) {
-      if (process.env.E2E_TEST) {
-        pages.push({
-          name: 'e2e',
-          path: '/smoke-e2e',
-          file: resolve(__dirname, 'e2e/smoke-e2e.vue'),
-        });
-      }
-    },
   },
 });

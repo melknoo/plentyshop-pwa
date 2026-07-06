@@ -6,15 +6,23 @@
 </template>
 
 <script setup lang="ts">
+import type { Locale } from '#i18n';
+
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
+
 definePageMeta({
   layout: false,
   middleware: ['guest-guard'],
 });
-const { t } = useI18n();
 const { setPageMeta } = usePageMeta();
 
 const icon = 'page';
-setPageMeta(t('auth.login.submitLabel'), icon);
+setPageMeta(t('authentication.login.submitLabel'), icon);
+useHead({
+  meta: [{ name: 'robots', content: 'noindex, nofollow' }],
+});
 
 const router = useRouter();
 const localePath = useLocalePath();

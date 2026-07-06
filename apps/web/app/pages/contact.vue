@@ -1,14 +1,13 @@
 <template>
   <NuxtLayout name="default">
-    <div class="md:max-w-[677px] mx-auto px-4 pt-4 pb-20 md:px-0 md:mt-4">
-      <h1 class="font-bold mb-10 typography-headline-3 md:typography-headline-2">
+    <div class="@md:max-w-[677px] mx-auto px-4 pt-4 pb-20 @md:px-0 @md:mt-4">
+      <h1 class="font-bold mb-10 typography-headline-3 @md:typography-headline-2">
         {{ t('contact.contact') }}
       </h1>
       <p class="mb-10">{{ t('contact.contactShopMessage') }}</p>
-
       <div
-        v-if="turnstileSiteKey.length === 0"
-        class="flex items-start bg-warning-100 shadow-md pr-4 pl-4 ring-1 ring-warning-200 typography-text-sm md:typography-text-base py-1 rounded-md mb-4"
+        v-if="turnstileSiteKey.length === 0 || contactShopEmail.length === 0"
+        class="flex items-start bg-warning-100 shadow-md pr-4 pl-4 ring-1 ring-warning-200 typography-text-sm @md:typography-text-base py-1 rounded-md mb-4"
       >
         <SfIconWarning class="mt-2 mr-2 text-warning-700 shrink-0" />
         <div class="py-2">{{ t('contact.misConfigured') }}</div>
@@ -104,13 +103,13 @@
             >
               <i18n-t keypath="contact.privacyPolicy" scope="global">
                 <template #privacyPolicy>
-                  <SfLink
+                  <UiLink
                     :href="localePath(paths.privacyPolicy)"
                     target="_blank"
                     class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
                   >
-                    {{ t('privacyPolicy') }}
-                  </SfLink>
+                    {{ t('legal.privacyPolicy') }}
+                  </UiLink>
                 </template>
               </i18n-t>
               {{ t('form.required') }}
@@ -121,7 +120,7 @@
 
         <p class="text-sm text-neutral-500 mb-2">{{ t('form.required') }} {{ t('contact.form.asterixHint') }}</p>
 
-        <div class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end gap-4">
+        <div class="@md:col-span-3 flex flex-col-reverse @md:flex-row justify-end gap-4">
           <UiButton type="button" variant="secondary" :disabled="isContactLoading" @click="clearInputs">
             {{ t('contact.clearAll') }}
           </UiButton>
@@ -152,43 +151,50 @@
 
 <script setup lang="ts">
 import type { CustomerContactEmailParams } from '@plentymarkets/shop-api';
-import { SfInput, SfCheckbox, SfLink, SfTextarea, SfLoaderCircular, SfIconWarning } from '@storefront-ui/vue';
+import { SfInput, SfCheckbox, SfTextarea, SfLoaderCircular, SfIconWarning } from '@storefront-ui/vue';
 import { boolean, object, string } from 'yup';
 import { useForm, ErrorMessage } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/yup';
 import { paths } from '~/utils/paths';
 import { userGetters } from '@plentymarkets/shop-api';
+import type { Locale } from '#i18n';
+
+defineI18nRoute({
+  locales: process.env.LANGUAGELIST?.split(',') as Locale[],
+});
 
 definePageMeta({
   layout: false,
   pageType: 'static',
 });
 
-const { t } = useI18n();
 const { loading: isContactLoading, doCustomerContactMail } = useCustomerContact();
 const localePath = useLocalePath();
 const { getSetting } = useSiteSettings('cloudflareTurnstileApiSiteKey');
-const turnstileSiteKey = getSetting() ?? '';
-const turnstileElement = ref();
-const turnstileLoad = ref(false);
+const { getSetting: getContactShopEmail } = useSiteSettings('contactShopEmail');
 const { send } = useNotification();
 const { getRobots, setRobotForStaticPage } = useRobots();
 const { setPageMeta } = usePageMeta();
 
 const icon = 'page';
-setPageMeta(t('categories.contact.label'), icon);
+setPageMeta(t('contact.label'), icon);
+
+const contactShopEmail = getContactShopEmail() ?? '';
+const turnstileSiteKey = getSetting() ?? '';
+const turnstileElement = ref();
+const turnstileLoad = ref(false);
 
 const validationSchema = toTypedSchema(
   object({
     email: string()
       .trim()
-      .required(t('errorMessages.email.required'))
+      .required(t('error.email.required'))
       .test('is-valid-email', t('storefrontError.contactMail.emailInvalid'), (mail: string) =>
         userGetters.isValidEmailAddress(mail),
       )
       .default(''),
     message: string()
-      .required(t('errorMessages.contact.messageRequired'))
+      .required(t('error.contact.messageRequired'))
       .test('min-clean-length', t('storefrontError.contactMail.messageInvalid'), (val: string | undefined) => {
         if (!val) return false;
         const cleaned = val.replace(/\n/g, '').trim();
@@ -205,7 +211,7 @@ const validationSchema = toTypedSchema(
       }),
     subject: string()
       .trim()
-      .required(t('errorMessages.contact.subjectRequired'))
+      .required(t('error.contact.subjectRequired'))
       .default('')
       .test('min-length', t('storefrontError.contactMail.subjectInvalid'), (val) => !!(val && val.length >= 3)),
     orderId: string()
@@ -217,10 +223,10 @@ const validationSchema = toTypedSchema(
         t('storefrontError.contactMail.orderIdInvalid'),
         (val) => !val || /^[1-9][0-9]*$/.test(val),
       ),
-    privacyPolicy: boolean().oneOf([true], t('errorMessages.contact.termsRequired')).default(false),
+    privacyPolicy: boolean().oneOf([true], t('error.contact.termsRequired')).default(false),
     turnstile:
       turnstileSiteKey.length > 0
-        ? string().required(t('errorMessages.contact.turnstileRequired')).default('')
+        ? string().required(t('error.contact.turnstileRequired')).default('')
         : string().optional().default(''),
   }),
 );

@@ -23,12 +23,14 @@ export type SortFilterProps = {
 };
 
 export type SortFilterContent = {
-  enableFilters: boolean;
   fields: SortFilterFieldsVisibility;
   filtersOrder: SortFilterFieldKey[];
   filtersDisabled: SortFilterFieldKey[];
   showAllFiltersImmediately: boolean;
   numberOfFiltersToShowInitially?: number;
+  layout: {
+    fullWidth?: boolean;
+  };
 };
 
 export type SortFilterFormProps = {

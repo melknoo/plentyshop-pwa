@@ -1,9 +1,10 @@
 export const useToolbar = () => {
   const { isEditingEnabled } = useEditor();
   const { send } = useNotification();
-  const { $i18n } = useNuxtApp();
 
   const { settingsIsDirty, dirtyKeys, saveSiteSettings } = useSiteSettings();
+  const { closeDrawer } = useSiteConfiguration();
+  const { assetsIsDirty, saveCustomAssets } = useCustomAssets();
   const { updatePageTemplate } = useUpdatePageTemplate();
   const { data: dataProduct } = useProducts();
   const route = useRoute();
@@ -11,12 +12,12 @@ export const useToolbar = () => {
     const messageList: string[] = [];
     let hasError = false;
     let saved = null;
-    const errorMessage = $i18n.t('errorMessages.editor.save.error');
 
     const handleSave = async (saveFunction: () => Promise<boolean>, successMessage?: string) => {
       saved = await saveFunction();
 
       if (saved) {
+        closeDrawer();
         if (successMessage) {
           messageList.push(successMessage);
         }
@@ -29,15 +30,22 @@ export const useToolbar = () => {
       await handleSave(updatePageTemplate);
     }
 
+    const { hasChanges: localizationHasChanges, saveLocalizations } = useEditorLocalizationKeys();
+    if (localizationHasChanges.value) await saveLocalizations();
+
     if (settingsIsDirty.value) {
       const touchedFont = dirtyKeys.value.includes('font');
 
-      await handleSave(saveSiteSettings, touchedFont ? $i18n.t('errorMessages.editor.save.settings') : undefined);
+      await handleSave(saveSiteSettings, touchedFont ? getEditorUITranslation('settings') : undefined);
+    }
+
+    if (assetsIsDirty.value) {
+      await handleSave(saveCustomAssets);
     }
 
     if (saved && !hasError) {
       send({
-        message: [$i18n.t('errorMessages.editor.save.success'), ...messageList],
+        message: [getEditorUITranslation('toolbarSuccess'), ...messageList],
         type: 'positive',
       });
       if (import.meta.client) {
@@ -47,7 +55,7 @@ export const useToolbar = () => {
 
     if (hasError) {
       send({
-        message: errorMessage,
+        message: getEditorUITranslation('toolbarError'),
         type: 'negative',
       });
     }

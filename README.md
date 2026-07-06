@@ -2,9 +2,9 @@
 
   <a href="https://plentyone.com" target="_blank">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/images/PlentyONE_Logo_White_RGB.svg">
-      <source media="(prefers-color-scheme: light)" srcset="./docs/images/PlentyONE_Logo_PlentyBlue_RGB.svg">
-      <img alt="PlentyONE logo" src="./docs/images/PlentyONE_Logo_PlentyBlue_RGB.svg" height="100px">
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/public/images/readme/PlentyONE_Logo_White_RGB.svg">
+      <source media="(prefers-color-scheme: light)" srcset="./docs/public/images/readme/PlentyONE_Logo_PlentyBlue_RGB.svg">
+      <img alt="PlentyONE logo" src="./docs/public/images/readme/PlentyONE_Logo_PlentyBlue_RGB.svg" height="100px">
     </picture> 
   </a>
 
@@ -12,9 +12,9 @@
 
   <a href="https://alokai.com" target="_blank">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="./docs/images/alokai-logo-light.svg">
-      <source media="(prefers-color-scheme: light)" srcset="./docs/images/alokai-logo-dark.svg">
-      <img alt="alokai logo" src="./docs/images/alokai-logo-dark.svg" height="40px">
+      <source media="(prefers-color-scheme: dark)" srcset="./docs/public/images/readme/alokai-logo-light.svg">
+      <source media="(prefers-color-scheme: light)" srcset="./docs/public/images/readme/alokai-logo-dark.svg">
+      <img alt="alokai logo" src="./docs/public/images/readme/alokai-logo-dark.svg" height="40px">
     </picture> 
   </a>
 
@@ -112,6 +112,24 @@ npx plentyshop generate composable
 ```
 
 The generators will create all necessary files with proper TypeScript types, test stubs, and follow the project's established patterns.
+
+### Custom Configuration
+
+For custom project structures, configure the CLI in `.plentyone/shop-cli.json`:
+
+```json
+{
+  "webAppPath": "apps/web/app"
+}
+```
+
+Or use CLI flags to override:
+
+```bash
+npx plentyshop generate component --web-app-path=src/app
+```
+
+Configuration priority: CLI flags > Config file > Defaults
 
 ## Resources
 

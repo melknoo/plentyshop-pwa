@@ -1,7 +1,7 @@
 <template>
-  <div v-if="$isPreview" class="flex w-full">
+  <div v-if="isEditMode" class="flex w-full">
     <div
-      v-if="drawerOpen && isActiveColumn"
+      v-if="isActiveColumnOpen"
       data-testid="active-empty-multicolumn"
       class="h-[196px] flex-1 border-2 border-dashed border-sky-400 bg-sky-50 p-6 flex flex-col items-center justify-center text-center"
     >
@@ -12,7 +12,7 @@
       v-else
       data-testid="inactive-empty-multicolumn"
       class="h-[196px] flex-1 border-2 border-dashed border-gray-400 bg-gray-50 flex flex-col items-center justify-center text-center cursor-pointer"
-      @click.stop="addBlockToColumn()"
+      @click.stop="addBlockToColumn($event)"
     >
       <span class="text-xl font-bold text-gray-700"><SfIconAdd class="text-xl" /></span>
       <p class="font-semibold text-gray-800">Add block</p>
@@ -24,17 +24,36 @@
 import { SfIconAdd } from '@storefront-ui/vue';
 import type { EmptyGridBlockProps } from '~/components/blocks/structure/MultiGrid/types';
 
-const { $isPreview } = useNuxtApp();
 const props = defineProps<EmptyGridBlockProps>();
-const { multigridColumnUuid, updateMultigridColumnUuid, visiblePlaceholder } = useBlockManager();
-const { openDrawerWithView, drawerOpen } = useSiteConfiguration();
+const { isEditMode } = useEditorState();
+const { insertColumnUuid, setInsertColumnUuid } = useBlocksMutations();
+const { openAddBlockPopover, popoverState } = useAddBlockPopover();
+const { siteConfigurationDrawerOpen, siteConfigurationDrawerView, openDrawerWithView } = useSiteConfiguration();
 
-const isActiveColumn = computed(() => multigridColumnUuid.value === props.meta.uuid);
+const isActiveColumn = computed(() => insertColumnUuid.value === props.meta.uuid);
 
-const addBlockToColumn = () => {
-  updateMultigridColumnUuid(props.meta.uuid);
-  openDrawerWithView('blocksList');
-  visiblePlaceholder.value = { uuid: '', position: 'top' };
+const isActiveColumnOpen = computed(() => {
+  if (useRuntimeConfig().public.enableAddBlockPopover) {
+    return !!(popoverState.value && isActiveColumn.value);
+  }
+  return !!(
+    siteConfigurationDrawerOpen.value &&
+    siteConfigurationDrawerView.value === 'blocksList' &&
+    isActiveColumn.value
+  );
+});
+
+const addBlockToColumn = (event: MouseEvent) => {
+  if (useRuntimeConfig().public.enableAddBlockPopover) {
+    openAddBlockPopover({
+      anchorEl: event.currentTarget as HTMLElement,
+      targetUuid: props.meta.uuid,
+      position: 'inside',
+    });
+  } else {
+    setInsertColumnUuid(props.meta.uuid);
+    openDrawerWithView('blocksList');
+  }
 };
 </script>
 

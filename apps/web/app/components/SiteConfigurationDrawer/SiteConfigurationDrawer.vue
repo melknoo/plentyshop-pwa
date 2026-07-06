@@ -1,38 +1,29 @@
 <template>
-  <Transition :name="placement === 'left' ? 'drawer-left' : ''" appear>
-    <SfDrawer
-      ref="drawerRef"
-      v-model="drawerOpen"
-      :placement="placement as SfDrawerPlacement"
-      :disable-click-away="true"
-      :transition="false"
-      :class="[
-        'bg-neutral-50',
-        'border-0',
-        'border-gray-300',
-        'z-[15]',
-        { 'w-1/2 lg:w-1/4': placement === 'left' || placement === 'right' },
-      ]"
+  <Transition name="drawer-left" appear>
+    <div
+      class="flex-shrink-0 w-1/4 min-w-[250px] max-w-[300px] bg-neutral-50 border-0 border-gray-300 z-editor-drawer relative h-full"
     >
-      <component :is="getDrawerView(drawerView)" v-if="drawerView" />
+      <Transition v-if="siteConfigurationDrawerView" :name="transitionName" mode="out-in" appear>
+        <div :key="siteConfigurationDrawerView" class="h-full">
+          <component :is="getDrawerView(siteConfigurationDrawerView)" />
+        </div>
+      </Transition>
 
-      <Transition v-else-if="viewComponent" :name="placement === 'left' ? transitionName : ''" mode="out-in" appear>
+      <Transition v-else-if="viewComponent" :name="transitionName" mode="out-in" appear>
         <component :is="viewComponent" :key="viewComponent" />
       </Transition>
-    </SfDrawer>
+    </div>
   </Transition>
 </template>
 
 <script setup lang="ts">
-import type { SfDrawerPlacement } from '@storefront-ui/vue';
-import { SfDrawer } from '@storefront-ui/vue';
-
-const { drawerOpen, drawerView, placement, activeSetting, activeSubCategory } = useSiteConfiguration();
+const { siteConfigurationDrawerView, activeSetting, activeSubCategory } = useSiteConfiguration();
 
 const getDrawerView = (view: string) => {
   if (view === 'PagesView') return resolveComponent('PagesView');
-  if (view === 'blocksList') return resolveComponent('BlocksNavigation');
-  if (view === 'blocksSettings') return resolveComponent('BlockEditView');
+  if (view === 'LocalizationView') return resolveComponent('LocalizationView');
+  if (view === 'TableOfContents') return resolveComponent('TableOfContents');
+  if (view === 'blocksList') return resolveComponent('EditorBlocksNavigation');
 };
 
 const viewComponent = computed(() => getViewComponent(activeSetting.value, activeSubCategory.value));

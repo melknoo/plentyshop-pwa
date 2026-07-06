@@ -1,3 +1,4 @@
+import type { FlagImports } from './types';
 import {
   US,
   DE,
@@ -27,10 +28,6 @@ import {
   HU,
 } from 'country-flag-icons/string/3x2';
 
-export interface FlagImports {
-  [key: string]: string;
-}
-
 export const flagImports: FlagImports = {
   en: US as string,
   de: DE as string,
@@ -42,9 +39,8 @@ export const flagImports: FlagImports = {
   nl: NL as string,
   pl: PL as string,
   pt: PT as string,
-  no: NO as string,
+  nn: NO as string,
   ro: RO as string,
-  dk: DK as string,
   se: SE as string,
   cz: CZ as string,
   ru: RU as string,
@@ -52,10 +48,12 @@ export const flagImports: FlagImports = {
   cn: CN as string,
   vn: VN as string,
   fi: FI as string,
-  ie: IE as string,
   lt: LT as string,
   lv: LV as string,
   ee: EE as string,
   hr: HR as string,
   hu: HU as string,
+  da: DK as string,
+  ga: IE as string,
+  et: EE as string,
 };

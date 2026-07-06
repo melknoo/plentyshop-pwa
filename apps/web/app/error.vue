@@ -10,13 +10,13 @@
 </template>
 
 <script setup lang="ts">
+// eslint-disable-next-line custom-rules/file-organization-types
 interface ErrorProp {
   statusCode: number;
   statusMessage: string;
   [key: string]: unknown;
 }
 const props = defineProps<{ error: ErrorProp }>();
-const { t } = useI18n();
 const { setInitialDataSSR } = useInitialSetup();
 
 const { getSetting: getFavicon } = useSiteSettings('favicon');
@@ -67,3 +67,7 @@ await callOnce(async () => {
   await setInitialDataSSR();
 });
 </script>
+
+<style lang="scss">
+@use '~/assets/style.scss';
+</style>

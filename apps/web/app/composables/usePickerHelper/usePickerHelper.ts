@@ -1,7 +1,7 @@
 import type { PickerHelperTemplate, UsePickerHelperReturn, ImageType } from './types';
 
 export const usePickerHelper: UsePickerHelperReturn = () => {
-  const placeholderImg = 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png';
+  const placeholderImg = 'https://cdn02.plentyone.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png';
 
   const imageTypes = ['wideScreen', 'desktop', 'tablet', 'mobile'] as const;
 
@@ -55,6 +55,18 @@ export const usePickerHelper: UsePickerHelperReturn = () => {
     }
   };
 
+  const extractFileName = (image: string | undefined): string => {
+    if (!image) return '';
+    try {
+      const url = new URL(image);
+      const pathname = url.pathname;
+      return pathname.substring(pathname.lastIndexOf('/') + 1) || '';
+    } catch {
+      const idx = image.lastIndexOf('/');
+      return idx >= 0 ? image.substring(idx + 1) : image;
+    }
+  };
+
   return {
     placeholderImg,
     labels,
@@ -67,5 +79,6 @@ export const usePickerHelper: UsePickerHelperReturn = () => {
     selectedImageType,
     customLabel,
     getImageTypeLabel,
+    extractFileName,
   };
 };

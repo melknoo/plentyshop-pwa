@@ -1,44 +1,42 @@
 <template>
   <MegaMenu :categories="categoryTree">
     <template v-if="viewport.isGreaterOrEquals('md')">
-      <UiSearch class="hidden md:block flex-1" />
-      <nav class="hidden ml-4 md:flex md:flex-row md:flex-nowrap">
-        <template v-if="localeCodes.length > 1">
-          <UiButton
-            v-if="!isLanguageSelectOpen"
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            variant="tertiary"
-            :style="{ color: iconColor }"
-            square
-            data-testid="open-languageselect-button"
-            :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
-            @click="toggleLanguageSelect()"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-          <UiButton
-            v-else
-            class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
-            :aria-label="t('languageSelector')"
-            :style="{ color: isActive ? iconColor : '' }"
-            variant="tertiary"
-            square
-            data-testid="open-languageselect-button"
-          >
-            <template #prefix>
-              <SfIconLanguage class="relative" />
-            </template>
-          </UiButton>
-        </template>
+      <UiSearch class="hidden @md:block flex-1" />
+      <nav class="hidden ml-4 @md:flex @md:flex-row @md:flex-nowrap">
+        <UiButton
+          v-if="!isLanguageSelectOpen"
+          class="group relative hover:!bg-header-400 active:!bg-header-400 mr-1 -ml-0.5 rounded-md cursor-pointer"
+          :aria-label="t('common.navigation.languageSelector')"
+          variant="tertiary"
+          :style="{ color: iconColor }"
+          square
+          data-testid="open-languageselect-button"
+          :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
+          @click="toggleLanguageSelect()"
+        >
+          <template #prefix>
+            <SfIconLanguage class="relative" />
+          </template>
+        </UiButton>
+        <UiButton
+          v-else
+          class="group relative hover:!bg-header-400 active:bg-header-400 mr-1 -ml-0.5 rounded-md cursor-pointer"
+          :aria-label="t('common.navigation.languageSelector')"
+          :style="{ color: isActive ? iconColor : '' }"
+          variant="tertiary"
+          square
+          data-testid="open-languageselect-button"
+        >
+          <template #prefix>
+            <SfIconLanguage class="relative" />
+          </template>
+        </UiButton>
         <UiButton
           class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md cursor-pointer"
           :tag="NuxtLink"
           :to="localePath(paths.wishlist)"
           :style="{ color: iconColor }"
-          :aria-label="t('numberInWishlist', { count: wishlistItemIds.length })"
+          :aria-label="t('cart.numberInWishlist', { count: wishlistItemIds.length })"
           variant="tertiary"
           square
           data-testid="wishlist-page-navigation"
@@ -60,7 +58,7 @@
           :tag="NuxtLink"
           :style="{ color: iconColor }"
           :to="localePath(paths.cart)"
-          :aria-label="t('numberInCart', { count: cartItemsCount })"
+          :aria-label="t('cart.numberInCart', { count: cartItemsCount })"
           variant="tertiary"
           square
         >
@@ -76,7 +74,7 @@
             />
           </template>
         </UiButton>
-        <SfDropdown v-if="isAuthorized" v-model="isAccountDropdownOpen" placement="bottom-end" class="z-50">
+        <SfDropdown v-if="isAuthorized" v-model="isAccountDropdownOpen" placement="bottom-end" class="z-dropdown">
           <template #trigger>
             <UiButton
               variant="tertiary"
@@ -89,7 +87,16 @@
               <template #prefix>
                 <SfIconPerson />
               </template>
-              {{ user?.firstName }}
+              <Transition
+                appear
+                enter-from-class="opacity-0 max-w-0"
+                enter-active-class="inline-block overflow-hidden transition-[max-width,opacity] duration-[250ms] ease-in"
+                enter-to-class="opacity-100 max-w-[10rem]"
+              >
+                <span v-if="user?.firstName" class="whitespace-nowrap inline-block overflow-hidden">{{
+                  user?.firstName
+                }}</span>
+              </Transition>
             </UiButton>
           </template>
           <ul class="rounded bg-white shadow-md border border-neutral-100 text-neutral-900 min-w-[152px] py-2">
@@ -117,7 +124,7 @@
           :style="{ color: iconColor }"
           class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 mr-1 -ml-0.5 rounded-md"
           variant="tertiary"
-          :aria-label="t('auth.login.openLoginForm')"
+          :aria-label="t('authentication.login.openLoginForm')"
           square
           @click="navigateToLogin"
         >
@@ -129,10 +136,11 @@
     <div v-if="viewport.isLessThan('lg')">
       <UiButton
         variant="tertiary"
-        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
+        class="relative text-white hover:text-white active:text-white hover:bg-header-400 active:bg-header-400 rounded-md @md:hidden"
         square
         data-testid="open-languageselect-button"
-        :aria-label="t('languageSelector')"
+        :style="{ color: iconColor }"
+        :aria-label="t('common.navigation.languageSelector')"
         :disabled="(showConfigurationDrawer && isEditing) || (showConfigurationDrawer && disableActions)"
         @click="toggleLanguageSelect()"
       >
@@ -140,9 +148,10 @@
       </UiButton>
       <UiButton
         variant="tertiary"
-        class="relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-700 rounded-md md:hidden"
+        class="relative text-white hover:text-white active:text-white hover:bg-header-400 active:bg-header-400 rounded-md @md:hidden"
         square
-        :aria-label="t('openSearchModalButtonLabel')"
+        :style="{ color: iconColor }"
+        :aria-label="t('common.navigation.openSearchModal')"
         @click="searchModalOpen"
       >
         <SfIconSearch />
@@ -154,11 +163,11 @@
     v-if="viewport.isGreaterOrEquals('md') && isAuthenticationOpen"
     v-model="isAuthenticationOpen"
     tag="section"
-    class="h-full md:w-[500px] md:h-fit m-0 p-0 overflow-y-auto"
+    class="h-full @md:w-[500px] @md:h-fit m-0 p-0 overflow-y-auto"
   >
     <header>
       <UiButton
-        :aria-label="t('closeDialog')"
+        :aria-label="t('common.navigation.closeDialog')"
         square
         variant="tertiary"
         class="absolute right-2 top-2"
@@ -179,14 +188,14 @@
   <NuxtLazyHydrate v-if="viewport.isLessThan('lg')" when-idle>
     <SfModal
       v-model="isSearchModalOpen"
-      class="w-full h-full z-50"
+      class="w-full h-full z-modal"
       tag="section"
       role="dialog"
       aria-labelledby="search-modal-title"
     >
       <header class="mb-4">
         <UiButton
-          :aria-label="t('closeDialog')"
+          :aria-label="t('common.navigation.closeDialog')"
           square
           variant="tertiary"
           class="absolute right-4 top-2"
@@ -195,7 +204,7 @@
           <SfIconClose class="text-neutral-500" />
         </UiButton>
         <h3 id="search-modal-title" class="absolute left-6 top-4 font-bold typography-headline-4 mb-4">
-          {{ t('search') }}
+          {{ t('common.actions.search') }}
         </h3>
       </header>
       <UiSearch :close="searchModalClose" />
@@ -219,6 +228,7 @@ import {
 } from '@storefront-ui/vue';
 import LanguageSelector from '~/components/LanguageSelector/LanguageSelector.vue';
 import { paths } from '~/utils/paths';
+import { handleLogout } from '~/utils/logout';
 
 const isLogin = ref(true);
 const { data: cart } = useCart();
@@ -231,9 +241,8 @@ const iconColor = computed(() => getIconColor());
 const headerBackgroundColor = computed(() => getHeaderBackgroundColor());
 
 const NuxtLink = resolveComponent('NuxtLink');
-const { t, localeCodes } = useI18n();
 const route = useRoute();
-const localePath = useLocalePath();
+const localePath = useLocalizedPath();
 const { isOpen: isAccountDropdownOpen, toggle: accountDropdownToggle } = useDisclosure();
 const { isOpen: isAuthenticationOpen, open: openAuthentication, close: closeAuthentication } = useDisclosure();
 const { open: searchModalOpen, isOpen: isSearchModalOpen, close: searchModalClose } = useDisclosure();
@@ -246,7 +255,7 @@ const showConfigurationDrawer = runtimeConfig.public.showConfigurationDrawer;
 const { isEditing, disableActions } = useEditor();
 const isActive = computed(() => isLanguageSelectOpen);
 
-onNuxtReady(() => {
+onNuxtReady(async () => {
   cartItemsCount.value = cart.value?.items?.reduce((price, { quantity }) => price + quantity, 0) ?? 0;
 });
 
@@ -267,16 +276,10 @@ watch(
 
 watch(
   () => isAuthenticationOpen.value,
-  async () => {
-    isLogin.value = true;
-  },
+  () => (isLogin.value = true),
 );
 
-const logOut = async () => {
-  accountDropdownToggle();
-  await logout();
-  window.location.reload();
-};
+const logOut = () => handleLogout({ logout, toggle: accountDropdownToggle });
 
 const accountDropdown = computed(() => [
   {

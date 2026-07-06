@@ -1,3 +1,5 @@
+export type CrossSellingRelationType = 'Accessory' | 'ReplacementPart' | 'Similar' | 'Bundle';
+
 export type ProductRecommendedProductsProps = {
   name: string;
   type: string;
@@ -12,8 +14,13 @@ export type ProductRecommendedProductsProps = {
 
 export type ProductRecommendedProductsContent = {
   index?: number;
-  categoryId: string;
   cacheKey?: string;
+  source: {
+    type: 'category' | 'cross_selling';
+    categoryId: string;
+    itemId: string;
+    crossSellingRelation: CrossSellingRelationType;
+  };
   text: {
     pretitle?: string;
     title?: string;
@@ -22,4 +29,9 @@ export type ProductRecommendedProductsContent = {
     color?: string;
     textAlignment?: 'left' | 'center' | 'right';
   };
+  layout?: {
+    fullWidth?: boolean;
+  };
 };
+export type TextAlign = 'left' | 'center' | 'right';
+export type SourceType = 'cross_selling' | 'category';

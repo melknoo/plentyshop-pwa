@@ -13,13 +13,13 @@ export const useCategorySettings: useCategorySettingsReturn = (settingsId = '') 
     initialData: {} as CategoryEntry,
     unlinkModalOpen: false,
   }));
-  const { t, locale, defaultLocale } = useI18n();
+  const { locale, defaultLocale } = useI18n();
   const { setCategoryId } = useCategoryIdHelper();
   const fetchCategorySettings = async (categoryId: number): Promise<CategoryEntry | null> => {
     const cacheKey = `${categoryId}-${locale.value}`;
     if (cache.value[cacheKey]) {
       state.value.data = cache.value[cacheKey];
-      state.value.initialData = JSON.parse(JSON.stringify(cache.value[cacheKey]));
+      state.value.initialData = deepClone(cache.value[cacheKey]);
       return cache.value[cacheKey];
     }
 
@@ -28,7 +28,7 @@ export const useCategorySettings: useCategorySettingsReturn = (settingsId = '') 
       const { getCategory } = useCategoryDetails();
       const result = await getCategory(categoryId);
 
-      const cleanData = JSON.parse(JSON.stringify(result));
+      const cleanData = deepClone(result) as unknown as CategoryEntry;
 
       const { addCategorySettings } = useCategorySettingsCollection();
       await addCategorySettings(cleanData);
@@ -36,7 +36,7 @@ export const useCategorySettings: useCategorySettingsReturn = (settingsId = '') 
 
       cache.value[cacheKey] = cleanData;
       state.value.data = cleanData;
-      state.value.initialData = JSON.parse(JSON.stringify(cleanData));
+      state.value.initialData = deepClone(cleanData);
       return cleanData ?? null;
     } catch (error) {
       console.error('Error fetching category settings:', error);
@@ -63,11 +63,13 @@ export const useCategorySettings: useCategorySettingsReturn = (settingsId = '') 
         setCategoryId({});
         deletePageFromTree(id);
         send({
-          message: t('errorMessages.editor.categories.deleteSuccess', { pageName: pageName, id: id }),
+          message: getEditorUITranslation('deleteSuccess', { pageName, id }),
           type: 'positive',
         });
+        const { resolvePathTrailingSlash } = useUrlTrailingSlash();
         const lang = locale.value;
-        router.push(lang && lang !== defaultLocale ? `/${lang}` : '/');
+        const targetPath = lang && lang !== defaultLocale ? `/${lang}` : '/';
+        router.push(resolvePathTrailingSlash(targetPath));
       }
     } catch (error) {
       let errorMessage = '';
@@ -77,11 +79,7 @@ export const useCategorySettings: useCategorySettingsReturn = (settingsId = '') 
         }
       }
       send({
-        message: t('errorMessages.editor.categories.deleteError', {
-          pageName: pageName,
-          id: id,
-          errorMessage: errorMessage,
-        }),
+        message: getEditorUITranslation('deleteError', { pageName, id, errorMessage }),
         type: 'negative',
       });
     }

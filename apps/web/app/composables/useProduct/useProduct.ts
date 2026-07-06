@@ -18,9 +18,25 @@ export const useProduct: UseProductReturn = (slug) => {
   const properties = useProductOrderProperties();
   const state = useState<UseProductState>(`useProduct-${slug}`, () => ({
     data: {} as Product,
+    fakeData: {} as Product,
     loading: false,
     breadcrumbs: [],
   }));
+
+  const isGlobalProductDetailsTemplate = computed(() => {
+    const route = useRoute();
+    const slugParam = route.params.slug;
+    const itemIdParam = route.params.itemId;
+
+    if (slugParam === undefined || itemIdParam === undefined) {
+      return false;
+    }
+
+    const slug = Array.isArray(slugParam) ? slugParam.join('/') : slugParam;
+    const itemId = Array.isArray(itemIdParam) ? itemIdParam.join('/') : itemIdParam;
+
+    return `/${slug}_${itemId}` === paths.globalItemDetails;
+  });
 
   /** Function for fetching product data.
    * @param params { ProductParams }
@@ -33,16 +49,34 @@ export const useProduct: UseProductReturn = (slug) => {
    * });
    * ```
    */
+
   const fetchProduct: FetchProduct = async (params: ProductParams) => {
+    const { $i18n } = useNuxtApp();
+    const { isInEditor } = useEditorState();
     state.value.loading = true;
 
-    const { data, error } = await useAsyncData(`fetchProduct-${params.id}-${params.variationId}`, () =>
-      useSdk().plentysystems.getProduct(params),
+    if (isGlobalProductDetailsTemplate.value && isInEditor.value) {
+      const fakeProduct = $i18n.locale.value === 'en' ? fakeProductEN : fakeProductDE;
+
+      state.value.data = {
+        ...fakeProduct,
+      };
+
+      handlePreviewProduct(state, $i18n.locale.value, false);
+
+      state.value.loading = false;
+      return state.value.data;
+    }
+
+    const { data, error } = await useAsyncData(
+      `fetchProduct-${params.id}-${params.variationId}-${$i18n.locale.value}`,
+      () => useSdk().plentysystems.getProduct(params),
     );
     useHandleError(error.value ?? null);
 
-    properties.setProperties(data.value?.data.properties ?? []);
+    properties.setProperties(data.value?.data?.properties ?? []);
     state.value.data = data.value?.data ?? ({} as Product);
+    handlePreviewProduct(state, $i18n.locale.value, true);
     state.value.loading = false;
     return state.value.data;
   };
@@ -52,10 +86,7 @@ export const useProduct: UseProductReturn = (slug) => {
    * @example setBreadcrumbs()
    */
   const setBreadcrumbs = () => {
-    const { data: categoryTree } = useCategoryTree();
-    const { $i18n } = useNuxtApp();
-
-    state.value.breadcrumbs = generateBreadcrumbs(categoryTree.value, state.value.data, $i18n.t('home'));
+    state.value.breadcrumbs = generateBreadcrumbs(state.value.data, t('common.labels.home'));
   };
 
   /**
@@ -83,11 +114,16 @@ export const useProduct: UseProductReturn = (slug) => {
     });
   };
 
+  const { shouldUseFakeData } = useEditorState();
+
+  const productForEditor = computed(() => (shouldUseFakeData.value ? state.value.fakeData : state.value.data));
+
   return {
     setProductMeta,
     setBreadcrumbs,
     fetchProduct,
     ...toRefs(state.value),
     properties,
+    productForEditor,
   };
 };

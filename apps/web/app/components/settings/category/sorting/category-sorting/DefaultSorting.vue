@@ -6,7 +6,7 @@
         :label="getEditorTranslation('tooltip')"
         :placement="'top'"
         :show-arrow="true"
-        class="ml-2 z-10"
+        class="ml-2 z-dropdown"
         data-testid="default-sorting-tooltip"
       >
         <SfIconInfo :size="'sm'" />
@@ -18,7 +18,7 @@
       data-testid="default-sorting-select"
       :options="sortingOptions"
       :placeholder="getEditorTranslation('placeholder')"
-      :custom-label="(option) => $dynamicEditorTranslation(option)"
+      :custom-label="(option) => getEditorUITranslation(option)"
       class="cursor-pointer"
       select-label=""
       :deselect-label="getEditorTranslation('deselect-label')"
@@ -35,7 +35,6 @@ import { SfIconInfo, SfTooltip } from '@storefront-ui/vue';
 const { updateSetting, getSetting } = useSiteSettings('defaultSortingOption');
 const { getJsonSetting: availableSortingOptions } = useSiteSettings('availableSortingOptions');
 const { updateSorting } = useCategoryFilter();
-const { $dynamicEditorTranslation } = useNuxtApp();
 
 const sortingOptions = computed(() => availableSortingOptions());
 

@@ -3,18 +3,18 @@
     v-if="isOpen"
     v-model="isOpen"
     tag="section"
-    class="h-full md:h-fit m-0 p-0 lg:w-[1000px] overflow-y-auto"
+    class="h-full @md:h-fit m-0 p-0 @lg:w-[1000px] overflow-y-auto"
     aria-label="quick-checkout-modal"
     @mousemove="endTimer()"
   >
     <header>
-      <h2 class="font-bold text-lg leading-6 md:text-2xl">
+      <h2 class="font-bold text-lg leading-6 @md:text-2xl">
         <span>{{ t('quickCheckout.heading') }}</span>
       </h2>
       <div class="absolute right-2 top-2 flex items-center">
         <span v-if="hasTimer" class="mr-2 text-gray-400">{{ timer }}s</span>
         <UiButton
-          :aria-label="t('closeDialog')"
+          :aria-label="t('common.navigation.closeDialog')"
           data-testid="quick-checkout-close"
           square
           variant="tertiary"
@@ -25,8 +25,8 @@
       </div>
     </header>
 
-    <div class="lg:grid lg:grid-cols-2 lg:gap-4">
-      <div class="lg:border-r-2 flex flex-col items-center p-8">
+    <div class="@lg:grid @lg:grid-cols-2 @lg:gap-4">
+      <div class="@lg:border-r-2 flex flex-col items-center p-8">
         <NuxtImg
           :src="addModernImageExtension(productGetters.getMiddleImage(props.product))"
           :alt="imageAlt"
@@ -46,7 +46,7 @@
           </h1>
         </div>
         <div class="mb-3">
-          <span class="self-center text-gray-600 sm:typography-headline-4 typography-headline-3">
+          <span class="self-center text-gray-600 @sm:typography-headline-4 typography-headline-3">
             {{ t('account.ordersAndReturns.orderDetails.quantity') }}: {{ quantity }}
           </span>
         </div>
@@ -54,24 +54,24 @@
         <ProductPrice :product="props.product" />
 
         <div
-          class="mb-4 font-normal typography-text-sm"
+          class="mb-4 font-normal typography-text-sm no-preflight"
           data-testid="product-description"
           v-html="productGetters.getShortDescription(props.product)"
         />
 
         <div class="mt-4 typography-text-xs flex gap-1">
-          <span>{{ t('asterisk') }}</span>
-          <span v-if="showNetPrices">{{ t('itemExclVAT') }}</span>
-          <span v-else>{{ t('itemInclVAT') }}</span>
-          <i18n-t keypath="excludedShipping" scope="global">
+          <span>{{ t('common.labels.asterisk') }}</span>
+          <span v-if="showNetPrices">{{ t('product.priceExclVAT') }}</span>
+          <span v-else>{{ t('product.priceInclVAT') }}</span>
+          <i18n-t keypath="shipping.excludedLabel" scope="global">
             <template #shipping>
-              <SfLink
+              <UiLink
                 :href="localePath(paths.shipping)"
                 target="_blank"
                 class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
               >
-                {{ t('delivery') }}
-              </SfLink>
+                {{ t('common.labels.delivery') }}
+              </UiLink>
             </template>
           </i18n-t>
         </div>
@@ -80,7 +80,7 @@
       </div>
       <div class="py-8 px-10">
         <div class="mb-8">
-          <p class="font-medium text-black text-base">{{ t('quickCheckout.cartContains', cartItemsCount) }}</p>
+          <p class="font-medium text-base">{{ t('quickCheckout.cartContains', { count: cartItemsCount }) }}</p>
           <div class="grid grid-cols-2">
             <p class="text-base text-black">{{ t('quickCheckout.subTotal') }}:</p>
             <p v-if="showNetPrices" data-testid="subtotal" class="text-black font-medium text-right">
@@ -103,21 +103,26 @@
         <UiButton
           data-testid="quick-checkout-checkout-button"
           size="lg"
-          class="w-full mb-4 md:mb-0"
+          class="w-full mb-4 @md:mb-0"
           @click="goToCheckout()"
         >
-          {{ t('goToCheckout') }}
+          {{ t('common.actions.goToCheckout') }}
         </UiButton>
-        <OrDivider v-if="isPaypalAvailable" class="my-4" />
-        <PayPalExpressButton class="w-full text-center" type="CartPreview" @on-approved="isOpen = false" />
-        <PayPalPayLaterBanner placement="payment" :amount="totals.total" />
+        <OrDivider v-if="isPaypalAvailable('quickCheckout').value" class="my-4" />
+        <PayPalExpressButton
+          class="w-full text-center"
+          location="quickCheckout"
+          type="CartPreview"
+          @on-approved="isOpen = false"
+        />
+        <PayPalPayLaterBanner placement="payment" location="quickCheckout" :amount="totals.total" />
       </div>
     </div>
   </UiModal>
 </template>
 
 <script setup lang="ts">
-import { SfIconClose, SfLink } from '@storefront-ui/vue';
+import { SfIconClose } from '@storefront-ui/vue';
 import type { QuickCheckoutProps } from './types';
 import type { Product } from '@plentymarkets/shop-api';
 import { cartGetters, productGetters, productImageGetters } from '@plentymarkets/shop-api';
@@ -126,11 +131,8 @@ import { paths } from '~/utils/paths';
 
 const props = defineProps<QuickCheckoutProps>();
 
-const { t } = useI18n();
 const { format } = usePriceFormatter();
-
 const { showNetPrices } = useCart();
-
 const localePath = useLocalePath();
 const { data: cart, lastUpdatedCartItem } = useCart();
 const { isAvailable: isPaypalAvailable, loadConfig } = usePayPal();

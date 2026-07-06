@@ -2,7 +2,7 @@
   <div class="py-2">
     <div class="flex justify-between mb-2">
       <UiFormLabel>{{ getEditorTranslation('label') }}</UiFormLabel>
-      <SfTooltip :label="getEditorTranslation('tooltip')" :placement="'top'" :show-arrow="true" class="ml-2 z-10">
+      <SfTooltip :label="getEditorTranslation('tooltip')" :placement="'top'" :show-arrow="true" class="ml-2 z-dropdown">
         <SfIconInfo :size="'sm'" />
       </SfTooltip>
     </div>
@@ -30,12 +30,12 @@ const metaTitle = computed({
 <i18n lang="json">
 {
   "en": {
-    "label": "Default title",
+    "label": " Default title",
     "tooltip": "Title displayed in search results of search engines (format: Title \uFF5C Shop Name). The Shop Name is editable under 'Branding & design'.",
     "placeholder": "Enter title"
   },
   "de": {
-    "label": "Title",
+    "label": "Default title",
     "tooltip": "Title displayed in search results of search engines (format: Title \uFF5C Shop Name). The Shop Name is editable under 'Branding & design'.",
     "placeholder": "Enter title"
   }

@@ -61,7 +61,7 @@
       <div class="flex flex-col gap-4 justify-center items-center">
         <div
           v-if="isCategoryDetailsEmpty"
-          class="w-[90%] flex items-start bg-warning-100 shadow-md pr-2 pl-4 ring-1 ring-warning-200 typography-text-sm md:typography-text-base py-1 rounded-md mb-4"
+          class="w-[90%] flex items-start bg-warning-100 shadow-md pr-2 pl-4 ring-1 ring-warning-200 typography-text-sm @md:typography-text-base py-1 rounded-md mb-4"
         >
           <SfIconWarning class="mt-2 mr-2 text-warning-700 shrink-0" />
           <span class="py-2 mr-2">
@@ -94,7 +94,7 @@
       </div>
 
       <div
-        v-if="getPageType === 'item' && runtimeConfig.public.isDev"
+        v-if="getPageType === 'item'"
         class="bg-[#EFF4F1] border border-[#BBC6BE] text-[#151A16] px-4 py-3 rounded-md mx-5 mt-5 mb-0"
       >
         <span> Page editing will affect all product category pages equally (deleting is not affected). </span>
@@ -118,7 +118,6 @@ const { toggleDeleteModal } = useCategorySettings();
 const { setSettingsCategory } = useSiteConfiguration();
 const placement = ref<'left' | 'right'>('left');
 const open = ref(true);
-const runtimeConfig = useRuntimeConfig();
 
 const { getCategoryName, getPageType, getCategoryPreviewPath, getCategoryDetails, setParentName, setCategoryId } =
   useCategoryIdHelper();

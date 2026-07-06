@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6 md:col-span-3 flex items-start gap-2" :class="[!showErrors ? 'mb-6' : 'mb-2']">
+  <div class="mt-6 @md:col-span-3 flex items-start gap-2" :class="[!showErrors ? 'mb-6' : 'mb-2']">
     <SfCheckbox
       id="shipping-agreement-checkbox"
       :value="shippingPrivacyAgreement"
@@ -10,10 +10,10 @@
       @update:model-value="(event) => setShippingPrivacyAgreement(Boolean(event))"
     />
     <label for="shipping-agreement-checkbox" class="cursor-pointer select-none">
-      {{ t('shippingMethod.showDataPrivacyAgreementHint', { parcelServiceInformation }) }}
+      {{ t('shipping.method.showDataPrivacyAgreementHint', { parcelServiceInformation }) }}
     </label>
   </div>
-  <div v-if="showErrors" class="text-negative-700 text-sm mb-4">{{ t('privacyPolicyRequired') }}</div>
+  <div v-if="showErrors" class="text-negative-700 text-sm mb-4">{{ t('legal.privacyPolicyRequired') }}</div>
 </template>
 
 <script lang="ts" setup>
@@ -22,8 +22,6 @@ import { SfCheckbox } from '@storefront-ui/vue';
 
 const { shippingPrivacyAgreement, showErrors, setShippingPrivacyAgreement } = useAdditionalInformation();
 const { selectedMethod } = useCartShippingMethods();
-const { t } = useI18n();
-
 const parcelServiceInformation = computed(() =>
   selectedMethod.value ? shippingProviderGetters.getShippingMethodName(selectedMethod.value) : '',
 );

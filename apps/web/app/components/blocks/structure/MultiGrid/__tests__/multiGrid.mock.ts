@@ -37,10 +37,10 @@ export const mockMultiGridProps = {
       type: 'image',
       content: {
         image: {
-          wideScreen: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-          desktop: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-          tablet: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
-          mobile: 'https://cdn02.plentymarkets.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
+          wideScreen: 'https://cdn02.plentyone.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
+          desktop: 'https://cdn02.plentyone.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
+          tablet: 'https://cdn02.plentyone.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
+          mobile: 'https://cdn02.plentyone.com/v5vzmmmcb10k/frontend/PWA/placeholder-image.png',
           alt: 'alt text',
           imageAlignment: 'right',
           fillMode: 'fill',
@@ -64,14 +64,14 @@ export const mockMultiGridProps = {
   ],
   configuration: {
     columnWidths: [6, 6],
-  },
-  layout: {
-    marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
-    backgroundColor: '#fff',
-    gap: 'M',
+    layout: {
+      marginTop: 20,
+      marginBottom: 20,
+      marginLeft: 10,
+      marginRight: 10,
+      backgroundColor: '#fff',
+      gap: 'M',
+    },
   },
   meta: {
     uuid: multiGridBlockUuid,
