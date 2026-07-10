@@ -6,6 +6,7 @@
 export default defineComponent({
   name: 'HnSeperator',
   props: {
+    // eslint-disable-next-line vue/prop-name-casing -- Key kommt 1:1 aus dem Homepage-Block-JSON
     custom_class: {
       type: String,
       required: false,

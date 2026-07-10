@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import type { HnTextImageProps } from './type';
+import type { HnTextImageProps } from './types';
 
 export default defineComponent({
     name: 'HnTextImage',
