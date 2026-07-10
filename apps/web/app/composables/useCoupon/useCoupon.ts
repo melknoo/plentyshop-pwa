@@ -54,7 +54,7 @@ export const useCoupon: UseCouponReturn = () => {
         const key = getErrorCode(error.warn.code.toString()) ?? 'couponAlreadyUsedOrInvalidCouponCode';
         send({ message: t('error.' + key), type: 'negative' });
       } else {
-        useHandleError(error);
+        send({ message: t('coupon.pleaseProvideCoupon'), type: 'warning' });
       }
     } finally {
       state.value.loading = false;

@@ -8,12 +8,13 @@ export default {
   showConfigurationDrawer: process.env.SHOW_CONFIGURATION_DRAWER === '1',
   defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
   favicon: process.env.NUXT_PUBLIC_FAVICON || '/_nuxt-plenty/favicon.ico',
-  ogTitle: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'PlentyONE Shop',
-  ogImg: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/_nuxt-plenty/images/logo.svg',
+  ogTitle: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'Suck my Straw - Nachhaltige Trinkhalme',
+  ogImg: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/images/sms-og-shareimg.jpg',
   ogType: process.env.NUXT_PUBLIC_OG_TYPE || process.env.OG_TYPE || 'website',
-  metaTitle: process.env.NUXT_PUBLIC_META_TITLE || process.env.METATITLE || 'PlentyONE Shop',
-  metaDescription: process.env.NUXT_PUBLIC_META_DESCRIPTION || process.env.METADESC || 'Demo shop for PlentyONE Shop',
-  metaKeywords: process.env.NUXT_PUBLIC_META_KEYWORDS || process.env.METAKEYWORDS || 'PlentyONE, plentyshop, pwa',
+  metaTitle: process.env.NUXT_PUBLIC_META_TITLE || process.env.METATITLE || 'Suck my Straw - Nachhaltige Trinkhalme',
+  metaDescription:
+    process.env.NUXT_PUBLIC_META_DESCRIPTION || process.env.METADESC || 'Umweltfreundliche Alternative zu Plastik - Hält länger als dein Drink!',
+  metaKeywords: process.env.NUXT_PUBLIC_META_KEYWORDS || process.env.METAKEYWORDS || 'suck, my, straw, papierstrohhalme, buubletea, cocktails',
   passwordMinLength: Number(process.env.PASSWORD_MIN_LENGTH ?? 8),
   passwordMaxLength: Number(process.env.PASSWORD_MAX_LENGTH ?? 64),
   robots: process.env.NUXT_PUBLIC_ROBOTS || 'all',
@@ -73,10 +74,10 @@ export default {
   sortingDynamicPrio2: process.env.NUXT_PUBLIC_SORTING_DYNAMIC_PRIO2 || 'filter.prices.price_asc',
   themeColor: process.env.NUXT_PUBLIC_PRIMARY_COLOR || '#062633',
   headerLogo:
-    process.env.NUXT_PUBLIC_HEADER_LOGO ||
     process.env.LOGO ||
-    'https://cdn02.plentyone.com/mevofvd5omld/frontend/Logo/logo.svg',
-  storename: process.env.NAME || 'PlentyONE GmbH',
+    process.env.NUXT_PUBLIC_HEADER_LOGO ||
+    '/images/logo.svg',
+  storename: process.env.NAME || 'Suck my Straw',
   font: process.env.NUXT_PUBLIC_FONT || 'Red Hat Text',
   verticalBlockSize: process.env.NUXT_PUBLIC_VERTICAL_BLOCK_SIZE || 'm',
   horizontalBlockSize: process.env.NUXT_PUBLIC_HORIZONTAL_BLOCK_SIZE || 's',

@@ -201,9 +201,9 @@ watchEffect(() => {
 useSeoMeta({
   title: () => title.value,
   ogTitle: () => ogTitle.value,
-  ogImage: () => ogImage.value,
-  ogDescription: () => ogDescription.value,
-  description: () => description.value,
+  ogImage: () => '/images/sms-og-shareimg.jpg',
+  ogDescription: () => 'Umweltfreundliche Alternative zu Plastik - Hält länger als dein Drink!',
+  description: () => 'Umweltfreundliche Alternative zu Plastik - Hält länger als dein Drink!',
   keywords: () => keywords.value,
   robots: () => robots.value,
   themeColor: () => themeColor.value,

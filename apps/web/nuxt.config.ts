@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     asyncContext: true,
   },
   appConfig: {
-    titleSuffix: process.env.NAME || 'PlentyONE Shop',
+    titleSuffix: process.env.NAME || 'Suck My Straw',
     fallbackCurrency: 'GBP',
   },
   imports: {
@@ -248,8 +248,8 @@ export default defineNuxtConfig({
       cleanupOutdatedCaches: true,
     },
     manifest: {
-      name: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'PlentyONE Shop',
-      short_name: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'PlentyONE Shop',
+      name: process.env.STORENAME || 'Suck my Straw',
+      short_name: 'Suck my Straw',
       description: process.env.NUXT_PUBLIC_META_DESCRIPTION || process.env.METADESC || 'PlentyONE Shop',
       theme_color: process.env.NUXT_PUBLIC_PRIMARY_COLOR || '#062633',
       background_color: '#ffffff',
