@@ -10,7 +10,7 @@
         }"
         data-testid="item-count"
       >
-        <span class="font-bold @md:text-lg">
+        <span class="font-bold text-white @md:text-lg">
           {{
             t('search.numberOfProducts', {
               count: products?.length ?? 0,

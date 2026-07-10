@@ -2,7 +2,7 @@
   <div class="w-full" data-testid="category-items-per-page">
     <div
       v-if="!selectionModeCompact"
-      class="bg-primary-50/50 mb-4 px-4 py-2 rounded-none uppercase typography-headline-6 font-bold tracking-widest select-none"
+      class="bg-pink text-white mb-4 px-4 py-2 rounded uppercase typography-headline-6 font-bold tracking-widest select-none"
     >
       {{ t('common.labels.perPage') }}
     </div>
@@ -16,7 +16,13 @@
         <option v-if="selectionModeCompact" value="" disabled hidden>
           {{ t('common.labels.perPage') }}
         </option>
-        <option v-for="{ value, label, disabled } in options" :key="value" :value="value" :disabled="disabled">
+        <option
+          v-for="{ value, label, disabled } in options"
+          :key="value"
+          class="sms-category_sidebar--option"
+          :value="value"
+          :disabled="disabled"
+        >
           {{ label }}
         </option>
       </SfSelect>

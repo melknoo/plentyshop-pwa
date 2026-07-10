@@ -1,7 +1,7 @@
 <template>
   <div v-if="parentCategory || categoryItems?.length" class="category-tree">
     <div
-      class="py-2 px-4 mb-4 bg-primary-50/50 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest rounded-none select-none"
+      class="py-2 px-4 mb-4 bg-pink typography-headline-6 font-bold text-white uppercase tracking-widest rounded select-none"
       data-testid="category-tree"
     >
       {{ t('common.labels.category') }}

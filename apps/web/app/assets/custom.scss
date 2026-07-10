@@ -1510,3 +1510,13 @@ main input.text-base {
 main .no-preflight :not(iframe) {
     color: white;
 }
+
+// v2.37: UiLink variant=secondary färbt den Kartentitel neutral-700 (dunkelgrau);
+// im alten Stand erbte der Link Weiß (main .typography-text-sm), Hover war pink.
+[data-testid="productcard-name"] {
+    color: white;
+
+    &:hover {
+        color: $primary_pink;
+    }
+}

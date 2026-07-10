@@ -1,7 +1,7 @@
 <template>
   <SfAccordionItem v-if="facet" v-model="open">
     <template #summary>
-      <div class="flex justify-between py-1 px-4 mb-2 select-none bg-primary-50/50">
+      <div class="flex justify-between py-1 px-4 mb-2 select-none bg-pink text-white">
         <div class="py-1 rounded-none uppercase typography-headline-6 font-bold tracking-widest select-none">
           {{ facetGetters.getName(facet) }}
         </div>
