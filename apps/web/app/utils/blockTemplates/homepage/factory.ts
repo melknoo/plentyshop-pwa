@@ -6,287 +6,234 @@ export const BANNER_BLOCK_NAME = 'Banner';
 export const isBannerBlock = (block: Block | null | undefined) => block?.name === BANNER_BLOCK_NAME;
 
 export function createHomepage(): Block[] {
-  const banner1Pretitle = t('defaultTemplate.homepage.carousel.banner1.pretitle');
-  const banner1Title = t('defaultTemplate.homepage.carousel.banner1.title');
-  const banner1Description = t('defaultTemplate.homepage.carousel.banner1.description');
-  const banner1ButtonLabel = t('defaultTemplate.homepage.carousel.banner1.buttonLabel');
-  const banner2Pretitle = t('defaultTemplate.homepage.carousel.banner2.pretitle');
-  const banner2Title = t('defaultTemplate.homepage.carousel.banner2.title');
-  const banner2Description = t('defaultTemplate.homepage.carousel.banner2.description');
-  const banner2ButtonLabel = t('defaultTemplate.homepage.carousel.banner2.buttonLabel');
-  const welcomePretitle = t('defaultTemplate.homepage.textcard.welcome.pretitle');
-  const welcomeTitle = t('defaultTemplate.homepage.textcard.welcome.title');
-  const welcomeSubtitle = t('defaultTemplate.homepage.textcard.welcome.subtitle');
-  const welcomeParagraph1 = t('defaultTemplate.homepage.textcard.welcome.paragraph1');
-  const welcomeParagraph2 = t('defaultTemplate.homepage.textcard.welcome.paragraph2');
-  const welcomeButtonLabel = t('defaultTemplate.homepage.textcard.welcome.buttonLabel');
-  const welcomeDescription = `<p>${welcomeParagraph1}</p><p>${welcomeParagraph2}</p>`;
-  const multigridTitle = t('defaultTemplate.homepage.multigrid.textcard.title');
-  const multigridSubtitle = t('defaultTemplate.homepage.multigrid.textcard.subtitle');
-  const multigridParagraph = t('defaultTemplate.homepage.multigrid.textcard.paragraph');
-  const multigridFeature1 = t('defaultTemplate.homepage.multigrid.textcard.feature1');
-  const multigridFeature2 = t('defaultTemplate.homepage.multigrid.textcard.feature2');
-  const multigridFeature3 = t('defaultTemplate.homepage.multigrid.textcard.feature3');
-  const multigridFeature4 = t('defaultTemplate.homepage.multigrid.textcard.feature4');
-  const multigridButtonLabel = t('defaultTemplate.homepage.multigrid.textcard.buttonLabel');
-  const multigridImageAlt = t('defaultTemplate.homepage.multigrid.image.alt');
-  const multigridFeaturesList = [multigridFeature1, multigridFeature2, multigridFeature3, multigridFeature4]
-    .map((feature) => `<li>${feature}</li>`)
-    .join('');
-  const multigridDescription = `<p>${multigridParagraph}</p><ul class='list-disc pl-4 mt-4 space-y-1'>${multigridFeaturesList}</ul>`;
-  const fashionPretitle = t('defaultTemplate.homepage.productRecommended.fashion.pretitle');
-  const fashionTitle = t('defaultTemplate.homepage.productRecommended.fashion.title');
-  const fashionSubtitle = t('defaultTemplate.homepage.productRecommended.fashion.subtitle');
-  const fashionLinkText = t('defaultTemplate.homepage.productRecommended.fashion.linkText');
-  const fashionLinkUrl = t('defaultTemplate.homepage.productRecommended.fashion.linkUrl');
-  const fashionDescription = `<a class='underline' href='${fashionLinkUrl}'>${fashionLinkText}</a>`;
-  const newsletterTitle = t('defaultTemplate.homepage.newsletter.title');
-  const newsletterDescription = t('defaultTemplate.homepage.newsletter.description');
-  const newsletterButtonLabel = t('defaultTemplate.homepage.newsletter.buttonLabel');
-
-  return [
+  const blocks = [
     {
-      name: 'Carousel',
-      type: 'structure',
-      meta: {
-        uuid: uuid(),
-      },
-      configuration: {
-        visible: true,
-        controls: {
-          displayArrows: true,
-          color: '#a39f9f',
-        },
-      },
-      content: [
-        {
-          name: 'Banner',
-          type: 'content',
-          meta: {
-            uuid: uuid(),
-            isGlobalTemplate: false,
-          },
-          content: {
-            image: {
-              wideScreen: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Person/guy-1024.avif',
-              desktop: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Person/guy-1024.avif',
-              tablet: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Person/guy-768.avif',
-              mobile: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Person/guy-320.avif',
-              alt: '',
-              brightness: 0.5,
-            },
-            text: {
-              color: '#000',
-              bgcolor: '#fff',
-              bgopacity: 0.9,
-              pretitle: banner1Pretitle,
-              title: banner1Title,
-              htmlDescription: banner1Description,
-              textAlignment: 'left',
-              justify: 'top',
-              align: 'left',
-              background: true,
-            },
-            button: {
-              label: banner1ButtonLabel,
-              link: '/gear/headphones-capybara_157',
-              variant: 'primary',
-            },
-          },
-        },
-        {
-          name: 'Banner',
-          type: 'content',
-          meta: {
-            uuid: uuid(),
-            isGlobalTemplate: false,
-          },
-          content: {
-            image: {
-              wideScreen: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-1024.avif',
-              desktop: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-1024.avif',
-              tablet: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-768.avif',
-              mobile: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/Test_Banner_Drone/drone-A-320.avif',
-              alt: '',
-              brightness: 0.75,
-            },
-            text: {
-              color: '#000',
-              bgcolor: '#fff',
-              bgopacity: 1,
-              pretitle: banner2Pretitle,
-              title: banner2Title,
-              htmlDescription: banner2Description,
-              textAlignment: 'left',
-              justify: 'top',
-              align: 'left',
-              background: true,
-            },
-            button: {
-              label: banner2ButtonLabel,
-              link: '/gear/drone-omega_154',
-              variant: 'primary',
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: 'TextCard',
+      name: 'HnHero',
       type: 'content',
       meta: {
         uuid: uuid(),
-        isGlobalTemplate: false,
       },
       content: {
-        text: {
-          htmlDescription: welcomeDescription,
-          pretitle: welcomePretitle,
-          title: welcomeTitle,
-          subtitle: welcomeSubtitle,
-          textAlignment: 'center',
-          color: '#000',
-        },
-        button: {
-          label: welcomeButtonLabel,
-          link: '',
-          variant: 'primary',
-        },
+        text1: 'Der härteste Papierstrohhalm',
+        text2: 'Hält länger als dein Drink',
+        text3: 'Umweltfreundliche Alternative zu Plastik',
+      },
+      button: {
+        label: 'Jetzt zuschlagen',
+        link: '',
+        variant: 'primary',
+      },
+      images: {
+        hero_img: '/images/hero_new.svg',
+        straw_1: '/images/straw-v-pink.png',
+        straw_2: '/images/straw-v-pink.png',
       },
     },
     {
-      name: 'ProductRecommendedProducts',
+      name: 'HnSeperator',
       type: 'content',
       meta: {
         uuid: uuid(),
-        isGlobalTemplate: false,
       },
-      content: {
-        categoryId: '73',
-        text: {
-          pretitle: '',
-          title: '',
-          subtitle: '',
-          htmlDescription: '',
-        },
-      },
+      custom_class: 'sms-seperator--hero',
     },
     {
-      name: 'MultiGrid',
-      type: 'structure',
-      meta: {
-        uuid: uuid(),
-        isGlobalTemplate: false,
-      },
-      configuration: {
-        visible: true,
-        columnWidths: [6, 6],
-      },
-      content: [
-        {
-          name: 'Image',
-          type: 'content',
-          meta: {
-            uuid: uuid(),
-          },
-          parent_slot: 0,
-          content: {
-            image: {
-              wideScreen: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/headphones-mediacard.avif',
-              desktop: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/headphones-mediacard.avif',
-              tablet: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/headphones-mediacard.avif',
-              mobile: 'https://cdn02.plentyone.com/mevofvd5omld/frontend/headphones-mediacard.avif',
-              alt: multigridImageAlt,
-              imageAlignment: 'left',
-            },
-            text: {
-              textOverlay: '',
-              textOverlayColor: '',
-              textOverlayAlignY: 'center',
-              textOverlayAlignX: 'center',
-            },
-            button: {
-              label: '',
-              link: '',
-              variant: 'primary',
-            },
-            layout: {
-              paddingTop: 0,
-              paddingBottom: 0,
-              paddingLeft: 0,
-              paddingRight: 0,
-            },
-          },
-        },
-        {
-          name: 'TextCard',
-          type: 'content',
-          meta: {
-            uuid: uuid(),
-          },
-          parent_slot: 1,
-          content: {
-            text: {
-              htmlDescription: multigridDescription,
-              title: multigridTitle,
-              subtitle: multigridSubtitle,
-              textAlignment: 'left',
-              color: '#000',
-            },
-            button: {
-              label: multigridButtonLabel,
-              link: '/gear/headphones-capybara_157',
-              variant: 'primary',
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: 'ProductRecommendedProducts',
+      name: 'HnTextImage',
       type: 'content',
       meta: {
         uuid: uuid(),
-        isGlobalTemplate: false,
       },
-      content: {
-        text: {
-          pretitle: fashionPretitle,
-          title: fashionTitle,
-          subtitle: fashionSubtitle,
-          htmlDescription: fashionDescription,
-        },
-        source: {
-          type: 'category',
-          itemId: '',
-          categoryId: '',
-        },
+      text: {
+        headline: 'Sehr sehr stabiler strohhalm',
+        copytext:
+          'Macht definitiv nicht schlapp, egal wie feucht es wird. Zwei Jahre Forschung und Training haben unsere Papierstrohhalme ausgesprochen belastbar gemacht. Lebensmitteltauglich und komplett frei von bedenklichen Farben und Klebern, stehen sie in jedem Getränk wie eine verführerische Eins und freuen sich auf jede Suck-Action.',
+        fact1: 'Standfest bis zum Ende',
+        fact1_src: '/images/strong.svg',
+        fact2: '-10 C° bis 100 C°',
+        fact2_src: '/images/temperature.svg',
+        fact3: 'Färbt nicht ab',
+        fact3_src: '/images/water.svg',
+      },
+      images: {
+        img1_src: '/images/straw-v-pink-pointed.png',
+        img1_class: '',
+        img2_src: '/images/straw-v-pink.png',
+        img2_class: '',
       },
     },
     {
-      name: 'NewsletterSubscribe',
+      name: 'HnSeperator',
       type: 'content',
       meta: {
         uuid: uuid(),
-        isGlobalTemplate: false,
       },
-      content: {
-        text: {
-          bgColor: '#f5f5f5',
-          title: newsletterTitle,
-          htmlDescription: newsletterDescription,
-        },
-        input: {
-          displayNameInput: true,
-          nameIsRequired: false,
-        },
-        button: {
-          label: newsletterButtonLabel,
-        },
-        settings: {
-          emailFolderId: 1,
-        },
+      custom_class: 'sms-seperator--textimage_1',
+    },
+    {
+      name: 'HnScrollElement',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
       },
+      text: {
+        headline_class: '',
+        headline: 'Wahnsinn. diese Farbauswahl.',
+        copytext:
+          'Klassic. Neon. Metallic. Pastell. 3000 Farben – Wir haben sie alle. Wähle jetzt deinen nächsten Farbhöhepunkt aus und lass dir deine Trinkhalme in genau dieser Farbe liefern. Sexy gestreift oder mit eigenem Style und Design.',
+      },
+      images: {
+        img1_src: '/images/straw-colours-pink.png',
+        img1_class: 'sms-scroll--image1',
+        img2_src: '/images/straw-colours-blue.png',
+        img2_class: 'sms-scroll--image2',
+        img3_src: '/images/straw-colours-green.png',
+        img3_class: 'sms-scroll--image3',
+      },
+    },
+    {
+      name: 'HnSeperator',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      custom_class: 'sms-seperator--textimage_1',
+    },
+    {
+      name: 'HnCenterTextImage',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      text: {
+        wrapper_class: 'sms-pt--200',
+        headline: 'Es kommt eben doch aufs aussehen an.',
+        copytext:
+          'Wähle jetzt aus 3000 Farben und unterschiedlichen Dicken und Längen deine individuellen Strohhalme aus. Unsere Favorite Suckers gibt’s natürlich auch in Neon, Metallic und Pastell. Auf Wunsch bekommst du zudem individualisierte Trinkhalme mit eigenem Logo auf jedem Halm und / oder auf der Verpackung. Zeitnah und schnell bis vor die Haustür.',
+        fact1: 'Eigenes Logo',
+        fact1_src: '/images/magic.svg',
+        fact2: 'Passt genau zu deinen Vorstellungen',
+        fact2_src: '/images/measure.svg',
+        fact2_class: 'sms-w--75',
+        fact3: 'Färbt nicht ab',
+        fact3_src: '/images/water.svg',
+      },
+      images: {
+        img1_src: '/images/straw-h-blue.png',
+        img1_class: '',
+        img2_src: '/images/nice@4x.png',
+        img2_class: '',
+      },
+    },
+    {
+      name: 'HnSeperator',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      custom_class: 'sms-seperator--textimage_1',
+    },
+    {
+      name: 'HnCenterTextImage',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      text: {
+        wrapper_class: 'sms-pt--4',
+        headline: 'Was für ein Stecher. Was für ein Rohr.',
+        copytext:
+          'Wenn Strohhalme durch Oberflächen stechen sollen, brauchen Sie eine harte Spitze. SuckMyStraw Papierstrohhalme gibt es deswegen aus einem Guss und mit beachtlicher Penetrationsfähigkeit. Modelle aus Plastik können nun nicht mehr anders, als den Schwanz einzuziehen und den Profistechern das Feld zu überlassen.',
+      },
+      images: {
+        img1_src: '/images/straw-h-pink-pointed.png',
+        img1_class: '',
+        img2_src: '',
+        img2_class: '',
+      },
+    },
+    {
+      name: 'HnSeperator',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      custom_class: 'sms-seperator--textimage_1',
+    },
+    {
+      name: 'HnCta',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      text: {
+        wrapper_class: 'sms-pt--4',
+        headline: 'Nachhaltigkeit',
+        headline_class: 'sms-w--50 sms-mobile--w--100 text-white uppercase',
+        subline: 'Für die Umwelt',
+        subline_class: 'sms-w--50 sms-mobile--w--100 text-grey uppercase sms-mb--30',
+        copytext:
+          'Nachhaltig hergestellt und voll kompostierbar. Unsere Papierstrohhalme haben die Umwelt im Blick und die Zukunft vor Augen. Eines unserer Mottos lautet daher auch: „Suck with conscience.“',
+        copytext_class: 'sms-w--50 sms-mobile--w--100 sms-mb--35',
+      },
+      button: {
+        label: 'Mehr erfahren',
+        link: '',
+        class: 'primary',
+      },
+      images: {
+        img1_wrapper_class: 'sms-w--50 sms-mobile--w--100 sms--shadowgradient',
+        img1_class: 'sms-cta--image-turtle',
+        img1_src: '/images/schildkroete.png',
+      },
+    },
+    {
+      name: 'HnCta',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      text: {
+        wrapper_class: 'sms-pt--4 sms-cta--bluewrapper sms-my--200 text-center',
+        headline: 'Suck it professionally',
+        headline_class: 'sms-w--50 sms-mobile--w--100 text-white uppercase text-left',
+        subline: 'Individuelle Bestellungen mit großen Stückzahlen',
+        subline_class: 'sms-w--50 sms-mobile--w--100 sms-mobile--w--100 text-grey uppercase sms-mb--30 text-left',
+        copytext:
+          'Nutze nur die stärksten Papierstrohhalme für dein Business. Wähle jetzt einfach deine Wunschlänge, Farbe und Dicke aus und brande deine Trinkhalme mit deinem Logo. Für die Gastro sind SuckMyStraw Strohhalme aus Papier eine ideale Alternative zu Trinkhalmen aus Plastik, die ab Juli 2021 verboten sind. Aber auch für alle anderen Unternehmen und Betriebe sind unsere standfesten Trinkröhrchen perfekt für Gäste und Firmenfeiern geeignet.',
+        copytext_class: 'sms-w--50 sms-mobile--w--100  sms-mb--35 text-left',
+        copytext_wrapperclass: 'sms-w--50 sms-mobile--w--100 sms-mobile-mb--100  sms-mb--35',
+      },
+      button: {
+        label: 'Individuelle Bestellung',
+        link: '/contact',
+        class: 'primary',
+      },
+      images: {
+        img1_wrapper_class: 'sms-cta--absolute_images sms-w--50 sms-mobile--w--100',
+        img1_class: 'sms-cta--image1',
+        img1_src: '/images/straw-h-pink-pointed.png',
+        img2_class: 'sms-cta--image2',
+        img2_src: '/images/straw-h-pink.png',
+      },
+    },
+    {
+      name: 'HnSeperator',
+      type: 'content',
+      meta: {
+        uuid: uuid(),
+      },
+      custom_class: 'sms-seperator--footer',
+      color: '#ff009b',
     },
   ];
+
+  // shouldShowBlock() blendet Blöcke ohne nicht-leeres `content` aus; die Hn-Blöcke
+  // tragen ihre Daten in Top-Level-Keys (v-bind-Spread) — deshalb hier nach `content` gespiegelt.
+  return blocks.map(({ name, type, meta, ...custom }) => ({
+    name,
+    type,
+    meta,
+    ...custom,
+    content: 'content' in custom ? custom.content : { ...custom },
+  })) as unknown as Block[];
 }

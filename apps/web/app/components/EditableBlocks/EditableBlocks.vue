@@ -30,7 +30,7 @@
               root
               :read-only="readOnly"
               class="group"
-              :class="getBlockClass(block).value"
+              :class="getRootBlockClass(block)"
               data-testid="block-wrapper"
               @click="tabletEdit(getIndex(block))"
             />
@@ -97,6 +97,19 @@ const data = computed({
 });
 
 const getIndex = (block: Block) => renderedBlocks.value.indexOf(block);
+
+// Custom Hans-Natur (SuckMyStraw) content blocks that use the legacy wrapper width
+// (max-w-screen-3xl mx-auto lg:px-10 mt-3 + px-4 md:px-6) from the old EditablePage.
+// HnSeperator renders full-bleed (no wrapper classes at all).
+const HN_CONTENT_BLOCKS = new Set(['HnHero', 'HnTextImage', 'HnScrollElement', 'HnCenterTextImage', 'HnCta']);
+
+const getRootBlockClass = (block: Block) => {
+  if (block.name === 'HnSeperator') return null;
+  if (HN_CONTENT_BLOCKS.has(block.name)) {
+    return ['max-w-screen-3xl', 'mx-auto', 'lg:px-10', 'mt-3', 'px-4', 'md:px-6'];
+  }
+  return getBlockClass(block).value;
+};
 
 const isContentEmptyInLive = computed(() => data.value.length === 0 && isLiveMode.value);
 
