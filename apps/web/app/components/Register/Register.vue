@@ -108,7 +108,7 @@
               <UiLink
                 :href="localePath(paths.privacyPolicy)"
                 target="_blank"
-                class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
+                class="focus:outline flex focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
               >
                 {{ t('legal.privacyPolicy') }}
               </UiLink>

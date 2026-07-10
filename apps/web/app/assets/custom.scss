@@ -1212,6 +1212,52 @@ main input.text-base {
     background-color: $primary_pink;
 }
 
+// font-open_sans utility — matches the Tailwind class used in Button.vue
+.font-open_sans {
+    font-family: 'Open Sans', sans-serif;
+}
+
+// Category sidebar
+.sms-category_sidebar {
+    &--option {
+        color: #000;
+        &:disabled {
+            color: lightgray;
+        }
+    }
+
+    &--filter {
+        label:active {
+            background-color: $primary_pink;
+        }
+    }
+}
+
+// Badges wrapper
+.sms-badges--wrapper {
+    > li {
+        background-color: transparent !important;
+        color: $primary_green !important;
+        font-size: 0.8rem;
+    }
+}
+
+// Overlay wrapper — pink buttons inside overlays/drawers
+.sms-overlay--wrapper {
+    header > button {
+        background-color: $primary_pink !important;
+        &:hover {
+            color: white;
+        }
+    }
+    form > button {
+        background-color: $primary_pink;
+        &:hover {
+            box-shadow: 0px 0px 25px 0px rgba(255, 0, 155, 0.8) !important;
+        }
+    }
+}
+
 @media screen and (max-width: $small_screen) {
     .sms {
         &-hero {
@@ -1457,4 +1503,10 @@ main input.text-base {
             }
         }
     }
+}
+// v2.37: Rich-Text (ItemText/Editor-Inhalte) steht in .no-preflight mit `all: revert`,
+// was die Textfarbe auf Browser-Default (schwarz) zurücksetzt — auf dem schwarzen
+// STRAW-Hintergrund unsichtbar. Höhere Spezifität stellt Weiß wieder her.
+main .no-preflight :not(iframe) {
+    color: white;
 }

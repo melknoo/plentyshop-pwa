@@ -1,9 +1,10 @@
 <template>
   <main data-testid="checkout-layout">
-    <NarrowContainer class="px-4 @md:px-0 mb-20">
+    <NarrowContainer class="px-4 @md:px-0 mb-20 text-white">
       <div class="flex items-center justify-between mt-8 mb-10 @md:px-0">
         <h1 class="font-bold typography-headline-3 @md:typography-headline-2 @md:pl-4">{{ heading }}</h1>
         <UiButton
+          class="bg-pink sms-hover--bgpink hover:text-white"
           :class="[viewport.isLessThan('lg') ? 'flex @lg:hidden whitespace-nowrap' : 'hidden @lg:flex']"
           :size="viewport.isLessThan('md') ? 'sm' : 'base'"
           :aria-label="t('common.navigation.previousAriaLabel')"

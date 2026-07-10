@@ -94,9 +94,9 @@ export function createNavigation(): Block {
         textAlignment: 'left',
       },
       color: {
-        backgroundColor: '#ffffff',
-        textColor: '#161A16',
-        hoverBackgroundColor: '#f5f5f5',
+        backgroundColor: '#1E1E1E',
+        textColor: '#ffffff',
+        hoverBackgroundColor: '#363636',
       },
     },
   };

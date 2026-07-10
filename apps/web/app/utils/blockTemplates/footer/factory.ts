@@ -26,14 +26,15 @@ function buildColumnTitleHtml(title: string): string {
   return `<h5><span style="font-size: 1rem;">${title}</span></h5>`;
 }
 
-function buildColumnHtml(columnGroup: string, groupLabel: string): string {
+function buildColumnHtml(columnGroup: string, _groupLabel: string): string {
   const links = FOOTER_SWITCH_DEFINITIONS.filter((def) => def.columnGroup === columnGroup)
     .map(
       (def) =>
-        `<p><a rel="noopener noreferrer nofollow" href="${def.link}"><span style="font-size: 0.875rem">${t(def.shopTranslationKey)}</span></a></p>`,
+        `<p><a rel="noopener noreferrer nofollow" href="${def.link}"><span style="font-size: 1.125rem; font-weight: 500;">${t(def.shopTranslationKey)}</span></a></p>`,
     )
     .join('');
-  return `${buildColumnTitleHtml(groupLabel)}${links}`;
+  // STRAW theme: footer category headlines are hidden, only links are shown.
+  return links;
 }
 
 function createFooterColumnTextCard(parentSlot: number, htmlDescription = '', button?: ButtonConfig): Block {
@@ -89,7 +90,7 @@ function createFooterNoteTextCard(): Block {
         variant: 'primary',
       },
       layout: {
-        backgroundColor: '#161a16',
+        backgroundColor: '#000',
         paddingTop: 16,
         paddingBottom: 16,
         paddingLeft: 40,
@@ -144,8 +145,8 @@ export function createFooterContainer(): FooterContainerBlock {
     configuration: {
       visible: true,
       colors: {
-        background: '#cfe4ec',
-        text: '#1c1c1c',
+        background: '#000',
+        text: '#ffffff',
       },
     },
   };

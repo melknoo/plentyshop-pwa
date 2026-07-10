@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex border-neutral-200 border-b min-w-[320px] p-4 last:mb-0" data-testid="cart-product-card">
+  <div class="relative flex border-neutral-200 border-b sms-border--grey min-w-[320px] p-4 last:mb-0" data-testid="cart-product-card">
     <div class="relative overflow-hidden rounded-md w-[100px] @sm:w-[176px]">
       <UiLink :tag="NuxtLink" :to="path" class="flex items-center justify-center" data-testid="cart-product-card-link">
         <NuxtImg
@@ -49,8 +49,8 @@
         <div class="my-2">
           <ul class="text-xs font-normal leading-5 @sm:typography-text-sm text-neutral-700">
             <li v-for="attribute in cartGetters.getItemAttributes(cartItem)" :key="attribute.name">
-              <span class="mr-1">{{ attribute.label }}:</span>
-              <span class="font-medium">{{ attribute.value }}</span>
+              <span class="text-white mr-1">{{ attribute.label }}:</span>
+              <span class="font-medium text-white">{{ attribute.value }}</span>
             </li>
           </ul>
           <div
@@ -101,7 +101,7 @@
         <span
           v-if="currentFullPrice"
           data-testid="product-full-price"
-          class="text-secondary-600 @sm:order-1 font-bold typography-text-sm @sm:typography-text-lg @sm:ml-auto"
+          class="text-white @sm:order-1 font-bold typography-text-sm @sm:typography-text-lg @sm:ml-auto"
         >
           {{ format(currentFullPrice || 0) }}
         </span>
@@ -129,7 +129,7 @@
       :aria-label="t('common.actions.removeItemFromBasket')"
       variant="tertiary"
       size="sm"
-      class="top-2 right-2 bg-white items-start h-fit"
+      class="bg-pink absolute top-2 right-2 neon-hover hover:text-white sms-hover--bgpink"
       @click="deleteItem"
     >
       <SfIconClose size="sm" />

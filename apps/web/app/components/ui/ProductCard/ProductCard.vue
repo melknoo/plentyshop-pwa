@@ -1,8 +1,8 @@
 <template>
   <div
-    class="rounded-md hover:shadow-lg flex flex-col"
+    class="border border-neutral-200 sms-border--pink sms-boxshadow--pink rounded-md flex flex-col"
     data-testid="product-card"
-    :class="{ 'border border-neutral-200': configuration?.cardBorders }"
+    :class="{ 'sms-productslider--item': isFromSlider }"
   >
     <div class="relative overflow-hidden">
       <UiBadges
@@ -75,7 +75,7 @@
         <slot name="wishlistButton">
           <WishlistButton
             square
-            class="absolute bottom-0 right-0 mr-2 mb-2 bg-white ring-1 ring-inset ring-neutral-200 !rounded-full"
+            class="absolute bottom-0 right-0 mr-2 mb-2 sms-button--wishlist neon-hover bg-pink text-white ring-1 ring-inset ring-neutral-200 !rounded-full"
             :product="product"
           />
         </slot>
@@ -83,7 +83,7 @@
     </div>
 
     <div
-      class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col flex-auto"
+      class="p-2 uppercase border-t border-neutral-200 sms-border--pink typography-text-sm flex flex-col flex-auto"
       :class="{
         'items-center': configuration?.contentAlignment === 'center',
         'items-end': configuration?.contentAlignment === 'right',
@@ -95,12 +95,15 @@
           <UiLink
             :tag="NuxtLink"
             :to="productPath"
-            class="no-underline"
+            class="min-h-[40px] no-underline"
             variant="secondary"
             data-testid="productcard-name"
           >
             {{ name }}
           </UiLink>
+          <p class="normal-case typography-text-sm" data-testid="product-externalid">
+            {{ product.variation?.externalId }}
+          </p>
         </template>
         <template v-if="key === 'manufacturer' && configuration?.fields?.manufacturer">
           <div
@@ -113,14 +116,14 @@
         </template>
         <template v-if="key === 'rating' && configuration?.fields?.rating">
           <div class="flex items-center pt-1 gap-1 mb-2">
-            <SfRating size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
+            <SfRating class="sms-productcard--rating" size="xs" :half-increment="true" :value="rating ?? 0" :max="5" />
             <SfCounter size="xs">{{ ratingCount }}</SfCounter>
           </div>
         </template>
         <template v-if="key === 'previewText' && configuration?.fields?.previewText">
           <div
             v-if="shortDescription"
-            class="block py-2 font-normal typography-text-xs text-neutral-700 text-justify whitespace-pre-line break-words"
+            class="block py-2 font-normal typography-text-xs text-white text-justify whitespace-pre-line break-words"
           >
             <div class="line-clamp-3 no-preflight" v-html="shortDescription" />
           </div>
@@ -128,7 +131,7 @@
         <template v-if="key === 'price' && configuration?.fields?.price">
           <LowestPrice :product="product" />
           <div v-if="showBasePrice" class="mb-2">
-            <BasePriceInLine :base-price="basePrice" :unit-content="unitContent" :unit-name="unitName" />
+            <BasePriceInLine :base-price="custom_base_price" :unit-content="unitContent" :unit-name="unitName" />
           </div>
           <div class="flex flex-col-reverse items-start @md:flex-row @md:items-center mt-auto">
             <span class="block pb-2 font-bold typography-text-sm" data-testid="product-card-vertical-price">
@@ -148,7 +151,7 @@
           <UiButton
             v-if="canAddFromCategory"
             size="sm"
-            class="min-w-[80px] w-fit"
+            class="min-w-[80px] w-fit sms-button--primary"
             data-testid="add-to-basket-short"
             :disabled="loading"
             :variant="configuration?.addToCartStyle || 'primary'"
@@ -167,7 +170,7 @@
             :tag="NuxtLink"
             :to="productPath"
             size="sm"
-            class="w-fit"
+            class="w-fit sms-button--primary"
           >
             <span>{{ t('common.actions.showOptions') }}</span>
           </UiButton>
@@ -263,12 +266,25 @@ const imageTitle = computed(() => productImageGetters.getImageName(firstImage.va
 const imageWidth = computed(() => productGetters.getImageWidth(product.value) || 600);
 const imageHeight = computed(() => productGetters.getImageHeight(product.value) || 600);
 
-const basePrice = computed(() => productGetters.getDefaultBasePrice(product.value));
 const unitContent = computed(() => productGetters.getUnitContent(product.value));
 const unitName = computed(() => productGetters.getUnitName(product.value));
 const showBasePrice = computed(() => productGetters.showPricePerUnit(product.value));
 
 const variationId = computed(() => productGetters.getVariationId(product.value));
+
+const custom_base_price = computed(() => {
+  const price_for_base = price.value || 0;
+  const u = unitContent.value || 1;
+  const number = price_for_base / u;
+  return (
+    new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 4,
+    }).format(number) +
+    ' EUR / ' +
+    (productGetters.getUnitName(product.value) || '')
+  );
+});
 
 const isGlobalProductCategoryTemplate = computed(() => {
   const route = useRoute();
@@ -292,8 +308,8 @@ const productPath = computed(() => {
     return localePath(`/${productGetters.getUrlPath(product.value)}/a-${productGetters.getItemId(product.value)}`);
   }
   const basePath = `/${productGetters.getUrlPath(product.value)}_${productGetters.getItemId(product.value)}`;
-  const shouldAppendVariation = productGetters.shouldAppendVariationToLink(product.value);
-  return localePath(shouldAppendVariation ? `${basePath}_${variationId.value}` : basePath);
+  // Always append variationId (SMS customization: ensure correct variant is linked)
+  return localePath(variationId.value ? `${basePath}_${variationId.value}` : basePath);
 });
 
 const priority = computed(() => !props.isFromSlider && (props.index ?? 0) < 5);

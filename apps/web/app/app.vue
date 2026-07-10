@@ -20,7 +20,7 @@
       :class="
         clientPreview
           ? ['overflow-auto flex flex-col', isMobilePreview ? 'bg-editor-body-bg' : 'bg-white']
-          : 'overflow-visible bg-white'
+          : 'overflow-visible sms-body'
       "
     >
       <Body

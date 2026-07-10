@@ -29,8 +29,8 @@ export function createCategory(): Block[] {
           brightness: 0.75,
         },
         text: {
-          color: '#000',
-          bgColor: '#fff',
+          color: '#fff',
+          bgColor: '#000',
           bgOpacity: 1,
           textAlignment: 'left',
           justify: 'top',
@@ -103,7 +103,7 @@ export function createCategory(): Block[] {
           },
           parent_slot: 1,
           content: {
-            itemsPerRowDesktop: 4,
+            itemsPerRowDesktop: 3,
             itemsPerRowTablet: 3,
             itemsPerRowMobile: 1,
             showItemCount: true,

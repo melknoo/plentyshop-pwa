@@ -9,10 +9,10 @@
       </CategorySidebar>
       <div class="flex-1">
         <div class="flex justify-between items-center mb-6">
-          <span class="font-bold @md:text-lg">
+          <span class="font-bold text-white @md:text-lg">
             {{
               t('search.numberOfProducts', {
-                count: products?.length ?? 0,
+                count: products?.filter(p => p.filter?.isSalableAndActive)?.length ?? 0,
                 total: totalProducts,
               })
             }}
@@ -35,6 +35,7 @@
             when-visible
           >
             <UiProductCard
+              v-if="product.filter?.isSalableAndActive"
               :product="product"
               :name="productGetters.getName(product) ?? ''"
               :rating-count="productGetters.getTotalReviews(product)"

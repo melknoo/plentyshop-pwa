@@ -19,15 +19,23 @@
               />
             </template>
             <template v-if="key === 'itemName' && configuration?.fields.itemName">
-              <h1 class="font-bold typography-headline-4 break-word" data-testid="product-name">
-                {{ productGetters.getName(product) }}
-              </h1>
+              <div class="flex flex-col justify-start">
+                <h1 class="font-bold !text-2xl typography-headline-4" data-testid="product-name">
+                  {{ productGetters.getName(product) }}
+                </h1>
+                <h2 v-if="hasOneOrZeroVariations" class="typography-headline-3" data-testid="product-variation-name">
+                  {{ product.variation?.name }}
+                </h2>
+                <h2 class="typography-headline-3" data-testid="product-external-id">
+                  Artikelnummer: {{ product.variation?.externalId }}
+                </h2>
+              </div>
             </template>
             <template v-if="key === 'price' && configuration?.fields.price">
               <div class="flex space-x-2">
                 <Price :crossed-price="crossedPrice" :price="priceWithProperties" />
                 <div
-                  v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0 && showBundleComponents"
+                  v-if="(productBundleGetters?.getBundleDiscount(product) ?? 0) > 0"
                   class="m-auto"
                 >
                   <UiTag :size="'sm'" :variant="'secondary'">{{
@@ -37,8 +45,7 @@
               </div>
               <LowestPrice :product="product" />
               <BasePrice
-                v-if="productGetters.showPricePerUnit(product)"
-                :base-price="basePriceSingleValue"
+                :base-price="custom_base_price"
                 :unit-content="productGetters.getUnitContent(product)"
                 :unit-name="productGetters.getUnitName(product)"
               />
@@ -111,7 +118,10 @@
             </template>
 
             <template v-if="key === 'attributes' && configuration?.fields.attributes">
-              <ProductAttributes :product="product" />
+              <ProductAttributes
+                :product="product"
+                :class="{ 'sms--attributes-hidden': hasOneOrZeroVariations }"
+              />
             </template>
 
             <template v-if="key === 'itemBundle'">
@@ -320,6 +330,28 @@ const { getSetting: getNotifyMeSetting } = useSiteSettings('showNotifyMe');
 const showNotifyMe = computed(() => getNotifyMeSetting().toString() === 'true');
 const localePath = useLocalePath();
 
+const variationCount = computed(() => props?.product?.variationAttributeMap?.variations?.length ?? 0);
+const hasOneOrZeroVariations = computed(() => variationCount.value <= 1);
+
+const unitContentValue = computed(() => {
+  const value = productGetters.getUnitContent(props?.product);
+  return value ?? 1;
+});
+
+const custom_base_price = computed(() => {
+  const price = priceWithProperties.value || 0;
+  const u = unitContentValue.value || 1;
+  const number = price / u;
+  return (
+    new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 4,
+    }).format(number) +
+    ' EUR / ' +
+    (productGetters.getUnitName(props?.product) || '')
+  );
+});
+
 const inlineStyle = computed(() => {
   const layout = props?.configuration?.layout || ({} as PriceCardPadding);
 
@@ -354,11 +386,12 @@ const priceWithProperties = computed(
       0) + getPropertiesPrice(props?.product),
 );
 
-const basePriceSingleValue = computed(
-  () =>
-    productGetters.getGraduatedPriceByQuantity(props?.product, quantitySelectorValue.value)?.basePrice ??
-    productGetters.getDefaultBasePrice(props?.product),
-);
+// basePriceSingleValue replaced by custom_base_price (SMS customization)
+// const basePriceSingleValue = computed(
+//   () =>
+//     productGetters.getGraduatedPriceByQuantity(props?.product, quantitySelectorValue.value)?.basePrice ??
+//     productGetters.getDefaultBasePrice(props?.product),
+// );
 
 const handleValidationErrors = (): boolean => {
   send({
@@ -400,9 +433,9 @@ const handleAddToCart = async (quickCheckout = true) => {
       ? openQuickCheckout(props?.product, quantitySelectorValue.value)
       : send({ message: t('cart.itemAdded'), type: 'positive' });
 
-    if (getSetting() === '0') {
-      send({ message: t('error.notificationsItemBundleSplitted'), type: 'warning' });
-    }
+    // if (getSetting() === '0') {
+    //   send({ message: t('error.notificationsItemBundleSplitted'), type: 'warning' });
+    // }
   }
 
   return addedToCart;

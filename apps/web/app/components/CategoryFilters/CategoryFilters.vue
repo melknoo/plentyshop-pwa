@@ -1,6 +1,6 @@
 <template>
   <div class="py-2 mb-6≈" data-testid="category-filters">
-    <CategoryFiltersFilter v-for="facet in facets" :key="facet.id" :facet="facet" />
+    <CategoryFiltersFilter v-for="facet in facets" :key="facet.id" :facet="facet" class="sms-category_sidebar--filter" />
   </div>
 </template>
 

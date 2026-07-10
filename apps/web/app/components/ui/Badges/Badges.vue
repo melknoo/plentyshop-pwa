@@ -1,6 +1,6 @@
 <template>
   <div v-if="haveBadges" data-testid="badges" class="z-overlap">
-    <ul>
+    <ul class="sms-badges--wrapper">
       <template v-if="useTags && productTags.length > 0">
         <SfListItem
           v-for="(tag, index) in productTags"
