@@ -9,7 +9,7 @@ export default {
   defaultItemsPerPage: Number(process.env.DEFAULT_FEEDBACK_ITEMS_PER_PAGE ?? 10),
   favicon: process.env.NUXT_PUBLIC_FAVICON || '/_nuxt-plenty/favicon.ico',
   ogTitle: process.env.NUXT_PUBLIC_OG_TITLE || process.env.OG_TITLE || 'Suck my Straw - Nachhaltige Trinkhalme',
-  ogImg: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/images/sms-og-shareimg.jpg',
+  ogImg: process.env.NUXT_PUBLIC_OG_IMG || process.env.OG_IMG || '/_nuxt-plenty/images/sms-og-shareimg.jpg',
   ogType: process.env.NUXT_PUBLIC_OG_TYPE || process.env.OG_TYPE || 'website',
   metaTitle: process.env.NUXT_PUBLIC_META_TITLE || process.env.METATITLE || 'Suck my Straw - Nachhaltige Trinkhalme',
   metaDescription:
@@ -76,7 +76,7 @@ export default {
   headerLogo:
     process.env.LOGO ||
     process.env.NUXT_PUBLIC_HEADER_LOGO ||
-    '/images/logo.svg',
+    '/_nuxt-plenty/images/logo.svg',
   storename: process.env.NAME || 'Suck my Straw',
   font: process.env.NUXT_PUBLIC_FONT || 'Red Hat Text',
   verticalBlockSize: process.env.NUXT_PUBLIC_VERTICAL_BLOCK_SIZE || 'm',

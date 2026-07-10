@@ -80,6 +80,8 @@ export default defineNuxtConfig({
     '/_nuxt-plenty/favicon.ico': { headers: { 'cache-control': `public, max-age=86400` } },
     '/_nuxt-plenty/images/**': { headers: { 'cache-control': `max-age=604800` } },
     '/favicon.ico': { redirect: { to: '/_nuxt-plenty/favicon.ico', statusCode: 301 } },
+    // Alt-Pfade der STRAW-Bilder (Backend-Settings, geteilte OG-Links) auf den erlaubten Public-Ordner umleiten
+    '/images/**': { redirect: { to: '/_nuxt-plenty/images/**', statusCode: 301 } },
   },
   image: {
     provider: 'none',
