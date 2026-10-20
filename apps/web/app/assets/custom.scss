@@ -329,10 +329,6 @@ main input.text-base {
     color: black;
 }
 
-#scrollItem {
-    height: 270vh;
-}
-
 .sms {
     &-body {
         background: black;
@@ -385,6 +381,8 @@ main input.text-base {
     &-hero {
         &--wrapper {
             padding-top: 100px;
+            // Straws enden an der Hero-Unterkante (unter dem Separator-Balken)
+            overflow: hidden;
         }
 
         &--row {
@@ -619,8 +617,17 @@ main input.text-base {
     }
 
     &-scroll {
+        // Scroll-Strecke: Höhe - 100vh = Dauer der Sticky-Phase
+        &--track {
+            height: 270vh;
+        }
+
         &--wrapper {
-            height: 200vh;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            // verhindert, dass margin-top des Textwrappers aus dem Wrapper kollabiert
+            display: flow-root;
         }
 
         &--headline {
@@ -628,6 +635,8 @@ main input.text-base {
         }
 
         &--textwrapper {
+            position: relative;
+            z-index: 1;
             width: 52%;
             margin: 100px 0 0 400px;
         }
@@ -637,10 +646,11 @@ main input.text-base {
             max-width: 30%;
         }
 
+        // Oberkante hinter dem vorherigen Separator-Balken, Unterkante = Blockende (unter dem nächsten Balken)
         &--sticky_container {
             position: absolute;
-            top: -90px;
-            height: calc(100vh + 50px);
+            top: -20px;
+            bottom: 0;
             width: 50%;
             right: 0px;
         }
@@ -653,27 +663,6 @@ main input.text-base {
             background-size: contain;
             background-repeat: no-repeat;
             background-position: right center;
-            opacity: 0;
-        }
-
-        &--image1 {
-            opacity: 1;
-        }
-
-        &--sticky {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            left: 50%;
-            max-width: 1456px;
-            transform: translate(-50%, 0);
-        }
-
-        &--bottom {
-            position: absolute;
-            top: 2200px;
-            max-width: 1456px;
         }
     }
 
@@ -983,12 +972,10 @@ main input.text-base {
             }
         }
 
-        &--hero {
-            top: -30px;
-        }
-
+        // mittig auf der Blockgrenze → Unterkante des vorherigen Blocks liegt immer unter dem Balken
+        &--hero,
         &--textimage_1 {
-            bottom: 5px;
+            top: -22px;
         }
 
         &--footer {
@@ -1403,19 +1390,14 @@ main input.text-base {
                 max-width: 55%;
             }
 
-            &--sticky_container {
-                top: -50px;
-            }
-
             &--imagecontainer {
-                height: 100vh;
                 background-size: auto 100%;
                 background-position: left center;
                 right: calc((200% - 100vw) / 2);
             }
 
-            &--bottom {
-                top: 1925px;
+            &--track {
+                height: 305vh;
             }
         }
 
@@ -1447,10 +1429,6 @@ main input.text-base {
             }
         }
     }
-
-    #scrollItem {
-        height: 305vh;
-    }
 }
 
 @media screen and (max-width: $mini_screen) {
@@ -1466,40 +1444,8 @@ main input.text-base {
             }
         }
         &-scroll {
-            &--bottom {
-                top: 1410px;
-            }
-        }
-    }
-
-    #scrollItem {
-        height: 308vh;
-    }
-}
-@media screen and (max-width: 390px) and (min-width: 389px){
-    .sms {
-        &-scroll {
-            &--bottom {
-                top: 1750px;
-            }
-        }
-    }
-}
-
-@media screen and (max-height: 1140px) and (min-height: 1000px) {
-    .sms {
-        &-scroll {
-            &--bottom {
-                top: 1880px;
-            }
-        }
-    }
-}
-@media screen and (max-height: 1240px) and (min-height: 1141px) {
-    .sms {
-        &-scroll {
-            &--bottom {
-                top: 2050px;
+            &--track {
+                height: 308vh;
             }
         }
     }
